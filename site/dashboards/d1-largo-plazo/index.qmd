@@ -14,10 +14,11 @@ comparación y las ventanas se definieron antes de mirar los resultados.
 import { createCharts, themeTokens } from "../../components/charts.js"
 charts = createCharts({ Plot, document })
 tokens = themeTokens(Generators)
-load = (id) => Promise.all([
-  FileAttachment(`../../data/d1/${id}/data.json`).json(),
-  FileAttachment(`../../data/d1/${id}/provenance.json`).json()
-])
+// OJS exige rutas literales en FileAttachment: una celda por archivo.
+alc = FileAttachment("../../data/d1/ingreso-pc-alc/data.json").json()
+alcProv = FileAttachment("../../data/d1/ingreso-pc-alc/provenance.json").json()
+rel = FileAttachment("../../data/d1/ingreso-relativo-contraste/data.json").json()
+relProv = FileAttachment("../../data/d1/ingreso-relativo-contraste/provenance.json").json()
 ```
 
 ## Contexto
@@ -31,7 +32,6 @@ demografía, pobreza y desigualdad.
 
 ```{ojs}
 //| echo: false
-[alc, alcProv] = await load("ingreso-pc-alc")
 html`<div class="obs-chart">
   <h3>PIB per cápita de México y distribución de los países de ALC</h3>
   <p class="obs-sub">Dólares internacionales constantes (PPA 2021) · 33 países de CEPAL</p>
@@ -50,7 +50,6 @@ historias, instituciones y estructuras muy distintas, y se muestran para ampliar
 
 ```{ojs}
 //| echo: false
-[rel, relProv] = await load("ingreso-relativo-contraste")
 html`<div class="obs-chart">
   <h3>PIB per cápita como porcentaje del de Estados Unidos</h3>
   <p class="obs-sub">PPA 2021 · Estados Unidos = 100 · misma escala en todos los paneles</p>
