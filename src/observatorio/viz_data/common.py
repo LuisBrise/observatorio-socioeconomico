@@ -79,6 +79,17 @@ def write_chart(paths: Paths, catalog: Catalog, spec: ChartSpec,
     for name, df in tables.items():
         df.write_csv(out / f"{name}.csv")
     series = _series_provenance(paths, catalog, spec.indicators)
+    # Indicadores sin una segunda fuente independiente → advertencia explícita.
+    from observatorio.validation.cross_source import series_origin
+
+    for ind_id in spec.indicators:
+        ind = catalog.indicators[ind_id]
+        base = ind.series or catalog.indicators[str(ind.derivacion.parametros["indicador"])].series
+        origins = {series_origin(catalog, s) for s in base}
+        if len(origins) < 2:
+            spec.caveats.append(
+                f"{ind.nombre}: por ahora proviene de una sola fuente ({', '.join(sorted(origins))}); "
+                "aún no está verificado contra una fuente independiente.")
     # Valores revisados como "dudoso" que aparecen en esta gráfica → advertencia automática.
     sids = {s["series_id"] for s in series}
     geos = {g for df in tables.values() if "geo_id" in df.columns for g in df["geo_id"].to_list()}

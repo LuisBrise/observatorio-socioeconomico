@@ -105,6 +105,9 @@ class SeriesSpec(_Base):
     indicador: str
     unidad: str
     multiplicador: float = 1.0
+    # Productor original de la cifra (no quien la redistribuye). Dos series con el mismo
+    # origen NO son fuentes independientes: compararlas no verifica nada.
+    origen: str
 
 
 class Dataset(_Base):
@@ -176,6 +179,8 @@ class Indicator(_Base):
     derivacion: Derivation | None = None
     rangos_validos: ValidRange = ValidRange()
     atipicos: OutlierRule = OutlierRule()
+    # Diferencia relativa entre fuentes a partir de la cual se exige una explicación documentada.
+    tolerancia_entre_fuentes: float = 0.05
     notas_interpretacion: str = ""
     preguntas: list[str] = Field(default_factory=list)
     fecha_alta: date
@@ -197,6 +202,24 @@ class OutlierReview(_Base):
     resolucion: OutlierResolution
     nota: str
     revisado_por: str
+    fecha: date
+
+
+class DiscrepancyCause(_Base):
+    tipo: str  # definicion | cobertura | metodo | momento_de_registro | revision | ppa | error | otra
+    descripcion: str
+
+
+class Discrepancy(_Base):
+    """Diferencia documentada entre fuentes (docs/diseno/06-pipeline-y-validacion.md §7)."""
+
+    id: str
+    indicador: str
+    series: list[str]
+    diferencia_observada: str
+    causas_documentadas: list[DiscrepancyCause]
+    presentacion: str  # ambas_series_con_nota | rango | principal_con_referencia
+    estado: str  # abierta | explicada | sin_explicar
     fecha: date
 
 

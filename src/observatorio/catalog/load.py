@@ -13,6 +13,7 @@ from pydantic import BaseModel, ValidationError
 from observatorio.catalog.models import (
     Dataset,
     Dimension,
+    Discrepancy,
     Event,
     Group,
     Indicator,
@@ -47,6 +48,7 @@ class Catalog:
     events: dict[str, Event] = field(default_factory=dict)
     dimensions: list[Dimension] = field(default_factory=list)
     geographies: dict[str, Geography] = field(default_factory=dict)
+    discrepancies: dict[str, Discrepancy] = field(default_factory=dict)
     outlier_reviews: dict[tuple[str, str, str], OutlierReview] = field(default_factory=dict)
 
     @property
@@ -106,6 +108,7 @@ def load_catalog(root: Path) -> Catalog:
     cat.groups = _load_dir(root / "geographies", Group, errors)
     cat.events = _load_dir(root / "events", Event, errors)
     cat.geographies = _load_geographies(root / "geographies")
+    cat.discrepancies = _load_dir(root / "discrepancies", Discrepancy, errors)
     for path in sorted((root / "revisiones").glob("atipicos_*.yaml")):
         for doc in _read_yaml(path) or []:
             try:
@@ -162,6 +165,13 @@ def _check_references(cat: Catalog) -> list[str]:
                 errors.append(f"grupo {g.id}: indicador de la regla desconocido")
         if not g.miembros and not g.regla:
             errors.append(f"grupo {g.id}: necesita miembros o una regla")
+
+    for dis in cat.discrepancies.values():
+        if dis.indicador not in cat.indicators:
+            errors.append(f"discrepancia {dis.id}: indicador desconocido {dis.indicador!r}")
+        for sid in dis.series:
+            if sid not in series:
+                errors.append(f"discrepancia {dis.id}: serie desconocida {sid!r}")
 
     for e in cat.events.values():
         for geo in e.geo:

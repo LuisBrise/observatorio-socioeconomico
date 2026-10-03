@@ -132,7 +132,32 @@ Agrupadas por el dashboard que alimentan (ver [09 · Dashboards](09-dashboards-i
 La licencia de cada dataset queda en el catálogo, y un control automático bloquea la
 publicación de datos cuya licencia no lo permite.
 
-## 6. Pares de fuentes que contrastaremos desde el inicio
+## 6. Independencia de las fuentes
+
+Consultar varias fuentes solo sirve si son **independientes**. Muchas fuentes conocidas
+redistribuyen la misma cifra: por ejemplo, la población y la esperanza de vida de WDI *son* las
+estimaciones de ONU World Population Prospects, y Our World in Data reproduce a sus fuentes
+originales. Compararlas entre sí no verifica nada.
+
+Por eso cada serie del catálogo declara su `origen` (el productor original), y la comparación
+entre fuentes (`obs comparar`) distingue entre:
+
+- **fuentes independientes** que coinciden: verificación real;
+- **fuentes independientes** que difieren más allá de la tolerancia del indicador: ADVERTENCIA
+  hasta que la causa se documente en `catalog/discrepancies/`;
+- **mismo origen**: se informa, pero no cuenta como verificación.
+
+Mientras un indicador tenga una sola fuente, sus gráficas lo dicen explícitamente en las advertencias.
+
+### Segundas fuentes prioritarias para lo que ya está en D1
+
+| Indicador | Fuente actual (origen) | Segunda fuente independiente | Qué aporta / por qué puede diferir |
+|---|---|---|---|
+| PIB per cápita PPA | WDI (ICP 2021 + cuentas nacionales) | FMI WEO; Penn World Table; Maddison (largo plazo) | Distintas extrapolaciones de PPA y años base; Maddison usa otra base de PPA (solo comparable en tasas de crecimiento). |
+| Población | WDI = ONU WPP | INEGI/CONAPO (México); oficinas nacionales de estadística | Conciliación demográfica y supuestos de migración. |
+| Esperanza de vida | WDI = ONU WPP | INEGI/CONAPO (México); Human Mortality Database (países con buenos registros); IHME GBD (licencia no comercial) | Modelos distintos en países con registros incompletos: es exactamente donde están los valores "dudosos" (p. ej., República Centroafricana). |
+
+## 7. Pares de fuentes que contrastaremos desde el inicio
 
 Estas comparaciones alimentan el **registro de discrepancias**. La hipótesis sobre la causa
 se escribe antes y se verifica con los datos.

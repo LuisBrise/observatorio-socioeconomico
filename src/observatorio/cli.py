@@ -162,6 +162,28 @@ def atipicos(dataset: str, vintage: str = typer.Option(None, help="Por defecto, 
                f"({len(todo) - len(new)} ya estaban listados).")
 
 
+@app.command("comparar")
+def comparar(indicador: str = typer.Argument(None, help="Por defecto, todos los indicadores")) -> None:
+    """Compara las fuentes que miden un mismo indicador (datos fijados en el lockfile)."""
+    from observatorio.pipeline import load_current
+    from observatorio.validation.cross_source import compare_indicator
+    from observatorio.validation.report import write_report
+
+    paths, cat = _ctx()
+    obs = load_current(paths)
+    ids = [indicador] if indicador else [i for i, ind in cat.indicators.items() if ind.series]
+    results = []
+    for ind_id in ids:
+        res, _ = compare_indicator(obs, cat, ind_id)
+        results += res
+    out = paths.validation / "_comparaciones"
+    summary = write_report(results, out, {"dataset_id": "comparación entre fuentes",
+                                          "vintage_id": "vigente"})
+    typer.echo((out / "report.md").read_text(encoding="utf-8"))
+    if summary["status"] == "advertencia":
+        raise typer.Exit(3)
+
+
 @app.command("rebuild")
 def rebuild() -> None:
     """Regenera processed/ a partir de los vintages crudos fijados en el lockfile."""

@@ -37,12 +37,15 @@ series:
   - codigo: NY.GDP.PCAP.PP.KD
     indicador: eco.actividad.ingreso_pc.pib_pc_ppa
     unidad: dólares internacionales constantes (PPA 2021)
+    origen: banco_mundial_icp+cuentas_nacionales   # PPA del ICP 2021 aplicadas a cuentas nacionales oficiales
   - codigo: SP.POP.TOTL
     indicador: dem.poblacion.tamano.total
     unidad: personas
+    origen: onu_wpp   # WDI reproduce World Population Prospects (ONU)
   - codigo: SP.DYN.LE00.IN
     indicador: dem.mortalidad.longevidad.esperanza_vida
     unidad: años
+    origen: onu_wpp   # WDI reproduce World Population Prospects (ONU)
 umbrales:
   revision_advertencia_pct: 5.0      # cambio relativo de una observación entre vintages
   revision_advertencia_share: 0.25   # proporción de observaciones revisadas

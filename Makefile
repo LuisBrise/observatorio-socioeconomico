@@ -1,5 +1,5 @@
 # Tareas del observatorio. `make help` lista las disponibles.
-.PHONY: help setup test lint check update viz site preview clean-derived
+.PHONY: help setup test lint check update comparar viz site preview clean-derived
 
 help:  ## Muestra esta ayuda
 	@grep -E '^[a-z-]+:.*##' $(MAKEFILE_LIST) | awk -F':.*## ' '{printf "  %-14s %s\n", $$1, $$2}'
@@ -18,6 +18,9 @@ check: lint test  ## Lint + pruebas + catálogo
 
 update:  ## Descarga, valida y (si está limpio) fija WDI
 	uv run obs run wb_wdi
+
+comparar:  ## Compara fuentes que miden el mismo indicador
+	uv run obs comparar
 
 viz:  ## Construye los datasets de visualización
 	uv run obs build-viz d1
