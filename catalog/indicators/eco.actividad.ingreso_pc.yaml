@@ -13,7 +13,8 @@
     direccion_normativa: neutral
     cobertura: [mundo]
   series: [wb_wdi:NY.GDP.PCAP.PP.KD]
-  rangos_validos: {min: 100, max: 300000}
+  rangos_validos: {min: 0, max: 1000000}
+  atipicos: {z: 6.0, cambio_minimo: 0.20}
   notas_interpretacion: >
     Mide producción por persona, no ingreso de los hogares ni bienestar. La PPA corrige
     diferencias de precios entre países y es la medida adecuada para comparar niveles

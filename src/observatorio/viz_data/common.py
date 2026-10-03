@@ -79,6 +79,17 @@ def write_chart(paths: Paths, catalog: Catalog, spec: ChartSpec,
     for name, df in tables.items():
         df.write_csv(out / f"{name}.csv")
     series = _series_provenance(paths, catalog, spec.indicators)
+    # Valores revisados como "dudoso" que aparecen en esta gráfica → advertencia automática.
+    sids = {s["series_id"] for s in series}
+    geos = {g for df in tables.values() if "geo_id" in df.columns for g in df["geo_id"].to_list()}
+    geos |= {g for members in spec.groups.values() for g in members}
+    doubtful = [r for r in catalog.outlier_reviews.values()
+                if r.resolucion == "dudoso" and r.serie in sids and r.geo in geos]
+    if doubtful:
+        spec.caveats.append(
+            "Valores de la fuente marcados como dudosos tras revisión (se conservan): "
+            + "; ".join(f"{catalog.geo_name(r.geo)} {r.periodo}" for r in doubtful)
+            + ". Ver catalog/revisiones/.")
     provenance = {
         "chart_id": spec.chart_id,
         "question": spec.question,

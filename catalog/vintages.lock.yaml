@@ -1,3 +1,9 @@
 # Versión (vintage) de cada dataset que alimenta la publicación vigente.
 # Lo actualiza `obs lock`; su historial en git es el historial de datos del observatorio.
-datasets: {}
+datasets:
+  wb_wdi:
+    vintage: 2026-10-03T032315Z
+    content_sha256: 1c2570015763853e06d8212ac3d53e0fd0d7e6476a6425c9e939d33eed804862
+    retrieved_at: '2026-10-03T03:23:15Z'
+    source_declared_version: '2026-07-13'
+    validation_status: ok

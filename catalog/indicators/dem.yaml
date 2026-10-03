@@ -10,7 +10,8 @@
     direccion_normativa: neutral
     cobertura: [mundo]
   series: [wb_wdi:SP.POP.TOTL]
-  rangos_validos: {min: 1000, max: 2000000000}
+  rangos_validos: {min: 1, max: 15000000000}   # imposible: < 1 persona o > 15 mil millones (incluye agregados mundiales)
+  atipicos: {z: 6.0, cambio_minimo: 0.10}
   notas_interpretacion: >
     En WDI proviene principalmente de ONU World Population Prospects; puede diferir de
     las estimaciones nacionales (en México, CONAPO e INEGI).
@@ -31,7 +32,8 @@
     direccion_normativa: mas_es_mejor
     cobertura: [mundo]
   series: [wb_wdi:SP.DYN.LE00.IN]
-  rangos_validos: {min: 15, max: 95}
+  rangos_validos: {min: 0, max: 100}   # imposible fuera de [0, 100]; caídas extremas reales (guerras, genocidios, desastres) se revisan como atípicos
+  atipicos: {z: 6.0, cambio_minimo: 0.15}
   notas_interpretacion: >
     Es una medida de periodo: un choque temporal (p. ej., la pandemia) la reduce aunque
     no cambie la longevidad de largo plazo.

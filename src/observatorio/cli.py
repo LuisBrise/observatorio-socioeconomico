@@ -117,6 +117,51 @@ def run(dataset: str, auto_lock: bool = typer.Option(
                    f"ejecuta `obs lock {dataset} --vintage {pr.vintage}`")
 
 
+@app.command("atipicos")
+def atipicos(dataset: str, vintage: str = typer.Option(None, help="Por defecto, el último")) -> None:
+    """Agrega los atípicos sin revisar a catalog/revisiones/atipicos_{dataset}.yaml como 'pendiente'.
+
+    Después, una persona cambia `resolucion` a `valor_real` o `error_fuente`, escribe la nota y
+    su nombre. Los revisados dejan de generar advertencias.
+    """
+    from datetime import date
+
+    import yaml
+
+    from observatorio.ingestion.base import RawStore
+
+    paths, cat = _ctx()
+    ds = cat.datasets[dataset]
+    vintage = vintage or RawStore(paths.raw, paths.root).latest(ds.fuente, dataset)
+    report = json.loads((paths.validation / dataset / vintage / "report.json").read_text())
+    todo = [d for r in report["results"] if r["check"] == "atipicos" for d in r["details"]]
+    target = paths.catalog / "revisiones" / f"atipicos_{dataset}.yaml"
+    target.parent.mkdir(exist_ok=True)
+    existing = yaml.safe_load(target.read_text(encoding="utf-8")) if target.exists() else []
+    existing = existing or []
+    keys = {(e["serie"], e["geo"], e["periodo"]) for e in existing}
+    new = []
+    for d in sorted(todo, key=lambda d: (d["series_id"], d["geo_id"], d["period"])):
+        key = (d["series_id"], d["geo_id"], d["period"])
+        if key in keys:
+            continue
+        new.append({
+            "serie": d["series_id"], "geo": d["geo_id"], "periodo": d["period"],
+            "resolucion": "pendiente",
+            "nota": (f"{cat.geo_name(d['geo_id'])}: {d['value_prev']:,.4g} → {d['value']:,.4g} "
+                     f"({d['cambio_pct']:+.1f} %, z={d['z']:.0f})"),
+            "revisado_por": "",
+            "fecha": date.today(),
+        })
+    if new:
+        header = ("# Revisión humana de atípicos (docs/diseno/06-pipeline-y-validacion.md §7).\n"
+                  "# resolucion: valor_real | error_fuente | pendiente. Nunca se borran datos.\n")
+        target.write_text(header + yaml.safe_dump(existing + new, allow_unicode=True,
+                                                  sort_keys=False, width=110), encoding="utf-8")
+    typer.echo(f"{len(new)} atípicos nuevos agregados como 'pendiente' a {target} "
+               f"({len(todo) - len(new)} ya estaban listados).")
+
+
 @app.command("rebuild")
 def rebuild() -> None:
     """Regenera processed/ a partir de los vintages crudos fijados en el lockfile."""

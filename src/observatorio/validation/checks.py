@@ -94,31 +94,67 @@ def check_future_dates(df: pl.DataFrame, today: date | None = None) -> list[Chec
     return []
 
 
-def check_outliers(df: pl.DataFrame, z_threshold: float = 6.0) -> list[CheckResult]:
-    """Puntaje z robusto (mediana/MAD) sobre variaciones logarítmicas, por serie y país.
+def find_outliers(df: pl.DataFrame, dataset: Dataset, catalog: Catalog) -> pl.DataFrame:
+    """Variaciones logarítmicas inusuales, por serie y geografía.
 
-    Solo aplica a series estrictamente positivas. Marca para revisión humana.
+    Criterio (parámetros por indicador en el catálogo): |z robusto| > z (mediana y MAD de
+    las variaciones de la propia serie) Y desviación absoluta > cambio_minimo. Solo series
+    estrictamente positivas y con al menos 10 variaciones.
     """
-    pos = df.filter(pl.col("value") > 0).sort(["series_id", "geo_id", "period_start"])
-    changes = pos.with_columns(
-        pl.col("value").log().diff().over(["series_id", "geo_id"]).alias("dlog")
-    ).filter(pl.col("dlog").is_not_null())
-    stats = changes.with_columns(
-        pl.col("dlog").median().over(["series_id", "geo_id"]).alias("med"),
-    ).with_columns(
-        (pl.col("dlog") - pl.col("med")).abs().median().over(["series_id", "geo_id"]).alias("mad"),
-        pl.len().over(["series_id", "geo_id"]).alias("n"),
-    ).filter((pl.col("mad") > 0) & (pl.col("n") >= 10))
-    flagged = stats.with_columns(
-        ((pl.col("dlog") - pl.col("med")) / (1.4826 * pl.col("mad"))).alias("z")
-    ).filter(pl.col("z").abs() > z_threshold)
-    if flagged.height:
-        details = (flagged.sort(pl.col("z").abs(), descending=True)
-                   .select(KEY + ["value", "dlog", "z"]).head(30).to_dicts())
-        return [CheckResult("atipicos", WARN,
-                            f"Variaciones inusuales (|z robusto| > {z_threshold}); revisar, no borrar",
-                            flagged.height, details)]
-    return []
+    frames = []
+    for sid, ind_id in _series_indicator(dataset).items():
+        rule = catalog.indicators[ind_id].atipicos
+        pos = (df.filter((pl.col("series_id") == sid) & (pl.col("value") > 0))
+               .sort(["geo_id", "period_start"]))
+        ch = pos.with_columns(
+            pl.col("value").shift(1).over("geo_id").alias("value_prev"),
+            pl.col("value").log().diff().over("geo_id").alias("dlog"),
+        ).filter(pl.col("dlog").is_not_null())
+        st = ch.with_columns(pl.col("dlog").median().over("geo_id").alias("med")).with_columns(
+            (pl.col("dlog") - pl.col("med")).abs().median().over("geo_id").alias("mad"),
+            pl.len().over("geo_id").alias("n"),
+        ).filter((pl.col("mad") > 0) & (pl.col("n") >= 10)).with_columns(
+            ((pl.col("dlog") - pl.col("med")) / (1.4826 * pl.col("mad"))).alias("z"))
+        frames.append(st.filter((pl.col("z").abs() > rule.z)
+                                & ((pl.col("dlog") - pl.col("med")).abs() > rule.cambio_minimo)))
+    if not frames:
+        return pl.DataFrame()
+    out = pl.concat(frames)
+    return out.with_columns(((pl.col("dlog").exp() - 1) * 100).alias("cambio_pct")).select(
+        KEY + ["value_prev", "value", "cambio_pct", "z"]).sort(pl.col("z").abs(), descending=True)
+
+
+def check_outliers(df: pl.DataFrame, dataset: Dataset, catalog: Catalog) -> list[CheckResult]:
+    """Marca atípicos para revisión humana; nunca los borra.
+
+    Los ya revisados en catalog/revisiones/atipicos_{dataset}.yaml (valor_real o
+    error_fuente) se reportan como INFO; los nuevos o pendientes, como ADVERTENCIA.
+    """
+    flagged = find_outliers(df, dataset, catalog)
+    if flagged.is_empty():
+        return []
+    reviews = catalog.outlier_reviews
+
+    def reviewed(row: dict) -> bool:
+        r = reviews.get((row["series_id"], row["geo_id"], row["period"]))
+        return r is not None and r.resolucion != "pendiente"
+
+    rows = flagged.to_dicts()
+    done = [r for r in rows if reviewed(r)]
+    todo = [r for r in rows if not reviewed(r)]
+    out = []
+    if todo:
+        out.append(CheckResult(
+            "atipicos", WARN,
+            "Variaciones inusuales sin revisar (revisar, no borrar): ejecuta "
+            f"`obs atipicos {dataset.id}` para generar la lista de revisión", len(todo), todo))
+    if done:
+        n_doubt = sum(reviews[(r["series_id"], r["geo_id"], r["period"])].resolucion == "dudoso"
+                      for r in done)
+        out.append(CheckResult("atipicos_revisados", INFO,
+                               f"Variaciones inusuales ya revisadas en el catálogo ({n_doubt} dudosas: "
+                               "se conservan y se señalan en las gráficas que las usan)", len(done)))
+    return out
 
 
 def compare_vintages(

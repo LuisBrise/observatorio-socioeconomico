@@ -142,8 +142,27 @@ class Derivation(_Base):
 
 
 class ValidRange(_Base):
+    """Límites de lo IMPOSIBLE (no de lo inusual).
+
+    Un valor fuera de rango es un error de datos con certeza (población negativa, esperanza
+    de vida mayor a 100). Lo extremo pero posible (p. ej., la esperanza de vida en Camboya
+    en 1977) lo detecta el control de atípicos y lo revisa una persona.
+    """
+
     min: float | None = None
     max: float | None = None
+
+
+class OutlierRule(_Base):
+    """Parámetros del control de atípicos para un indicador.
+
+    Se marca una variación logarítmica si |z robusto| > `z` Y su desviación respecto a la
+    mediana de la serie supera `cambio_minimo` (proporción, 0.15 ≈ 15 %). El segundo
+    criterio evita marcar movimientos pequeños en series muy suaves (estimaciones modeladas).
+    """
+
+    z: float = 6.0
+    cambio_minimo: float = 0.10
 
 
 class Indicator(_Base):
@@ -156,9 +175,29 @@ class Indicator(_Base):
     series: list[str] = Field(default_factory=list)
     derivacion: Derivation | None = None
     rangos_validos: ValidRange = ValidRange()
+    atipicos: OutlierRule = OutlierRule()
     notas_interpretacion: str = ""
     preguntas: list[str] = Field(default_factory=list)
     fecha_alta: date
+
+
+class OutlierResolution(StrEnum):
+    REAL = "valor_real"            # extremo pero real; se conserva con nota
+    SOURCE_ERROR = "error_fuente"  # error confirmado (con referencia); se corrige con transformación
+    DOUBTFUL = "dudoso"            # sin explicación documentada; se conserva, se señala y se verifica
+    PENDING = "pendiente"          # aún sin revisar
+
+
+class OutlierReview(_Base):
+    """Revisión humana de un valor marcado como atípico."""
+
+    serie: str
+    geo: str
+    periodo: str
+    resolucion: OutlierResolution
+    nota: str
+    revisado_por: str
+    fecha: date
 
 
 class GroupRule(_Base):

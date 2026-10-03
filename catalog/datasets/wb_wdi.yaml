@@ -47,5 +47,4 @@ umbrales:
   revision_advertencia_pct: 5.0      # cambio relativo de una observación entre vintages
   revision_advertencia_share: 0.25   # proporción de observaciones revisadas
   caida_cobertura_pct: 2.0           # caída en el número de observaciones
-  atipico_z: 6.0                     # z robusto sobre variaciones logarítmicas
 fecha_alta: 2026-10-03

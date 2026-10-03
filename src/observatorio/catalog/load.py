@@ -16,6 +16,7 @@ from observatorio.catalog.models import (
     Event,
     Group,
     Indicator,
+    OutlierReview,
     Source,
 )
 
@@ -46,6 +47,7 @@ class Catalog:
     events: dict[str, Event] = field(default_factory=dict)
     dimensions: list[Dimension] = field(default_factory=list)
     geographies: dict[str, Geography] = field(default_factory=dict)
+    outlier_reviews: dict[tuple[str, str, str], OutlierReview] = field(default_factory=dict)
 
     @property
     def concept_ids(self) -> set[str]:
@@ -104,6 +106,14 @@ def load_catalog(root: Path) -> Catalog:
     cat.groups = _load_dir(root / "geographies", Group, errors)
     cat.events = _load_dir(root / "events", Event, errors)
     cat.geographies = _load_geographies(root / "geographies")
+    for path in sorted((root / "revisiones").glob("atipicos_*.yaml")):
+        for doc in _read_yaml(path) or []:
+            try:
+                r = OutlierReview.model_validate(doc)
+            except ValidationError as exc:
+                errors.append(f"{path.name}: {exc}")
+                continue
+            cat.outlier_reviews[(r.serie, r.geo, r.periodo)] = r
 
     concepts_path = root / "concepts.yaml"
     if concepts_path.exists():

@@ -94,7 +94,7 @@ def process(paths: Paths, catalog: Catalog, dataset_id: str, vintage: str | None
     results += checks.check_duplicates(obs)
     results += checks.check_ranges(obs, dataset, catalog)
     results += checks.check_future_dates(obs, today=today)
-    results += checks.check_outliers(obs, dataset.umbrales.get("atipico_z", 6.0))
+    results += checks.check_outliers(obs, dataset, catalog)
 
     locked = read_lock(paths).get(dataset_id)
     revisions = None
