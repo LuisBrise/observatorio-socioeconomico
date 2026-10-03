@@ -1,0 +1,12 @@
+# Datos: no se versionan (raw se archiva aparte; lo demás se regenera)
+/data/
+site/data/
+site/_site/
+site/.quarto/
+.env
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.ruff_cache/
+node_modules/

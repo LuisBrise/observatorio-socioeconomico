@@ -1,0 +1,68 @@
+---
+title: "México en el largo plazo"
+subtitle: "¿Cómo ha cambiado México desde 1990 y cómo ha cambiado su posición respecto a América Latina y a otras economías?"
+---
+
+::: {.callout-note appearance="minimal"}
+**Estado: en construcción.** El titular de este dashboard se redactará *después* de analizar los
+datos reales, siguiendo los principios editoriales. Las preguntas, los indicadores, los grupos de
+comparación y las ventanas se definieron antes de mirar los resultados.
+:::
+
+```{ojs}
+//| echo: false
+import { createCharts, themeTokens } from "../../components/charts.js"
+charts = createCharts({ Plot, document })
+tokens = themeTokens(Generators)
+load = (id) => Promise.all([
+  FileAttachment(`../../data/d1/${id}/data.json`).json(),
+  FileAttachment(`../../data/d1/${id}/provenance.json`).json()
+])
+```
+
+## Contexto
+
+[DATO]{.obs-tag} El PIB per cápita en paridad de poder adquisitivo (PPA) mide cuánto se produce
+por persona, corrigiendo las diferencias de precios entre países. No mide el ingreso de los
+hogares, su distribución ni el bienestar: por eso este dashboard lo acompañará de indicadores de
+demografía, pobreza y desigualdad.
+
+## ¿Dónde está México dentro de América Latina?
+
+```{ojs}
+//| echo: false
+[alc, alcProv] = await load("ingreso-pc-alc")
+html`<div class="obs-chart">
+  <h3>PIB per cápita de México y distribución de los países de ALC</h3>
+  <p class="obs-sub">Dólares internacionales constantes (PPA 2021) · 33 países de CEPAL</p>
+  ${charts.serieDistribucion(alc, { tokens, width, unidad: "US$ PPA" })}
+  ${charts.procedencia(alcProv, { csv: [["distribución (CSV)", "../../data/d1/ingreso-pc-alc/distribucion.csv"],
+                                         ["países (CSV)", "../../data/d1/ingreso-pc-alc/paises.csv"]] })}
+  ${charts.advertencias(alcProv)}
+</div>`
+```
+
+## Perspectiva lejana: países de contraste
+
+[ANÁLISIS]{.obs-tag} El PIB per cápita de cada país como porcentaje del de Estados Unidos permite
+comparar trayectorias de convergencia. Los países de contraste no son pares de México: tienen
+historias, instituciones y estructuras muy distintas, y se muestran para ampliar la perspectiva.
+
+```{ojs}
+//| echo: false
+[rel, relProv] = await load("ingreso-relativo-contraste")
+html`<div class="obs-chart">
+  <h3>PIB per cápita como porcentaje del de Estados Unidos</h3>
+  <p class="obs-sub">PPA 2021 · Estados Unidos = 100 · misma escala en todos los paneles</p>
+  ${charts.multiplesReferencia(rel, { tokens, width, unidad: "% de EE.UU." })}
+  ${charts.procedencia(relProv, { csv: [["datos (CSV)", "../../data/d1/ingreso-relativo-contraste/relativo.csv"]] })}
+  ${charts.advertencias(relProv)}
+</div>`
+```
+
+## Advertencias generales
+
+- Las cifras de los años más recientes suelen revisarse; cada gráfica indica la versión de los
+  datos que usa.
+- Las comparaciones en PPA cambian cuando el Programa de Comparación Internacional publica una
+  nueva ronda (la de 2021 se adoptó en 2024).

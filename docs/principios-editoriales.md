@@ -112,4 +112,5 @@ Salvaguardas concretas contra el sesgo (incluido el sesgo involuntario):
 - [ ] ¿Hay al menos una explicación alternativa para cada interpretación?
 - [ ] ¿Las advertencias ("qué no podemos concluir") están escritas?
 - [ ] ¿Funcionaría igual esta gráfica si el resultado favoreciera a otro actor político?
+- [ ] Prueba de simetría: ¿cómo leería este texto alguien de la postura política contraria a la de quien lo escribió?
 - [ ] ¿La licencia de la fuente permite publicar lo que se publica?

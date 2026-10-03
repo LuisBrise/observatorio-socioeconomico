@@ -1,0 +1,38 @@
+# Criterio de inclusión: episodios de crisis bancaria, cambiaria o de deuda soberana de
+# México según la base de Laeven y Valencia (2020), y choques globales que contrajeron el
+# PIB mundial según el FMI. Descripciones factuales, sin adjetivos ni atribución de causas.
+- id: EV-MEX-1982
+  fecha_inicio: "1982"
+  geo: [MEX]
+  tipo: crisis_economica
+  titulo: Crisis de deuda (1982)
+  descripcion: México suspende temporalmente pagos de deuda externa; crisis cambiaria y de deuda soberana.
+  fuentes: ["Laeven, L. y Valencia, F. (2020). Systemic Banking Crises Database II. IMF Economic Review 68, 307–361."]
+  criterio: Crisis de deuda soberana y cambiaria según Laeven y Valencia (2020).
+- id: EV-MEX-1994
+  fecha_inicio: "1994-12"
+  fecha_fin: "1995"
+  geo: [MEX]
+  tipo: crisis_economica
+  titulo: Crisis bancaria y cambiaria (1994–1995)
+  descripcion: Devaluación del peso en diciembre de 1994 seguida de una crisis bancaria.
+  fuentes: ["Laeven, L. y Valencia, F. (2020). Systemic Banking Crises Database II. IMF Economic Review 68, 307–361."]
+  criterio: Crisis bancaria y cambiaria según Laeven y Valencia (2020).
+- id: EV-GLOBAL-2009
+  fecha_inicio: "2008-09"
+  fecha_fin: "2009"
+  geo: [MEX]
+  tipo: choque_externo
+  titulo: Crisis financiera global (2008–2009)
+  descripcion: Crisis financiera originada en Estados Unidos; el PIB mundial se contrajo en 2009.
+  fuentes: ["FMI, World Economic Outlook (base de datos)."]
+  criterio: Choque global con contracción del PIB mundial según el FMI.
+- id: EV-GLOBAL-2020
+  fecha_inicio: "2020-03"
+  fecha_fin: "2020"
+  geo: [MEX]
+  tipo: choque_externo
+  titulo: Pandemia de COVID-19 (2020)
+  descripcion: La OMS caracteriza el brote de COVID-19 como pandemia el 11 de marzo de 2020; el PIB mundial se contrajo en 2020.
+  fuentes: ["OMS, alocución de apertura del Director General, 11/03/2020.", "FMI, World Economic Outlook (base de datos)."]
+  criterio: Choque global con contracción del PIB mundial según el FMI.

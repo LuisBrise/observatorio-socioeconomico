@@ -138,7 +138,7 @@ pronósticos, escenarios). Ver [08 · Marco analítico](08-marco-analitico.md).
 
 ### 4.9 Orquestación
 
-CLI propia (`obs ingest | validate | build | report | status`) + tareas en `justfile` +
+CLI propia (`obs ingest | process | lock | run | rebuild | build-viz | status`) + tareas en `Makefile` +
 GitHub Actions para CI, actualizaciones programadas y despliegue. Diseñada para poder migrar
 a un orquestador (Dagster) si el número de fuentes lo justifica.
 
@@ -215,7 +215,7 @@ con la cadena completa, (3) un enlace a la ficha del indicador y (4) la descarga
 observatorio-socioeconomico/
 ├── README.md
 ├── pyproject.toml · uv.lock          # dependencias fijadas
-├── justfile                          # tareas: ingest, validate, build, site, test
+├── Makefile                          # tareas: setup, check, update, viz, site
 │
 ├── catalog/                          # METADATOS CURADOS (fuente de verdad, en git)
 │   ├── sources/                      #   una ficha por organización

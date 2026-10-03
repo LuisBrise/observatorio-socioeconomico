@@ -1,0 +1,51 @@
+id: wb_wdi
+nombre: World Development Indicators
+fuente: banco_mundial
+conector: wb_wdi
+url: https://datacatalog.worldbank.org/search/dataset/0037712/World-Development-Indicators
+acceso:
+  metodo: api
+  endpoint: https://api.worldbank.org/v2/
+  credenciales: ninguna
+  formato: json
+licencia:
+  nombre: CC BY 4.0
+  url: https://www.worldbank.org/en/about/legal/terms-of-use-for-datasets
+  redistribucion: permitida_con_atribucion
+cobertura:
+  geografica: 217 economías y agregados regionales
+  temporal: 1960 en adelante (varía por indicador)
+  poblacion: Población residente (varía por indicador)
+frecuencia: anual
+rezago_tipico_dias: 365
+calendario: Actualizaciones varias veces al año, sin fecha fija.
+metodologia: https://datahelpdesk.worldbank.org/knowledgebase/topics/19286-world-development-indicators-wdi
+revisiones: >
+  Las series se revisan retroactivamente. Los niveles en PPA cambian con cada ronda del
+  ICP; la ronda 2021 se adoptó en 2024.
+limitaciones: >
+  Compila datos de agencias nacionales e internacionales; las definiciones no siempre son
+  homogéneas; hay huecos en países con baja capacidad estadística (p. ej., Venezuela
+  desde mediados de la década de 2010).
+rupturas_conocidas:
+  - serie: wb_wdi:NY.GDP.PCAP.PP.KD
+    fecha: "2024"
+    descripcion: >
+      Cambio de PPA 2017 a PPA 2021 en toda la serie. Los vintages anteriores a 2024
+      no son comparables en nivel con los posteriores.
+series:
+  - codigo: NY.GDP.PCAP.PP.KD
+    indicador: eco.actividad.ingreso_pc.pib_pc_ppa
+    unidad: dólares internacionales constantes (PPA 2021)
+  - codigo: SP.POP.TOTL
+    indicador: dem.poblacion.tamano.total
+    unidad: personas
+  - codigo: SP.DYN.LE00.IN
+    indicador: dem.mortalidad.longevidad.esperanza_vida
+    unidad: años
+umbrales:
+  revision_advertencia_pct: 5.0      # cambio relativo de una observación entre vintages
+  revision_advertencia_share: 0.25   # proporción de observaciones revisadas
+  caida_cobertura_pct: 2.0           # caída en el número de observaciones
+  atipico_z: 6.0                     # z robusto sobre variaciones logarítmicas
+fecha_alta: 2026-10-03

@@ -47,7 +47,8 @@ cuándo es apropiado y cuáles son sus límites.
 | `G.ALC_GRANDES` | Países de ALC con más de 10 millones de habitantes en el año de referencia | Evita que los promedios simples estén dominados por economías pequeñas del Caribe. |
 | `G.PARES_ESTRUCTURALES` | Economías de ingreso medio-alto (clasificación del Banco Mundial en el año de referencia) con más de 30 millones de habitantes | La lista resultante se fija y versiona; **comprobación de robustez** con "vecinos más cercanos" según PIB per cápita PPA, población, apertura comercial y estructura de edad. |
 | `G.OCDE` | Composición vigente en cada año y, como alternativa, composición fija actual | La membresía cambió (p. ej., Colombia en 2020, Costa Rica en 2021). |
-| `G.SOCIOS` | EE.UU., Canadá, China, Unión Europea | Para inserción internacional. |
+| `G.SOCIOS` | EE.UU., Canadá, China | Para inserción internacional. |
+| `G.CONTRASTE` | China, Vietnam, Polonia, Chequia, Grecia, Portugal, Rusia, Suecia, Finlandia | Países cultural, institucional y económicamente distintos de México, que suelen quedar fuera del foco. Se usan ocasionalmente para ampliar la perspectiva, **nunca como pares** ni como modelo. Advertencia de calidad estadística para China, Rusia y Vietnam. |
 
 La composición de cada grupo se publica junto a la gráfica. Cambiar un grupo requiere una
 decisión documentada (no se ajusta para "mejorar" una comparación).

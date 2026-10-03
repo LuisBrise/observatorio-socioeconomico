@@ -1,0 +1,54 @@
+/* Tokens de diseño del observatorio (docs/diseno/09-dashboards-iniciales.md §6).
+ * Paleta validada con el validador de daltonismo y contraste (claro y oscuro).
+ * - Foco (México): violeta, color NO asociado a partidos políticos mexicanos.
+ * - Comparador: ocre. En modo claro tiene contraste 2.99:1 → siempre con etiqueta directa.
+ * - Todo lo demás es neutro: el contexto en gris, el foco en color.
+ */
+:root {
+  --obs-surface: #fcfcfb;
+  --obs-page: #f9f9f7;
+  --obs-ink: #0b0b0b;
+  --obs-ink-2: #52514e;
+  --obs-muted: #898781;
+  --obs-grid: #e1e0d9;
+  --obs-axis: #c3c2b7;
+  --obs-context: #c9c8c0;       /* líneas de países de contexto */
+  --obs-band: rgba(82, 81, 78, 0.12); /* banda intercuartil */
+  --obs-focus: #4a3aa7;         /* México */
+  --obs-compare: #c98500;       /* comparador */
+  --obs-font: system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:where(:not([data-theme="light"])) {
+    --obs-surface: #1a1a19; --obs-page: #0d0d0d; --obs-ink: #ffffff; --obs-ink-2: #c3c2b7;
+    --obs-muted: #898781; --obs-grid: #2c2c2a; --obs-axis: #383835; --obs-context: #4a4a46;
+    --obs-band: rgba(195, 194, 183, 0.14); --obs-focus: #9085e9; --obs-compare: #c98500;
+  }
+}
+:root[data-theme="dark"], body.quarto-dark {
+  --obs-surface: #1a1a19; --obs-page: #0d0d0d; --obs-ink: #ffffff; --obs-ink-2: #c3c2b7;
+  --obs-muted: #898781; --obs-grid: #2c2c2a; --obs-axis: #383835; --obs-context: #4a4a46;
+  --obs-band: rgba(195, 194, 183, 0.14); --obs-focus: #9085e9; --obs-compare: #c98500;
+}
+
+.obs-chart { font-family: var(--obs-font); color: var(--obs-ink); margin: 1.5rem 0 2rem; }
+.obs-chart h3 { font-size: 1.15rem; margin: 0 0 .25rem; font-weight: 600; }
+.obs-chart .obs-sub { color: var(--obs-ink-2); margin: 0 0 .75rem; font-size: .95rem; }
+.obs-legend { display: flex; flex-wrap: wrap; gap: .4rem 1.1rem; font-size: .85rem;
+  color: var(--obs-ink-2); margin-bottom: .5rem; }
+.obs-legend span { display: inline-flex; align-items: center; gap: .4rem; }
+.obs-key-line { width: 18px; height: 0; border-top: 2px solid; display: inline-block; }
+.obs-key-band { width: 18px; height: 10px; display: inline-block; }
+.obs-source { font-size: .8rem; color: var(--obs-muted); margin-top: .5rem; }
+.obs-source a { color: inherit; }
+.obs-chart details { font-size: .85rem; color: var(--obs-ink-2); margin-top: .4rem; }
+.obs-chart details summary { cursor: pointer; }
+.obs-chart details code { font-size: .78rem; word-break: break-all; }
+.obs-tag { display: inline-block; font-size: .7rem; letter-spacing: .04em; font-weight: 600;
+  padding: .05rem .4rem; border-radius: 3px; border: 1px solid var(--obs-axis);
+  color: var(--obs-ink-2); margin-right: .4rem; vertical-align: middle; }
+.obs-caveats { border-left: 3px solid var(--obs-axis); padding: .25rem .9rem;
+  color: var(--obs-ink-2); font-size: .9rem; }
+.obs-grid-multiples { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1rem 1.25rem; }
+.obs-panel-title { font-size: .85rem; font-weight: 600; margin: 0 0 .1rem; }

@@ -1,0 +1,18 @@
+---
+title: "Observatorio socioeconómico"
+---
+
+Un sistema abierto para entender cómo cambian México, América Latina y el Caribe y el mundo,
+con datos rastreables hasta su fuente original.
+
+**Cómo leer este sitio.** Cada texto lleva su nivel:
+[DATO]{.obs-tag} lo que reporta una fuente;
+[ANÁLISIS]{.obs-tag} patrones calculados de forma reproducible;
+[INTERPRETACIÓN]{.obs-tag} explicaciones posibles, con evidencia a favor y en contra.
+El observatorio no publica opiniones propias.
+
+## Dashboards
+
+- [México en el largo plazo](dashboards/d1-largo-plazo/index.qmd): trayectoria y posición frente a
+  América Latina y países de contraste.
+- *Pulso de México* y *Democracia e instituciones en ALC*: en construcción.

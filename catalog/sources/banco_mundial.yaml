@@ -1,0 +1,19 @@
+id: banco_mundial
+nombre: Banco Mundial
+tipo: organismo_internacional
+url: https://data.worldbank.org/
+evaluacion:
+  mandato: >
+    Organismo financiero internacional; publica estadísticas de desarrollo como bien
+    público. No es el productor primario de la mayoría de sus series.
+  metodologia: Notas metodológicas por indicador (campo sourceNote y DataBank).
+  revisiones: >
+    Revisa retroactivamente sin calendario fijo; las rondas del ICP cambian todos los
+    niveles en PPA (ronda 2021 adoptada en 2024). No publica versiones anteriores de forma
+    sistemática: por eso archivamos cada vintage.
+  continuidad: Series largas (desde 1960) y estables; cambios de código ocasionales.
+  independencia: Compila datos de oficinas nacionales y de otros organismos.
+  primaria_o_compiladora: >
+    Compiladora en la mayoría de los indicadores (cuentas nacionales nacionales, ONU,
+    OIT, OMS); primaria en pobreza internacional (PIP) y PPA (ICP, con ONU y otros).
+fecha_alta: 2026-10-03

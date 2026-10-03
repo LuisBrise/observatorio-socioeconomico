@@ -29,7 +29,7 @@ El calendario de difusión de INEGI se puede ingerir como un dataset más para p
 sequenceDiagram
   participant Cron as GitHub Actions (programado)
   participant OBS as obs update --due
-  participant R2 as Archivo crudo (R2/B2)
+  participant R2 as Archivo crudo (GitHub Release)
   participant Repo as Repositorio
   participant Site as Sitio
 
@@ -38,7 +38,7 @@ sequenceDiagram
   alt sin cambios
     OBS->>Repo: registro en bitácora (sin commit)
   else hay cambios
-    OBS->>R2: sube los crudos nuevos (por hash)
+    OBS->>R2: sube los vintages nuevos (inmutables)
     OBS->>OBS: valida → procesa → deriva → datasets de visualización
     OBS->>Repo: abre PR "Actualización de datos" con el reporte
     alt sin advertencias ni revisiones grandes

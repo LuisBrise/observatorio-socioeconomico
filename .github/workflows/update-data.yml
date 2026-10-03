@@ -1,0 +1,42 @@
+# Actualización programada: descarga, valida y propone el cambio de datos como PR.
+name: Actualizar datos
+on:
+  schedule:
+    - cron: "17 9 * * 1"   # lunes 09:17 UTC
+  workflow_dispatch:
+permissions:
+  contents: write
+  pull-requests: write
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      INEGI_TOKEN: ${{ secrets.INEGI_TOKEN }}
+      BANXICO_TOKEN: ${{ secrets.BANXICO_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+      - run: uv sync
+      - name: Restaurar archivo crudo
+        run: scripts/raw_archive.sh restore
+      - name: Reconstruir datos fijados
+        run: uv run obs rebuild
+      - name: Descargar y validar WDI
+        run: uv run obs run wb_wdi | tee run.log
+      - name: Archivar vintages nuevos (inmutables)
+        run: scripts/raw_archive.sh upload
+      - name: Reporte
+        run: |
+          {
+            echo "## Actualización de datos"; echo; echo '```'; cat run.log; echo '```'; echo
+            for f in data/validation/*/*/report.md; do cat "$f"; echo; done
+          } > update-report.md
+      - name: Abrir PR si cambió el lockfile
+        uses: peter-evans/create-pull-request@v7
+        with:
+          branch: datos/actualizacion
+          commit-message: "Datos: actualizar vintages fijados"
+          title: "Actualización de datos"
+          body-path: update-report.md
+          add-paths: catalog/vintages.lock.yaml

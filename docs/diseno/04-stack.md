@@ -40,7 +40,7 @@ En orden de importancia para este proyecto:
 
 | Opción | A favor | En contra | Veredicto |
 |---|---|---|---|
-| **CLI propia (Typer) + `just` + GitHub Actions** | Mínima, transparente, gratuita, suficiente para un DAG simple. | Sin interfaz gráfica de linaje; la incrementalidad se programa a mano. | **Fase 1** |
+| **CLI propia (Typer) + `make` + GitHub Actions** | Mínima, transparente, gratuita, suficiente para un DAG simple. | Sin interfaz gráfica de linaje; la incrementalidad se programa a mano. | **Fase 1** |
 | Dagster | Activos de datos, linaje, interfaz, programación. | Más piezas que operar; curva de aprendizaje. | Ruta de migración si superamos ~30 fuentes. |
 | Prefect / Airflow | Maduros. | Pensados para equipos e infraestructura propia. | Descartados. |
 | dbt / SQLMesh | Linaje, documentación y pruebas para transformaciones SQL. | El linaje es a nivel de tabla; necesitamos linaje a nivel de **indicador** (filas). Las transformaciones estadísticas son mejores en Python. | Descartados por ahora. |
@@ -95,10 +95,10 @@ Visualización   Observable Plot + D3 como módulos ES propios con tokens de dis
                 Altair para exploración
 Publicación     Quarto (sitio web + informes) · Closeread (scrollytelling)
                 DuckDB-WASM para la página de exploración libre
-Orquestación    CLI `obs` (Typer) · justfile · GitHub Actions (CI, actualizaciones, despliegue)
+Orquestación    CLI `obs` (Typer) · Makefile · GitHub Actions (CI, actualizaciones, despliegue)
 Calidad         pytest · hypothesis · ruff · pre-commit · pruebas de contrato de conectores
 Hospedaje       GitHub Pages o Cloudflare Pages (sitio estático)
-Archivo crudo   Almacenamiento de objetos con direccionamiento por hash (Cloudflare R2 o Backblaze B2)
+Archivo crudo   Release de GitHub "raw-archive": un asset inmutable por vintage (costo cero)
 Publicaciones   Instantáneas periódicas citables en Zenodo (DOI), opcional
 ```
 
@@ -121,9 +121,9 @@ Publicaciones   Instantáneas periódicas citables en Zenodo (DOI), opcional
 | Concepto | Costo |
 |---|---|
 | Repositorio, CI, sitio (GitHub, repositorio público) | US$0 |
-| Almacenamiento de datos crudos (R2: 10 GB gratis; B2: ~US$6/TB-mes) | US$0–2/mes |
+| Archivo de datos crudos (assets de un release de GitHub; límite de 2 GB por archivo) | US$0 |
 | APIs (INEGI, Banxico, Banco Mundial, FMI, ONU) | US$0 (algunas requieren token gratuito) |
-| Dominio propio (opcional) | ~US$12/año |
+| Dominio propio | No se usará (decisión D-011: costo cero); el sitio vive en `github.io` |
 
 ### Riesgos del stack y mitigación
 

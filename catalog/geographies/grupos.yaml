@@ -1,0 +1,51 @@
+# Grupos de comparación (docs/diseno/08-marco-analitico.md §3).
+# Se definen por regla o lista explícita, se versionan y NO se ajustan para "mejorar"
+# una comparación. Cambiar un grupo requiere una decisión en docs/decisiones/.
+- id: G.ALC_CEPAL33
+  nombre: América Latina y el Caribe (33 países de CEPAL)
+  descripcion: Los 33 países de América Latina y el Caribe miembros de CEPAL.
+  tipo: regional
+  miembros: [ATG, ARG, BHS, BRB, BLZ, BOL, BRA, CHL, COL, CRI, CUB, DMA, DOM, ECU, SLV, GRD,
+             GTM, GUY, HTI, HND, JAM, MEX, NIC, PAN, PRY, PER, KNA, LCA, VCT, SUR, TTO, URY, VEN]
+
+- id: G.ALC_GRANDES
+  nombre: América Latina y el Caribe, países con más de 10 millones de habitantes
+  descripcion: >
+    Países de G.ALC_CEPAL33 con más de 10 millones de habitantes en el año de referencia.
+    Evita que los estadísticos regionales simples estén dominados por economías pequeñas.
+  tipo: comparacion
+  regla:
+    universo: G.ALC_CEPAL33
+    indicador: dem.poblacion.tamano.total
+    minimo: 10000000
+    anio_referencia: 2023
+
+- id: G.CONTRASTE
+  nombre: Países de contraste
+  descripcion: >
+    Países cultural, institucional y económicamente distintos de México, que suelen
+    quedar fuera del foco. Se usan ocasionalmente para ampliar la perspectiva, no como
+    pares: la comparación muestra trayectorias diversas, no "lo que México debería ser".
+  tipo: contraste
+  miembros: [CHN, VNM, POL, CZE, GRC, PRT, RUS, SWE, FIN]
+  nota: >
+    La confiabilidad estadística varía: hay debates documentados sobre las cuentas
+    nacionales de China, y Rusia restringió la publicación de varias estadísticas desde
+    2022. Usar con las advertencias de calidad correspondientes.
+
+- id: G.OCDE
+  nombre: OCDE (composición vigente)
+  descripcion: Países miembros de la OCDE. Composición a 2025; verificar adhesiones posteriores.
+  tipo: comparacion
+  miembros: [AUS, AUT, BEL, CAN, CHL, COL, CRI, CZE, DNK, EST, FIN, FRA, DEU, GRC, HUN, ISL,
+             IRL, ISR, ITA, JPN, KOR, LVA, LTU, LUX, MEX, NLD, NZL, NOR, POL, PRT, SVK, SVN,
+             ESP, SWE, CHE, TUR, GBR, USA]
+  nota: >
+    La membresía cambió con el tiempo (p. ej., Colombia en 2020, Costa Rica en 2021). Para
+    series históricas se usa esta composición fija y se indica.
+
+- id: G.SOCIOS
+  nombre: Socios principales
+  descripcion: Principales socios comerciales y de referencia de México.
+  tipo: socios
+  miembros: [USA, CAN, CHN]

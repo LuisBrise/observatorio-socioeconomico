@@ -1,0 +1,39 @@
+- id: dem.poblacion.tamano.total
+  nombre: Población total
+  concepto: dem.poblacion.tamano
+  definicion: Población residente a mitad de año, independientemente de su situación legal o ciudadanía.
+  unidad: personas
+  facetas:
+    tipo_medicion: estimacion_modelada
+    cadena: contexto
+    ritmo: estructural
+    direccion_normativa: neutral
+    cobertura: [mundo]
+  series: [wb_wdi:SP.POP.TOTL]
+  rangos_validos: {min: 1000, max: 2000000000}
+  notas_interpretacion: >
+    En WDI proviene principalmente de ONU World Population Prospects; puede diferir de
+    las estimaciones nacionales (en México, CONAPO e INEGI).
+  preguntas: [D1]
+  fecha_alta: 2026-10-03
+
+- id: dem.mortalidad.longevidad.esperanza_vida
+  nombre: Esperanza de vida al nacer
+  concepto: dem.mortalidad.longevidad
+  definicion: >
+    Años que viviría un recién nacido si las tasas de mortalidad por edad del año se
+    mantuvieran constantes a lo largo de su vida (medida de periodo).
+  unidad: años
+  facetas:
+    tipo_medicion: estimacion_modelada
+    cadena: resultado
+    ritmo: estructural
+    direccion_normativa: mas_es_mejor
+    cobertura: [mundo]
+  series: [wb_wdi:SP.DYN.LE00.IN]
+  rangos_validos: {min: 15, max: 95}
+  notas_interpretacion: >
+    Es una medida de periodo: un choque temporal (p. ej., la pandemia) la reduce aunque
+    no cambie la longevidad de largo plazo.
+  preguntas: [D1]
+  fecha_alta: 2026-10-03

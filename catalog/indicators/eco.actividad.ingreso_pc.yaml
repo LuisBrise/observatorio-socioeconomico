@@ -1,0 +1,45 @@
+- id: eco.actividad.ingreso_pc.pib_pc_ppa
+  nombre: PIB per cápita (PPA, dólares internacionales constantes de 2021)
+  concepto: eco.actividad.ingreso_pc
+  definicion: >
+    Producto interno bruto dividido entre la población a mitad de año, convertido a
+    dólares internacionales con paridades de poder adquisitivo (PPA) de 2021 y expresado a
+    precios constantes.
+  unidad: dólares internacionales constantes (PPA 2021)
+  facetas:
+    tipo_medicion: cuentas_nacionales
+    cadena: resultado
+    ritmo: estructural
+    direccion_normativa: neutral
+    cobertura: [mundo]
+  series: [wb_wdi:NY.GDP.PCAP.PP.KD]
+  rangos_validos: {min: 100, max: 300000}
+  notas_interpretacion: >
+    Mide producción por persona, no ingreso de los hogares ni bienestar. La PPA corrige
+    diferencias de precios entre países y es la medida adecuada para comparar niveles
+    de vida materiales; no para comparar peso económico internacional.
+  preguntas: [D1]
+  fecha_alta: 2026-10-03
+
+- id: eco.actividad.ingreso_pc.relativo_eeuu
+  nombre: PIB per cápita como porcentaje del de Estados Unidos (PPA)
+  concepto: eco.actividad.ingreso_pc
+  definicion: >
+    PIB per cápita en PPA de cada país dividido entre el de Estados Unidos en el mismo
+    año, multiplicado por 100.
+  unidad: "% del valor de Estados Unidos"
+  facetas:
+    tipo_medicion: cuentas_nacionales
+    cadena: resultado
+    ritmo: estructural
+    direccion_normativa: neutral
+    cobertura: [mundo]
+  derivacion:
+    receta: razon_geo@1
+    parametros: {indicador: eco.actividad.ingreso_pc.pib_pc_ppa, geo_denominador: USA, escala: 100}
+  rangos_validos: {min: 0, max: 500}
+  notas_interpretacion: >
+    Una caída puede deberse a menor crecimiento del país o a mayor crecimiento de
+    Estados Unidos: el indicador es relativo.
+  preguntas: [D1]
+  fecha_alta: 2026-10-03

@@ -156,17 +156,15 @@ su ingesta es más laboriosa (microdatos de defunciones, datos municipales). Lo 
 
 ### Tipografía
 
-- Titulares y narrativa: una serif legible (candidata: *Source Serif 4*).
-- Interfaz, ejes y números: una sans con cifras tabulares (candidatas: *Inter* o *IBM Plex Sans*).
-- Las dos son fuentes abiertas (licencia OFL).
+- Una sola familia sans del sistema (`system-ui`) para texto, gráficas y cifras: carga instantánea, sin dependencias externas. Cifras tabulares solo en columnas que deben alinearse.
 
 ### Color
 
 | Uso | Regla |
 |---|---|
 | Neutros | Escala de grises cálida para ejes, contexto y países no resaltados. |
-| Foco (México) | Un solo color de acento, **no asociado a ningún partido político mexicano** (se evitan guinda, azul PAN, rojo y verde PRI, naranja MC, verde PVEM, rojo PT). Candidato a validar: verde azulado profundo. |
-| Comparador secundario | Un segundo acento sobrio (p. ej., ocre) para EE.UU. o la mediana regional. |
+| Foco (México) | **Violeta** (`#4a3aa7` claro / `#9085e9` oscuro): no asociado a ningún partido político mexicano (se evitan guinda, azul, rojo, verde y naranja). |
+| Comparador secundario | **Ocre** (`#c98500`). Contraste 2.99:1 en modo claro: siempre con etiqueta directa o tabla. Par validado para daltonismo (ΔE ≥ 27). |
 | Categóricos | Máximo 6 colores, aptos para daltonismo; si hay más categorías, *small multiples*. |
 | Secuenciales | Un solo tono (mapas de calor, coropletas). |
 | Divergentes | Solo si el punto medio tiene significado (cero, promedio) y la dirección no está en disputa. |
@@ -199,6 +197,22 @@ su ingesta es más laboriosa (microdatos de defunciones, datos municipales). Lo 
 Contraste AA como mínimo; paletas probadas con simulación de daltonismo; navegación con
 teclado; texto alternativo generado a partir de los datos; descarga de los datos de cada
 gráfica en tabla; diseño legible en el celular.
+
+### Referentes (editoriales y visuales)
+
+Para no heredar el encuadre de una sola corriente, los referentes son deliberadamente plurales.
+Se toman de ellos **prácticas de diseño y de rigor**, nunca sus posturas:
+
+| Tipo | Ejemplos |
+|---|---|
+| Sin línea editorial partidista | Our World in Data, Pew Research Center (lenguaje neutro), Datawrapper (Academy), INEGI y CEPAL (presentación estadística) |
+| Prensa internacional de distintas orientaciones | Financial Times, The Economist, The Wall Street Journal, The Guardian, Le Monde, El País |
+| Prensa y análisis en México de distintas orientaciones | Reforma, El Universal, El Financiero, La Jornada, Proceso, Animal Político, Nexos, Letras Libres |
+| Narrativa visual | The Pudding, Reuters Graphics |
+
+**Prueba de simetría** (se agrega a la lista de verificación editorial): antes de publicar, se
+relee cada titular y cada texto preguntando cómo lo leería alguien de la postura política
+contraria a quien lo escribió, y si el texto diría lo mismo con el resultado inverso.
 
 ## 7. Definición de "terminado" para cada dashboard
 

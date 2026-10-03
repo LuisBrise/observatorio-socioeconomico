@@ -1,0 +1,3 @@
+# Versión (vintage) de cada dataset que alimenta la publicación vigente.
+# Lo actualiza `obs lock`; su historial en git es el historial de datos del observatorio.
+datasets: {}

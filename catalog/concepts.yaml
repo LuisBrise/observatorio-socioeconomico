@@ -1,0 +1,94 @@
+# Taxonomía: dimensión → subdimensión → concepto (ver docs/diseno/03-taxonomia.md).
+# Los conceptos se agregan a medida que se incorporan indicadores.
+- id: dem
+  nombre: Población y territorio
+  subdimensiones:
+    - id: dem.poblacion
+      nombre: Tamaño y estructura de la población
+      conceptos:
+        - {id: dem.poblacion.tamano, nombre: Tamaño de la población}
+    - id: dem.mortalidad
+      nombre: Mortalidad y longevidad
+      conceptos:
+        - {id: dem.mortalidad.longevidad, nombre: Longevidad}
+    - {id: dem.fecundidad, nombre: Fecundidad}
+    - {id: dem.migracion, nombre: Migración}
+    - {id: dem.urbanizacion, nombre: Urbanización}
+- id: eco
+  nombre: Economía
+  subdimensiones:
+    - id: eco.actividad
+      nombre: Actividad y crecimiento
+      conceptos:
+        - {id: eco.actividad.ingreso_pc, nombre: Ingreso (producción) por persona}
+    - {id: eco.productividad, nombre: Productividad y estructura}
+    - {id: eco.precios, nombre: Precios y política monetaria}
+    - {id: eco.laboral, nombre: Mercado laboral}
+    - {id: eco.fiscal, nombre: Finanzas públicas}
+    - {id: eco.externo, nombre: Sector externo}
+    - {id: eco.inversion, nombre: Inversión y crédito}
+- id: bie
+  nombre: Bienestar, pobreza y distribución
+  subdimensiones:
+    - {id: bie.pobreza, nombre: Pobreza}
+    - {id: bie.desigualdad, nombre: Desigualdad}
+    - {id: bie.ingreso_hogares, nombre: Ingreso de los hogares}
+    - {id: bie.salud, nombre: Salud}
+    - {id: bie.educacion, nombre: Educación}
+    - {id: bie.vivienda, nombre: Vivienda y servicios}
+    - {id: bie.proteccion, nombre: Protección social}
+    - {id: bie.movilidad, nombre: Movilidad social}
+- id: pol
+  nombre: Política y gobierno
+  subdimensiones:
+    - {id: pol.democracia, nombre: Calidad democrática}
+    - {id: pol.elecciones, nombre: Elecciones y competencia}
+    - {id: pol.representacion, nombre: Representación}
+    - {id: pol.opinion, nombre: Opinión pública}
+    - {id: pol.estado_derecho, nombre: Estado de derecho y corrupción}
+    - {id: pol.libertades, nombre: Libertades}
+    - {id: pol.accion_colectiva, nombre: Acción colectiva}
+    - {id: pol.cambio_institucional, nombre: Cambio institucional}
+    - {id: pol.polarizacion, nombre: Polarización}
+- id: seg
+  nombre: Seguridad y justicia
+  subdimensiones:
+    - {id: seg.violencia_letal, nombre: Violencia letal}
+    - {id: seg.desapariciones, nombre: Desapariciones}
+    - {id: seg.victimizacion, nombre: Delitos y victimización}
+    - {id: seg.percepcion, nombre: Percepción de inseguridad}
+    - {id: seg.justicia, nombre: Justicia}
+    - {id: seg.capacidades, nombre: Capacidades y gasto}
+    - {id: seg.violencia_organizada, nombre: Violencia organizada}
+- id: ene
+  nombre: Energía, ambiente y recursos
+  subdimensiones:
+    - {id: ene.oferta, nombre: Oferta y consumo de energía}
+    - {id: ene.hidrocarburos, nombre: Hidrocarburos}
+    - {id: ene.electricidad, nombre: Electricidad y transición}
+    - {id: ene.emisiones, nombre: Emisiones y clima}
+    - {id: ene.agua_suelo, nombre: Agua y suelo}
+- id: tec
+  nombre: Ciencia, tecnología y digitalización
+  subdimensiones:
+    - {id: tec.id, nombre: Investigación y desarrollo}
+    - {id: tec.innovacion, nombre: Innovación}
+    - {id: tec.digital, nombre: Digitalización}
+    - {id: tec.ia, nombre: Inteligencia artificial}
+- id: int
+  nombre: Inserción internacional y geopolítica
+  subdimensiones:
+    - {id: int.comercio, nombre: Comercio por socio}
+    - {id: int.flujos, nombre: Inversión y flujos financieros}
+    - {id: int.cadenas, nombre: Cadenas de valor}
+    - {id: int.mex_eeuu, nombre: Relación México–Estados Unidos}
+    - {id: int.alc_mundo, nombre: ALC–China y ALC–Europa}
+    - {id: int.diplomacia, nombre: Alineamiento diplomático}
+    - {id: int.seguridad, nombre: Seguridad internacional}
+    - {id: int.peso, nombre: Peso en el mundo}
+- id: meta
+  nombre: Calidad y capacidad estadística
+  subdimensiones:
+    - {id: meta.capacidad, nombre: Capacidad estadística}
+    - {id: meta.apertura, nombre: Apertura de datos}
+    - {id: meta.registros, nombre: Cobertura de registros}

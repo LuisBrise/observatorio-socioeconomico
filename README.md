@@ -3,8 +3,23 @@
 Sistema reproducible para analizar la evolución política, económica y social de
 **México**, **América Latina y el Caribe** y **el mundo**: pasado, presente y escenarios futuros.
 
-> **Estado: fase 0, diseño.** Todavía no hay código ni datos. La propuesta de arquitectura
-> está en [`docs/diseno/`](docs/diseno/README.md) y espera validación.
+> **Estado: primera rebanada vertical.** El pipeline completo funciona de punta a punta con el
+> Banco Mundial (WDI): ingesta → crudo inmutable → validación → datos procesados → dataset de
+> visualización con procedencia → dashboard D1 en Quarto. Aún no se ha publicado con datos reales.
+
+## Uso rápido (Ubuntu)
+
+```bash
+curl -LsSf https://astral.sh/uv/install.sh | sh   # una vez: instala uv
+make setup        # dependencias
+make check        # lint + pruebas + validación del catálogo
+make update       # descarga WDI, valida y fija la versión si está limpia
+make viz          # construye los datasets de las gráficas
+make preview      # vista previa del sitio (requiere Quarto: https://quarto.org)
+```
+
+Los datos quedan en `data/` (no se versiona). `data/raw/` nunca se modifica: cada descarga distinta
+es una versión nueva. Los tokens de API van en `.env` (ver [guía](docs/guias/tokens-api.md)).
 
 ## Principios
 
@@ -21,19 +36,19 @@ Ver [principios editoriales](docs/principios-editoriales.md).
 
 | Etapa | Descripción | Estado |
 |---|---|---|
-| 1 | Diseñar la arquitectura | ✅ Propuesta (en revisión) |
-| 2 | Elegir el stack | ✅ Propuesta (en revisión) |
-| 3 | Crear la estructura del proyecto | ⏳ |
-| 4 | Crear el catálogo de datos | ⏳ |
-| 5 | Seleccionar los primeros datasets | Propuesta en `docs/diseno/05-fuentes.md` |
-| 6 | Descargar e ingerir datos | ⏳ |
-| 7 | Construir el pipeline | ⏳ |
-| 8 | Validar los datos | ⏳ |
+| 1 | Diseñar la arquitectura | ✅ Aceptada |
+| 2 | Elegir el stack | ✅ Aceptado |
+| 3 | Crear la estructura del proyecto | ✅ |
+| 4 | Crear el catálogo de datos | ✅ Esquemas + primeras fichas (WDI) |
+| 5 | Seleccionar los primeros datasets | ✅ `docs/diseno/05-fuentes.md` |
+| 6 | Descargar e ingerir datos | ✅ Conector WDI · ⏳ primera descarga real |
+| 7 | Construir el pipeline | ✅ Primera versión, probada |
+| 8 | Validar los datos | ✅ Controles automáticos · ⏳ revisión con datos reales |
 | 9 | Primer análisis | ⏳ |
-| 10 | Primeras visualizaciones y sistema visual | ⏳ |
-| 11 | Primer dashboard | ⏳ |
+| 10 | Primeras visualizaciones y sistema visual | ✅ Tokens + 2 componentes |
+| 11 | Primer dashboard | 🟡 D1 en construcción |
 | 12–13 | Revisar y mejorar | ⏳ |
-| 14 | Automatizar la actualización | ⏳ |
+| 14 | Automatizar la actualización | 🟡 Flujos de trabajo escritos, sin probar en GitHub |
 | 15 | Documentar | En curso desde la etapa 1 |
 
 ## Documentación
@@ -41,3 +56,9 @@ Ver [principios editoriales](docs/principios-editoriales.md).
 - [Diseño (fase 0)](docs/diseno/README.md)
 - [Principios editoriales](docs/principios-editoriales.md)
 - [Registro de decisiones](docs/decisiones/README.md)
+- [Guía de tokens de API](docs/guias/tokens-api.md)
+
+## Licencias
+
+Código: MIT. Contenido y datos derivados: CC BY 4.0, salvo restricciones de cada fuente
+(registradas en el catálogo). El proyecto no se monetiza.

@@ -1,0 +1,26 @@
+name: CI
+on:
+  push:
+  pull_request:
+  schedule:
+    - cron: "41 8 * * 3"   # miércoles: pruebas de contrato
+  workflow_dispatch:
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+      - run: uv sync
+      - run: uv run ruff check .
+      - run: uv run pytest -q
+      - run: uv run obs catalog-check
+  contract:
+    # Pruebas de contrato con las APIs reales: semanalmente y bajo demanda.
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+      - run: uv sync
+      - run: OBS_NETWORK_TESTS=1 uv run pytest -q tests/contract

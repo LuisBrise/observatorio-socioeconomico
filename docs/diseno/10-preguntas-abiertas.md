@@ -60,3 +60,18 @@ Para cada pregunta propongo una respuesta por defecto. Si estás de acuerdo con 
 transformación → dataset de visualización con procedencia) hasta **una gráfica** publicada en
 el sitio Quarto, con CI funcionando. Si ese corte funciona de punta a punta, el resto es
 agregar fuentes, indicadores y componentes sobre una base probada.
+
+---
+
+## Respuestas (3 de octubre de 2026)
+
+Se aceptaron las propuestas por defecto, con estos ajustes:
+
+| # | Respuesta | Efecto en el sistema |
+|---|---|---|
+| B3 | Incluir de vez en cuando países distintos de México y fuera del foco habitual: China, Vietnam, Polonia, Chequia, Grecia, Portugal, Rusia, Suecia, Finlandia. | Grupo `G.CONTRASTE` (D-012). Primera gráfica: *small multiples* del PIB per cápita relativo a EE.UU. con México como referencia en cada panel. |
+| C1 | Python (dominio), R (intermedio), SQL básico; dispuesto a aprender. | El código es Python; el SQL se limita a consultas simples en DuckDB; los componentes JavaScript se documentan para que solo haga falta configurarlos. R queda disponible para microdatos con diseño muestral. |
+| C2 | Ubuntu, acepta la recomendación. | Desarrollo local en Ubuntu con `uv` y `make`; automatización en GitHub Actions. |
+| C3 | Gasto cero y sin generar ingresos, para preservar la imparcialidad. | D-011: GitHub Pages + archivo crudo en un release de GitHub + Zenodo opcional. Sin dominio propio. Las licencias no comerciales de algunas fuentes son compatibles. |
+| D1 | Referentes de distintas posturas políticas, priorizando la imparcialidad. | D-014: referentes plurales y prueba de simetría en la lista de verificación editorial. |
+| C5 | Generará los tokens de INEGI y Banxico. | Guía en [`docs/guias/tokens-api.md`](../guias/tokens-api.md). |

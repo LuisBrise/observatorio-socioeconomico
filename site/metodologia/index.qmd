@@ -1,0 +1,13 @@
+---
+title: "Metodología"
+---
+
+Los principios editoriales, la arquitectura y las decisiones del observatorio están documentados
+en el repositorio, en `docs/`:
+
+- Principios editoriales: niveles epistémicos, neutralidad, incertidumbre y ética.
+- Diseño: arquitectura, taxonomía, fuentes, pipeline, validación y actualización.
+- Registro de decisiones.
+
+Cada gráfica incluye un panel **"Fuente y método"** con la cadena completa: indicador →
+transformaciones → serie → versión descargada (vintage) → hash del archivo original → URL.
