@@ -8,6 +8,7 @@ from __future__ import annotations
 
 from datetime import date
 from enum import StrEnum
+from typing import Literal
 
 from pydantic import BaseModel, ConfigDict, Field, HttpUrl
 
@@ -109,6 +110,10 @@ class SeriesSpec(_Base):
     # Productor original de la cifra (no quien la redistribuye). Dos series con el mismo
     # origen NO son fuentes independientes: compararlas no verifica nada.
     origen: str
+    # Variante de la serie: una estimación (dato) o un componente de una proyección
+    # probabilística. Los límites de un intervalo nunca se tratan como datos ni como otra fuente.
+    variante: Literal["estimacion", "mediana", "inferior_80", "superior_80",
+                      "inferior_95", "superior_95"] = "estimacion"
 
 
 class Dataset(_Base):
@@ -128,6 +133,8 @@ class Dataset(_Base):
     limitaciones: str
     rupturas_conocidas: list[KnownBreak] = Field(default_factory=list)
     series: list[SeriesSpec]
+    # Para conectores de descarga de archivos: URLs de los archivos originales.
+    archivos: list[str] = Field(default_factory=list)
     umbrales: dict[str, float] = Field(default_factory=dict)
     fecha_alta: date
 

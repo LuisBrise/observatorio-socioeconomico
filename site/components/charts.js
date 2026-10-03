@@ -67,7 +67,8 @@ export function createCharts({ Plot, document: doc = globalThis.document }) {
       el("span", { role: "listitem" }, [
         it.kind === "band"
           ? el("i", { class: "obs-key-band", style: `background:${it.color}` })
-          : el("i", { class: "obs-key-line", style: `border-color:${it.color}` }),
+          : el("i", { class: "obs-key-line",
+            style: `border-color:${it.color}${it.kind === "dash" ? ";border-top-style:dashed" : ""}` }),
         it.label,
       ])));
   }
@@ -234,7 +235,63 @@ export function createCharts({ Plot, document: doc = globalThis.document }) {
     ]);
   }
 
-  return { legend, serieDistribucion, multiplesReferencia, procedencia, advertencias };
+
+  // Gráfica de abanico: serie observada (continua) + proyección (mediana discontinua) con
+  // intervalos de predicción del 80 % y 95 %. Codificación de prospectiva del sistema visual.
+  function abanico(data, { tokens: t = DEFAULT_TOKENS, width = 720, unidad = "", nombre = "" } = {}) {
+    const obs = data.observado.map((d) => ({ ...d, year: year(d) }));
+    const proj = data.proyeccion.map((d) => ({ ...d, year: year(d) }));
+    const lastObs = obs.at(-1);
+    // La mediana parte del último dato observado para que la línea sea continua visualmente.
+    const med = lastObs ? [{ year: lastObs.year, mediana: lastObs.value }, ...proj] : proj;
+    const yMax = Math.max(...obs.map((d) => d.value), ...proj.map((d) => d.u95 ?? d.mediana));
+    const minimo = data.minimo;
+    const fig = Plot.plot({
+      document: doc, width, height: Math.round(Math.min(420, Math.max(280, width * 0.5))),
+      marginLeft: 48, marginRight: 24, marginTop: 30,
+      style: baseStyle(t),
+      x: { label: null, tickFormat: "d", ticks: Math.max(4, Math.floor(width / 100)) },
+      y: { label: unidad, labelAnchor: "top", domain: [0, yMax * 1.05], nice: true },
+      marks: [
+        Plot.gridY({ stroke: t.grid, strokeOpacity: 1 }),
+        Plot.ruleY([0], { stroke: t.axis }),
+        Plot.areaY(proj, { x: "year", y1: "l95", y2: "u95", fill: t.focus, fillOpacity: 0.10 }),
+        Plot.areaY(proj, { x: "year", y1: "l80", y2: "u80", fill: t.focus, fillOpacity: 0.18 }),
+        Plot.ruleX(lastObs ? [lastObs] : [], { x: "year", stroke: t.axis, strokeDasharray: "2,3" }),
+        Plot.text(lastObs ? [lastObs] : [], { x: "year", frameAnchor: "top", dy: -16, dx: 4,
+          textAnchor: "start", fill: t.muted, fontSize: 10, text: () => "Proyección ONU →" }),
+        Plot.lineY(obs, { x: "year", y: "value", stroke: t.focus, strokeWidth: 2 }),
+        Plot.lineY(med, { x: "year", y: "mediana", stroke: t.focus, strokeWidth: 2,
+          strokeDasharray: "5,4" }),
+        // Tramo del mínimo (puede abarcar varios años): segmento horizontal + etiqueta.
+        Plot.ruleY(minimo ? [minimo] : [], { y: "value", x1: (d) => +d.desde, x2: (d) => +d.hasta,
+          stroke: t.ink, strokeWidth: 3 }),
+        Plot.text(minimo ? [minimo] : [], { x: (d) => (+d.desde + +d.hasta) / 2, y: "value", dy: 14,
+          fill: t.ink2, fontSize: 11,
+          text: (d) => `Mínimo${d.es_proyeccion ? " proyectado" : ""}: ${fmt1.format(d.value)}` +
+            (d.desde === d.hasta ? ` (${d.desde})` : ` (${d.desde}–${d.hasta})`) }),
+        Plot.ruleX([...obs, ...proj], Plot.pointerX({ x: "year", stroke: t.axis })),
+        Plot.tip([...obs, ...proj], Plot.pointerX({ x: "year", y: (d) => d.value ?? d.mediana,
+          fill: t.surface, stroke: t.axis,
+          title: (d) => d.value != null
+            ? `${d.period} (estimación): ${fmt1.format(d.value)}`
+            : `${d.period} (proyección)\nMediana: ${fmt1.format(d.mediana)}\n80 %: ${fmt1.format(d.l80)}–${fmt1.format(d.u80)}\n95 %: ${fmt1.format(d.l95)}–${fmt1.format(d.u95)}` })),
+      ],
+    });
+    fig.setAttribute("role", "img");
+    fig.setAttribute("aria-label", `${nombre}: estimaciones hasta ${lastObs?.period} y proyección de la ONU con intervalos del 80 % y 95 %.`);
+    return el("div", {}, [
+      legend([
+        { label: "Estimación", color: t.focus },
+        { label: "Proyección (mediana)", color: t.focus, kind: "dash" },
+        { label: "Intervalo de predicción 80 %", color: t.focus + "2e", kind: "band" },
+        { label: "Intervalo de predicción 95 %", color: t.focus + "1a", kind: "band" },
+      ]),
+      fig,
+    ]);
+  }
+
+  return { legend, serieDistribucion, multiplesReferencia, abanico, procedencia, advertencias };
 }
 
 function d3group(rows, key) {

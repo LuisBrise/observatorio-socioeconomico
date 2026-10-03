@@ -19,6 +19,8 @@ alc = FileAttachment("../../data/d1/ingreso-pc-alc/data.json").json()
 alcProv = FileAttachment("../../data/d1/ingreso-pc-alc/provenance.json").json()
 rel = FileAttachment("../../data/d1/ingreso-relativo-contraste/data.json").json()
 relProv = FileAttachment("../../data/d1/ingreso-relativo-contraste/provenance.json").json()
+dep = FileAttachment("../../data/d1/dependencia-mex/data.json").json()
+depProv = FileAttachment("../../data/d1/dependencia-mex/provenance.json").json()
 ```
 
 ## Contexto
@@ -56,6 +58,29 @@ html`<div class="obs-chart">
   ${charts.multiplesReferencia(rel, { tokens, width, unidad: "% de EE.UU." })}
   ${charts.procedencia(relProv, { csv: [["datos (CSV)", "../../data/d1/ingreso-relativo-contraste/relativo.csv"]] })}
   ${charts.advertencias(relProv)}
+</div>`
+```
+
+## Transición demográfica
+
+[DATO]{.obs-tag} La razón de dependencia compara la población en edades típicamente dependientes
+(0 a 14 y 65 años o más) con la población de 15 a 64 años. Cuando baja, hay más personas en edad de
+trabajar por cada persona en edades dependientes, una situación que suele llamarse "bono
+demográfico". Que ese bono se traduzca en crecimiento depende del empleo y la productividad, que
+esta razón no mide.
+
+[ANÁLISIS]{.obs-tag} Las cifras posteriores a 2023 son **proyecciones** de la ONU: la línea
+discontinua es la mediana y las bandas son los intervalos de predicción del 80 % y 95 %.
+
+```{ojs}
+//| echo: false
+html`<div class="obs-chart">
+  <h3>Razón de dependencia de México, 1960–2100</h3>
+  <p class="obs-sub">Personas de 0-14 y 65+ años por cada 100 de 15-64 · estimaciones y proyección probabilística de la ONU (WPP 2024)</p>
+  ${charts.abanico(dep, { tokens, width, unidad: "por cada 100 de 15-64", nombre: "Razón de dependencia de México" })}
+  ${charts.procedencia(depProv, { csv: [["estimaciones (CSV)", "../../data/d1/dependencia-mex/observado.csv"],
+                                         ["proyección (CSV)", "../../data/d1/dependencia-mex/proyeccion.csv"]] })}
+  ${charts.advertencias(depProv)}
 </div>`
 ```
 

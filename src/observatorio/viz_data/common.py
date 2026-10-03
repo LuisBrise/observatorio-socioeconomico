@@ -87,7 +87,8 @@ def write_chart(paths: Paths, catalog: Catalog, spec: ChartSpec,
     for ind_id in spec.indicators:
         ind = catalog.indicators[ind_id]
         base = ind.series or catalog.indicators[str(ind.derivacion.parametros["indicador"])].series
-        base = [b for b in base if b.split(":", 1)[0] in read_lock(paths)]  # solo lo publicado
+        base = [b for b in base if b.split(":", 1)[0] in read_lock(paths)  # solo lo publicado
+                and catalog.series_spec(b).variante in ("estimacion", "mediana")]
         origins = {series_origin(catalog, s) for s in base}
         if len(origins) >= 2:
             dis = [d for d in catalog.discrepancies.values() if set(d.series) <= set(base)]

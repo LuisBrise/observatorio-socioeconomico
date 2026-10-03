@@ -39,3 +39,32 @@
     no cambie la longevidad de largo plazo.
   preguntas: [D1]
   fecha_alta: 2026-10-03
+
+- id: dem.poblacion.estructura.razon_dependencia
+  nombre: Razón de dependencia total
+  concepto: dem.poblacion.estructura
+  definicion: >
+    Población de 0 a 14 años más población de 65 años y más, por cada 100 personas de 15 a 64
+    años. Es una razón demográfica: no mide quién trabaja ni quién depende económicamente de quién.
+  unidad: por 100 personas de 15 a 64 años
+  facetas:
+    tipo_medicion: estimacion_modelada
+    cadena: contexto
+    ritmo: estructural
+    direccion_normativa: neutral
+    cobertura: [mundo]
+  series:
+    - wb_wdi:SP.POP.DPND                       # estimaciones históricas (= ONU WPP)
+    - onu_wpp_prob:TotalDepRatio.15-64.MED     # proyección: mediana
+    - onu_wpp_prob:TotalDepRatio.15-64.L80
+    - onu_wpp_prob:TotalDepRatio.15-64.U80
+    - onu_wpp_prob:TotalDepRatio.15-64.L95
+    - onu_wpp_prob:TotalDepRatio.15-64.U95
+  rangos_validos: {min: 0, max: 300}
+  atipicos: {z: 6.0, cambio_minimo: 0.10}
+  notas_interpretacion: >
+    Un valor bajo y descendente se asocia con el llamado "bono demográfico" (más personas en
+    edad de trabajar por cada persona en edades dependientes); su aprovechamiento depende del
+    empleo y la productividad, que esta razón no mide.
+  preguntas: [D1]
+  fecha_alta: 2026-10-03

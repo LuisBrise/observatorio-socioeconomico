@@ -28,7 +28,7 @@ def test_end_to_end_builds_charts_with_provenance(env):
     assert {"MEX", "G.wb_wdi.LCN"} <= set(obs["geo_id"].unique())
 
     charts = d1.build(paths, cat)
-    assert charts == ["d1/ingreso-pc-alc", "d1/ingreso-relativo-contraste"]
+    assert charts == ["d1/ingreso-pc-alc", "d1/ingreso-relativo-contraste", "d1/dependencia-mex"]
     prov = json.loads((paths.site_data / "d1/ingreso-pc-alc/provenance.json").read_text())
     s = prov["series"][0]
     assert s["vintage"] == pr.vintage and len(s["raw_content_sha256"]) == 64
@@ -107,7 +107,7 @@ def test_outlier_is_flagged_not_removed(env):
     out = [r for r in rep2["results"] if r["check"] == "atipicos"]
     assert out and any(d["geo_id"] == "CHL" for d in out[0]["details"])
     obs = pl.read_parquet(next(paths2.processed.rglob(f"vintage={pr2.vintage}/part-0.parquet")))
-    assert obs.filter((pl.col("geo_id") == "CHL") & (pl.col("period") == "2010")).height == 3
+    assert obs.filter((pl.col("geo_id") == "CHL") & (pl.col("period") == "2010")).height == 4
 
 
 def test_group_rule_resolves_from_data(env):

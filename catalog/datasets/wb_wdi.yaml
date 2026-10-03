@@ -42,6 +42,10 @@ series:
     indicador: dem.poblacion.tamano.total
     unidad: personas
     origen: onu_wpp   # WDI reproduce World Population Prospects (ONU)
+  - codigo: SP.POP.DPND
+    indicador: dem.poblacion.estructura.razon_dependencia
+    unidad: por 100 personas de 15 a 64 años
+    origen: onu_wpp   # WDI reproduce World Population Prospects (ONU)
   - codigo: SP.DYN.LE00.IN
     indicador: dem.mortalidad.longevidad.esperanza_vida
     unidad: años

@@ -1,0 +1,19 @@
+id: onu_desa
+nombre: Naciones Unidas, División de Población (DESA)
+tipo: organismo_internacional
+url: https://population.un.org/wpp/
+evaluacion:
+  mandato: >
+    División de Población del Departamento de Asuntos Económicos y Sociales de la ONU;
+    World Population Prospects (WPP) es la referencia internacional de estimaciones y
+    proyecciones demográficas.
+  metodologia: Documento metodológico de WPP 2024; proyecciones probabilísticas bayesianas de fecundidad, mortalidad y migración.
+  revisiones: Revisión completa cada ~2 años (2022, 2024); cada revisión cambia toda la serie histórica.
+  continuidad: Serie larga (1950–2100) y estable.
+  independencia: >
+    Estimaciones modeladas que concilian censos, encuestas y registros nacionales; pueden diferir
+    de las cifras oficiales nacionales (en México, CONAPO e INEGI).
+  primaria_o_compiladora: >
+    Primaria (modelo propio). WDI reproduce WPP en población, esperanza de vida y estructura por
+    edad: no son fuentes independientes.
+fecha_alta: 2026-10-03

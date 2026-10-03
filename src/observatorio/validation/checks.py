@@ -69,6 +69,7 @@ def check_ranges(df: pl.DataFrame, dataset: Dataset, catalog: Catalog) -> list[C
     out = []
     for sid, ind_id in _series_indicator(dataset).items():
         rng = catalog.indicators[ind_id].rangos_validos
+        is_bound = catalog.series_spec(sid).variante not in ("estimacion", "mediana")
         s = df.filter(pl.col("series_id") == sid)
         cond = pl.lit(False)
         if rng.min is not None:
@@ -76,7 +77,14 @@ def check_ranges(df: pl.DataFrame, dataset: Dataset, catalog: Catalog) -> list[C
         if rng.max is not None:
             cond = cond | (pl.col("value") > rng.max)
         bad = s.filter(cond)
-        if bad.height:
+        if bad.height and is_bound:
+            # Límites de intervalos de predicción: las colas de un modelo pueden salir del rango
+            # de valores plausibles sin ser un error de datos. Se informa, no se bloquea.
+            out.append(CheckResult(
+                "intervalos_extremos", INFO,
+                f"{sid}: límites de intervalo fuera de [{rng.min}, {rng.max}] (colas del modelo)",
+                bad.height, bad.select(KEY + ["value"]).head(20).to_dicts()))
+        elif bad.height:
             out.append(CheckResult(
                 "valores_imposibles", ERROR,
                 f"{sid}: valores fuera del rango válido [{rng.min}, {rng.max}] de {ind_id}",

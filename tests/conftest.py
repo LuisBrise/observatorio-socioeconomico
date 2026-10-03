@@ -35,6 +35,8 @@ def synthetic_value(code: str, geo: str, year: int) -> float | None:
     if code == "SP.POP.TOTL":
         base = 20e6 if geo in BIG else 0.5e6
         return base * (1 + (seed % 7) / 10) * (1.01 ** t)
+    if code == "SP.POP.DPND":
+        return 90 - 1.2 * t + (seed % 5)
     if code == "SP.DYN.LE00.IN":
         return 65 + (seed % 10) + 0.2 * t
     # PIB per cápita

@@ -3,8 +3,9 @@
 Sistema reproducible para analizar la evolución política, económica y social de
 **México**, **América Latina y el Caribe** y **el mundo**: pasado, presente y escenarios futuros.
 
-> **Estado:** pipeline completo con datos reales de dos fuentes independientes (Banco Mundial WDI y
-> FMI WEO), validación, revisión de atípicos, comparación entre fuentes y dashboard D1 en Quarto.
+> **Estado:** pipeline completo con datos reales de tres fuentes (Banco Mundial WDI, FMI WEO y
+> proyecciones probabilísticas de ONU WPP 2024), validación, revisión de atípicos, comparación entre
+> fuentes y dashboard D1 en Quarto (ingreso, contraste internacional y transición demográfica).
 > Aún no se ha publicado el sitio.
 
 ## Uso rápido (Ubuntu)
@@ -47,7 +48,7 @@ Ver [principios editoriales](docs/principios-editoriales.md).
 | 7 | Construir el pipeline | ✅ Primera versión, probada |
 | 8 | Validar los datos | ✅ Controles, revisión de atípicos y comparación entre fuentes |
 | 9 | Primer análisis | 🟡 WDI vs WEO (`analyses/`) |
-| 10 | Primeras visualizaciones y sistema visual | ✅ Tokens + 2 componentes |
+| 10 | Primeras visualizaciones y sistema visual | ✅ Tokens + 3 componentes (incluye abanico de proyección) |
 | 11 | Primer dashboard | 🟡 D1 en construcción |
 | 12–13 | Revisar y mejorar | ⏳ |
 | 14 | Automatizar la actualización | 🟡 Flujos de trabajo escritos, sin probar en GitHub |

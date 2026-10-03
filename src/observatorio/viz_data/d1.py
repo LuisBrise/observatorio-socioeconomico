@@ -14,6 +14,8 @@ from observatorio.viz_data.common import ChartSpec, write_chart
 PIB_PC = "eco.actividad.ingreso_pc.pib_pc_ppa"
 PIB_PC_REL = "eco.actividad.ingreso_pc.relativo_eeuu"
 POB = "dem.poblacion.tamano.total"
+DEP = "dem.poblacion.estructura.razon_dependencia"
+WPP_ULTIMO_ESTIMADO = "2023"  # WPP 2024: estimaciones hasta 2023; desde 2024 todo es proyección
 FOCO = "MEX"
 
 
@@ -95,4 +97,54 @@ def build(paths: Paths, catalog: Catalog) -> list[str]:
                 extra={"foco": FOCO, "paneles": contraste,
                        "nota_grupo": catalog.groups["G.CONTRASTE"].nota})
     built.append(spec2.chart_id)
+
+    # 1.4 · Razón de dependencia de México: estimaciones y proyección probabilística de la ONU
+    def serie(code: str, name: str) -> pl.DataFrame:
+        return (obs.filter((pl.col("series_id") == code) & (pl.col("geo_id") == FOCO))
+                .select("period", pl.col("value").alias(name)))
+
+    observado = (serie("wb_wdi:SP.POP.DPND", "value")
+                 .filter(pl.col("period") <= WPP_ULTIMO_ESTIMADO).sort("period"))
+    proyeccion = serie("onu_wpp_prob:TotalDepRatio.15-64.MED", "mediana")
+    for var in ("L80", "U80", "L95", "U95"):
+        proyeccion = proyeccion.join(serie(f"onu_wpp_prob:TotalDepRatio.15-64.{var}", var.lower()),
+                                     on="period", how="left")
+    proyeccion = proyeccion.sort("period")
+    combinada = pl.concat([
+        observado.select("period", "value", pl.lit(False).alias("es_proyeccion")),
+        proyeccion.select("period", pl.col("mediana").alias("value"),
+                          pl.lit(True).alias("es_proyeccion")),
+    ])
+    # Los valores de la ONU están truncados a enteros: el mínimo suele repetirse varios años.
+    # Se reporta el tramo completo, no un año único (sería precisión falsa).
+    vmin = combinada["value"].min()
+    tramo = combinada.filter(pl.col("value") == vmin).sort("period")
+    minimo = {"value": vmin, "desde": tramo["period"][0], "hasta": tramo["period"][-1],
+              "es_proyeccion": bool(tramo["es_proyeccion"].all())}
+    spec3 = ChartSpec(
+        chart_id="d1/dependencia-mex",
+        question=("¿Cómo ha cambiado la proporción entre población en edades dependientes y en edad de "
+                  "trabajar en México, y cómo podría evolucionar según las proyecciones de la ONU?"),
+        indicators=[DEP],
+        caveats=[
+            "Razón demográfica (0-14 y 65+ por cada 100 personas de 15-64): no mide quién trabaja ni "
+            "quién depende económicamente de quién.",
+            "Desde 2024 son proyecciones de la ONU (WPP 2024), no datos. Los intervalos de predicción "
+            "provienen del modelo de la ONU y no incluyen choques no previstos ni cambios de política.",
+            "WDI publica valores para 2024-2025, pero también son proyecciones de la ONU: por eso la "
+            "parte estimada termina en 2023.",
+            "El archivo probabilístico de la ONU trunca los valores a enteros (diferencia < 1 punto "
+            "frente a WDI en 2024-2025).",
+            "El mínimo marcado es el de la mediana proyectada (un tramo de años por el truncamiento a "
+            "enteros); considerando los intervalos, su momento es todavía más incierto.",
+        ],
+        transformations=[LineageStep("empalme_por_periodo@1",
+                                     {"estimacion": "wb_wdi:SP.POP.DPND hasta 2023",
+                                      "proyeccion": "onu_wpp_prob mediana e intervalos desde 2024"},
+                                     [DEP]).to_dict()],
+        groups={},
+    )
+    write_chart(paths, catalog, spec3, {"observado": observado, "proyeccion": proyeccion},
+                extra={"foco": FOCO, "minimo": minimo})
+    built.append(spec3.chart_id)
     return built

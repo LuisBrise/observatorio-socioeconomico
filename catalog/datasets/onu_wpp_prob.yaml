@@ -1,0 +1,39 @@
+id: onu_wpp_prob
+nombre: World Population Prospects 2024 — proyecciones probabilísticas
+fuente: onu_desa
+conector: descarga_archivos
+url: https://population.un.org/wpp/downloads
+acceso:
+  metodo: descarga_masiva
+  credenciales: ninguna
+  formato: xlsx (una hoja por variante)
+licencia:
+  nombre: CC BY 3.0 IGO
+  url: https://population.un.org/wpp/
+  redistribucion: permitida_con_atribucion
+cobertura:
+  geografica: 237 países y áreas + agregados
+  temporal: 2024–2100 (proyecciones)
+  poblacion: Población residente a mitad de año
+frecuencia: bienal (revisiones de WPP)
+rezago_tipico_dias: 730
+calendario: Revisión 2024 publicada en julio de 2024; la siguiente se espera en 2026.
+metodologia: https://population.un.org/wpp/
+revisiones: Cada revisión de WPP reemplaza toda la serie (estimaciones y proyecciones).
+limitaciones: >
+  Proyecciones, no datos. Los intervalos de predicción del 80 % y 95 % provienen del modelo
+  bayesiano de la ONU y no incluyen toda la incertidumbre (p. ej., cambios de política o
+  choques no previstos). Los valores del archivo vienen redondeados a enteros.
+archivos:
+  - "https://population.un.org/wpp/assets/Excel%20Files/2_Indicators%20(Probabilistic)/EXCEL_FILES/2_Population/UN_PPP2024_Output_Annual_TotalDepRatio.xlsx"
+series:
+  - {codigo: TotalDepRatio.15-64.MED, indicador: dem.poblacion.estructura.razon_dependencia, unidad: por 100 personas de 15 a 64 años, origen: onu_wpp, variante: mediana}
+  - {codigo: TotalDepRatio.15-64.L80, indicador: dem.poblacion.estructura.razon_dependencia, unidad: por 100 personas de 15 a 64 años, origen: onu_wpp, variante: inferior_80}
+  - {codigo: TotalDepRatio.15-64.U80, indicador: dem.poblacion.estructura.razon_dependencia, unidad: por 100 personas de 15 a 64 años, origen: onu_wpp, variante: superior_80}
+  - {codigo: TotalDepRatio.15-64.L95, indicador: dem.poblacion.estructura.razon_dependencia, unidad: por 100 personas de 15 a 64 años, origen: onu_wpp, variante: inferior_95}
+  - {codigo: TotalDepRatio.15-64.U95, indicador: dem.poblacion.estructura.razon_dependencia, unidad: por 100 personas de 15 a 64 años, origen: onu_wpp, variante: superior_95}
+umbrales:
+  revision_advertencia_pct: 5.0
+  revision_advertencia_share: 0.25
+  caida_cobertura_pct: 2.0
+fecha_alta: 2026-10-03

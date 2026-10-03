@@ -62,7 +62,9 @@ def compare_indicator(obs: pl.DataFrame, catalog: Catalog, indicator_id: str
                       ) -> tuple[list[CheckResult], dict[tuple[str, str], pl.DataFrame]]:
     ind = catalog.indicators[indicator_id]
     present = set(obs["series_id"].unique().to_list())
-    series = [s for s in ind.series if s in present]
+    # Solo estimaciones y medianas: los límites de intervalos no son mediciones alternativas.
+    series = [s for s in ind.series if s in present
+              and catalog.series_spec(s).variante in ("estimacion", "mediana")]
     results: list[CheckResult] = []
     details: dict[tuple[str, str], pl.DataFrame] = {}
     if len(series) < 2:

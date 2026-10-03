@@ -7,6 +7,7 @@
       nombre: Tamaño y estructura de la población
       conceptos:
         - {id: dem.poblacion.tamano, nombre: Tamaño de la población}
+        - {id: dem.poblacion.estructura, nombre: Estructura por edad}
     - id: dem.mortalidad
       nombre: Mortalidad y longevidad
       conceptos:

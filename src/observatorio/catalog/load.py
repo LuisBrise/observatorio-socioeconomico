@@ -62,6 +62,10 @@ class Catalog:
     def series_ids(self) -> set[str]:
         return {f"{d.id}:{s.codigo}" for d in self.datasets.values() for s in d.series}
 
+    def series_spec(self, series_id: str):
+        dataset_id, code = series_id.split(":", 1)
+        return next(s for s in self.datasets[dataset_id].series if s.codigo == code)
+
     def geo_name(self, geo_id: str) -> str:
         g = self.geographies.get(geo_id)
         return g.nombre_es if g else geo_id
