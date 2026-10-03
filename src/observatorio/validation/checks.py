@@ -104,7 +104,9 @@ def find_outliers(df: pl.DataFrame, dataset: Dataset, catalog: Catalog) -> pl.Da
     frames = []
     for sid, ind_id in _series_indicator(dataset).items():
         rule = catalog.indicators[ind_id].atipicos
-        pos = (df.filter((pl.col("series_id") == sid) & (pl.col("value") > 0))
+        # Los pronósticos (F) no son datos observados: no se revisan como atípicos.
+        pos = (df.filter((pl.col("series_id") == sid) & (pl.col("value") > 0)
+                         & (pl.col("obs_status") != "F"))
                .sort(["geo_id", "period_start"]))
         ch = pos.with_columns(
             pl.col("value").shift(1).over("geo_id").alias("value_prev"),
@@ -135,9 +137,23 @@ def check_outliers(df: pl.DataFrame, dataset: Dataset, catalog: Catalog) -> list
         return []
     reviews = catalog.outlier_reviews
 
+    ind_of = _series_indicator(dataset)
+    siblings: dict[str, list[str]] = {}
+    for ds in catalog.datasets.values():
+        for spec in ds.series:
+            siblings.setdefault(spec.indicador, []).append(f"{ds.id}:{spec.codigo}")
+
     def reviewed(row: dict) -> bool:
         r = reviews.get((row["series_id"], row["geo_id"], row["period"]))
-        return r is not None and r.resolucion != "pendiente"
+        if r is not None:
+            return r.resolucion != "pendiente"
+        # Un "valor_real" describe un suceso, no una fuente: vale para otras series del mismo
+        # indicador. Los "dudoso" NO se heredan (un dato dudoso en una fuente puede estar bien en otra).
+        for sib in siblings.get(ind_of[row["series_id"]], []):
+            r = reviews.get((sib, row["geo_id"], row["period"]))
+            if r is not None and r.resolucion == "valor_real":
+                return True
+        return False
 
     rows = flagged.to_dicts()
     done = [r for r in rows if reviewed(r)]
@@ -149,10 +165,12 @@ def check_outliers(df: pl.DataFrame, dataset: Dataset, catalog: Catalog) -> list
             "Variaciones inusuales sin revisar (revisar, no borrar): ejecuta "
             f"`obs atipicos {dataset.id}` para generar la lista de revisión", len(todo), todo))
     if done:
-        n_doubt = sum(reviews[(r["series_id"], r["geo_id"], r["period"])].resolucion == "dudoso"
+        n_doubt = sum(getattr(reviews.get((r["series_id"], r["geo_id"], r["period"])),
+                              "resolucion", None) in ("dudoso", "ruptura_metodologica")
                       for r in done)
         out.append(CheckResult("atipicos_revisados", INFO,
-                               f"Variaciones inusuales ya revisadas en el catálogo ({n_doubt} dudosas: "
+                               f"Variaciones inusuales ya revisadas en el catálogo ({n_doubt} dudosas o "
+                               "rupturas: "
                                "se conservan y se señalan en las gráficas que las usan)", len(done)))
     return out
 

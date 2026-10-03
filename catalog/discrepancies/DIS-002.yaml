@@ -1,0 +1,20 @@
+id: DIS-002
+indicador: dem.poblacion.tamano.total
+series: [wb_wdi:SP.POP.TOTL, fmi_weo:LP]
+diferencia_observada: >
+  Mediana de |diferencia| 0.8 %; 16 % de las observaciones difieren más de 5 %. Para México el
+  FMI reporta ~1 % más población que ONU WPP en años recientes (~2 % en 1990).
+causas_documentadas:
+  - tipo: metodo
+    descripcion: >
+      ONU WPP produce estimaciones demográficas conciliadas (fecundidad, mortalidad, migración)
+      con criterios comunes; el FMI compila series de fuentes nacionales. Las diferencias son
+      mayores donde los censos son antiguos o la migración es grande (p. ej., Maldivas, Etiopía,
+      Seychelles, pequeños Estados insulares).
+  - tipo: definicion
+    descripcion: >
+      Cambios de territorio y ajustes censales se incorporan en momentos distintos (p. ej., Sudán
+      en 2011, Kosovo tras el censo de 2024).
+presentacion: principal_con_referencia
+estado: abierta   # falta contrastar con fuentes nacionales (INEGI/CONAPO para México)
+fecha: 2026-10-03

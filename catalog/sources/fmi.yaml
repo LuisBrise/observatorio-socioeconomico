@@ -1,0 +1,22 @@
+id: fmi
+nombre: Fondo Monetario Internacional
+tipo: organismo_internacional
+url: https://data.imf.org/
+evaluacion:
+  mandato: >
+    Organismo financiero internacional; el World Economic Outlook (WEO) es su publicación
+    semestral de perspectivas (abril y octubre), elaborada por el personal técnico.
+  metodologia: Notas por país y serie en el WEO (fuente histórica, año base, base de proyecciones).
+  revisiones: >
+    Cada edición revisa la historia y las proyecciones. Las ediciones anteriores se publican
+    como dataflows de vintage (p. ej., WEO_2025_OCT_VINTAGE): útiles para evaluar pronósticos.
+  continuidad: >
+    En noviembre de 2025 el FMI retiró su API anterior y migró a SDMX (api.imf.org); IFS y DOTS
+    se reorganizaron en nuevos dataflows.
+  independencia: >
+    Compila cuentas nacionales oficiales con ajustes y estimaciones del personal técnico del FMI;
+    las cifras de los años sin dato observado son estimaciones o proyecciones del FMI.
+  primaria_o_compiladora: >
+    Compiladora para datos históricos; primaria para estimaciones y proyecciones. Independiente
+    del Banco Mundial en la compilación, aunque ambos usan las PPA del ICP 2021.
+fecha_alta: 2026-10-03

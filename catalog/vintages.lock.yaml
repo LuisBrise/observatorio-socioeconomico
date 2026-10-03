@@ -1,6 +1,12 @@
 # Versión (vintage) de cada dataset que alimenta la publicación vigente.
 # Lo actualiza `obs lock`; su historial en git es el historial de datos del observatorio.
 datasets:
+  fmi_weo:
+    vintage: 2026-10-03T041958Z
+    content_sha256: d20c629f0cae4d8f827bdd1f041dac1da8c52b7e15cd33697415cb7befdc11c1
+    retrieved_at: '2026-10-03T04:19:58Z'
+    source_declared_version: '2026-04-14T13:00:00Z'
+    validation_status: ok
   wb_wdi:
     vintage: 2026-10-03T032315Z
     content_sha256: 1c2570015763853e06d8212ac3d53e0fd0d7e6476a6425c9e939d33eed804862

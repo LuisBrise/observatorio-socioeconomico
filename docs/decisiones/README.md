@@ -19,6 +19,8 @@ Estado: **Propuesta** → **Aceptada** / **Rechazada** / **Sustituida por D-xxx*
 | D-012 | Grupo `G.CONTRASTE` (China, Vietnam, Polonia, Chequia, Grecia, Portugal, Rusia, Suecia, Finlandia): países distintos de México, fuera del foco habitual; uso ocasional, nunca como pares. | Aceptada (2026-10-03) | [08 · Marco analítico](../diseno/08-marco-analitico.md) |
 | D-013 | `Makefile` en lugar de `just` (viene instalado en Ubuntu). | Aceptada (2026-10-03) | [Makefile](../../Makefile) |
 | D-014 | Referentes editoriales y visuales de distintas posturas políticas + prueba de simetría antes de publicar. | Aceptada (2026-10-03) | [Principios editoriales](../principios-editoriales.md) |
+| D-016 | Verificación entre fuentes **independientes**: cada serie declara su `origen`; las discrepancias por encima de la tolerancia bloquean la validación cruzada hasta documentarse (`catalog/discrepancies/`). Mismo origen no cuenta como verificación. | Aceptada (2026-10-03) | [05 · Fuentes §6](../diseno/05-fuentes.md) |
+| D-017 | Revisión de atípicos con cuatro resoluciones: `valor_real`, `dudoso`, `ruptura_metodologica`, `error_fuente`. Un `valor_real` (suceso documentado) se hereda entre series del mismo indicador; `dudoso` y `ruptura` no, y se advierten en las gráficas. Los pronósticos no se revisan como atípicos. | Aceptada (2026-10-03) | [06 · Pipeline §7](../diseno/06-pipeline-y-validacion.md) |
 | D-015 | Foco visual (México) en violeta y comparador en ocre: colores no asociados a partidos mexicanos; paleta validada para daltonismo y contraste en modo claro y oscuro. | Aceptada (2026-10-03) | [Tokens](../../site/styles/tokens.css) |
 
 ## Plantilla

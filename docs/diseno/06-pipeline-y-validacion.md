@@ -127,9 +127,15 @@ este paso permite depurar errores de parseo sin mezclarlos con decisiones de arm
 ### Política para valores atípicos
 
 1. El sistema los **marca**, nunca los borra.
-2. Una persona revisa y anota la resolución en el catálogo:
-   *error confirmado* (se corrige mediante una transformación documentada, con referencia
-   a la fuente que lo confirma) o *valor real* (se conserva, con nota de contexto).
+2. Una persona revisa y anota la resolución en `catalog/revisiones/atipicos_{dataset}.yaml`
+   (`obs atipicos {dataset}` agrega los nuevos como `pendiente`):
+   - `valor_real`: extremo pero real (coincide con un suceso documentado); se conserva con nota.
+     Se hereda a otras series del mismo indicador, porque describe el suceso, no la fuente.
+   - `dudoso`: sin explicación documentada; se conserva, se advierte en las gráficas y se consulta.
+   - `ruptura_metodologica`: el cambio refleja territorio, censo o método, no un cambio real
+     (p. ej., Sudán 2011 por la independencia de Sudán del Sur); se advierte en las gráficas.
+   - `error_fuente`: error confirmado con referencia; se corrige con una transformación documentada.
+   Los pronósticos (F) no se revisan como atípicos.
 3. Las resoluciones quedan versionadas en git.
 
 ### Protocolo de discrepancias entre fuentes

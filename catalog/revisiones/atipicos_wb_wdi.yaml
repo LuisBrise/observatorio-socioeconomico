@@ -1,6 +1,6 @@
 # Revisión humana de atípicos (docs/diseno/06-pipeline-y-validacion.md §7).
-# resolucion: valor_real | dudoso | error_fuente | pendiente. Nunca se borran datos.
-# 'Coincide con' describe coincidencia temporal documentada, no una explicación causal.
+# resolucion: valor_real | dudoso | ruptura_metodologica | error_fuente | pendiente.
+# Nunca se borran datos. 'Coincide con' describe coincidencia temporal documentada, no causalidad.
 # Las entradas 'claude (propuesta…)' deben ser confirmadas por una persona: cambia revisado_por.
 - serie: wb_wdi:NY.GDP.PCAP.PP.KD
   geo: ABW

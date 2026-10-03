@@ -1,0 +1,4 @@
+# Equivalencias de códigos geográficos por dataset cuando la fuente no usa ISO 3166-1 alfa-3.
+fmi_weo:
+  KOS: XKX   # Kosovo
+  WBG: PSE   # Cisjordania y Gaza

@@ -24,6 +24,16 @@ jobs:
         run: uv run obs rebuild
       - name: Descargar y validar WDI
         run: uv run obs run wb_wdi | tee run.log
+      - name: Descargar y validar FMI WEO (solo en meses de publicación)
+        # Los términos del FMI prohíben descargas masivas automatizadas: solo se consulta
+        # cuando puede haber una edición nueva (abril y octubre, con un mes de margen).
+        run: |
+          case "$(date -u +%m)" in
+            04|05|10|11) uv run obs run fmi_weo | tee -a run.log ;;
+            *) echo "fmi_weo: fuera de los meses de publicación, no se consulta" | tee -a run.log ;;
+          esac
+      - name: Comparar fuentes
+        run: uv run obs comparar | tee -a run.log || true
       - name: Archivar vintages nuevos (inmutables)
         run: scripts/raw_archive.sh upload
       - name: Reporte

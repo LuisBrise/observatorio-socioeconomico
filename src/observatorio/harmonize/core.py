@@ -33,6 +33,7 @@ OBSERVATION_SCHEMA = {
 # Banderas conocidas por dataset → código SDMX. "" = observación normal.
 STATUS_MAP: dict[str, dict[str, str]] = {
     "wb_wdi": {"": "A", "E": "E", "F": "F", "P": "P"},
+    "fmi_weo": {"": "A", "F": "F"},  # F = proyección del FMI (posterior al último año observado)
 }
 
 _ANNUAL = re.compile(r"^\d{4}$")
@@ -99,10 +100,13 @@ def harmonize(
     # Geografía
     aggregates = set(source_geos.filter(pl.col("is_aggregate"))["source_geo"].to_list())
     countries = {g for g, geo in catalog.geographies.items() if geo.tipo == "pais"}
+    xwalk = catalog.geo_crosswalk.get(dataset.id, {})
     geo_codes = df["source_geo"].unique().to_list()
     mapping, unknown = {}, []
     for code in geo_codes:
-        if code in countries:
+        if code in xwalk:
+            mapping[code] = xwalk[code]
+        elif code in countries:
             mapping[code] = code
         elif code in aggregates:
             mapping[code] = f"G.{dataset.id}.{code}"

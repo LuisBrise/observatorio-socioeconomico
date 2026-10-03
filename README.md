@@ -3,9 +3,9 @@
 Sistema reproducible para analizar la evolución política, económica y social de
 **México**, **América Latina y el Caribe** y **el mundo**: pasado, presente y escenarios futuros.
 
-> **Estado: primera rebanada vertical.** El pipeline completo funciona de punta a punta con el
-> Banco Mundial (WDI): ingesta → crudo inmutable → validación → datos procesados → dataset de
-> visualización con procedencia → dashboard D1 en Quarto. Aún no se ha publicado con datos reales.
+> **Estado:** pipeline completo con datos reales de dos fuentes independientes (Banco Mundial WDI y
+> FMI WEO), validación, revisión de atípicos, comparación entre fuentes y dashboard D1 en Quarto.
+> Aún no se ha publicado el sitio.
 
 ## Uso rápido (Ubuntu)
 
@@ -14,6 +14,8 @@ curl -LsSf https://astral.sh/uv/install.sh | sh   # una vez: instala uv
 make setup        # dependencias
 make check        # lint + pruebas + validación del catálogo
 make update       # descarga WDI, valida y fija la versión si está limpia
+uv run obs run fmi_weo   # FMI WEO (solo tras sus ediciones de abril y octubre)
+make comparar     # compara fuentes independientes del mismo indicador
 make viz          # construye los datasets de las gráficas
 make preview      # vista previa del sitio (requiere Quarto: https://quarto.org)
 ```
@@ -41,10 +43,10 @@ Ver [principios editoriales](docs/principios-editoriales.md).
 | 3 | Crear la estructura del proyecto | ✅ |
 | 4 | Crear el catálogo de datos | ✅ Esquemas + primeras fichas (WDI) |
 | 5 | Seleccionar los primeros datasets | ✅ `docs/diseno/05-fuentes.md` |
-| 6 | Descargar e ingerir datos | ✅ Conector WDI · ⏳ primera descarga real |
+| 6 | Descargar e ingerir datos | ✅ WDI y FMI WEO con datos reales |
 | 7 | Construir el pipeline | ✅ Primera versión, probada |
-| 8 | Validar los datos | ✅ Controles automáticos · ⏳ revisión con datos reales |
-| 9 | Primer análisis | ⏳ |
+| 8 | Validar los datos | ✅ Controles, revisión de atípicos y comparación entre fuentes |
+| 9 | Primer análisis | 🟡 WDI vs WEO (`analyses/`) |
 | 10 | Primeras visualizaciones y sistema visual | ✅ Tokens + 2 componentes |
 | 11 | Primer dashboard | 🟡 D1 en construcción |
 | 12–13 | Revisar y mejorar | ⏳ |

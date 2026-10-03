@@ -24,6 +24,7 @@ class AccessMethod(StrEnum):
 
 class Redistribution(StrEnum):
     ALLOWED_WITH_ATTRIBUTION = "permitida_con_atribucion"
+    NON_COMMERCIAL_WITH_ATTRIBUTION = "no_comercial_con_atribucion"
     AGGREGATES_ONLY = "solo_agregados"
     NOT_ALLOWED = "no_permitida"
 
@@ -189,6 +190,7 @@ class Indicator(_Base):
 class OutlierResolution(StrEnum):
     REAL = "valor_real"            # extremo pero real; se conserva con nota
     SOURCE_ERROR = "error_fuente"  # error confirmado (con referencia); se corrige con transformación
+    BREAK = "ruptura_metodologica"  # cambio de territorio, censo o método: no es un cambio real
     DOUBTFUL = "dudoso"            # sin explicación documentada; se conserva, se señala y se verifica
     PENDING = "pendiente"          # aún sin revisar
 

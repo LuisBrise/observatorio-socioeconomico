@@ -3,10 +3,12 @@
 from __future__ import annotations
 
 from observatorio.ingestion.base import Connector
+from observatorio.ingestion.connectors.fmi_weo import IMFWEO
 from observatorio.ingestion.connectors.wb_wdi import WorldBankWDI
 
 CONNECTORS: dict[str, type] = {
     WorldBankWDI.name: WorldBankWDI,
+    IMFWEO.name: IMFWEO,
 }
 
 

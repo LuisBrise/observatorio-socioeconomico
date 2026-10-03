@@ -1,0 +1,26 @@
+id: DIS-001
+indicador: eco.actividad.ingreso_pc.pib_pc_ppa
+series: [wb_wdi:NY.GDP.PCAP.PP.KD, fmi_weo:NGDPRPPPPC]
+diferencia_observada: >
+  Mediana de |diferencia| 1.9 %; 26 % de las observaciones país-año difieren más de 5 %.
+  Para México la diferencia es menor a 1 % en todos los años, y México ocupa la misma
+  posición en ALC con ambas fuentes. Las diferencias grandes se concentran en economías
+  pequeñas (Caribe, islas del Pacífico) y en países con cuentas nacionales problemáticas.
+  Evidencia: analyses/resultados/2026-10-03_wdi_vs_weo.md
+causas_documentadas:
+  - tipo: definicion
+    descripcion: >
+      Denominador distinto: WDI divide entre la población de ONU WPP; el FMI usa su propia serie
+      de población (fuentes nacionales). En Maldivas, Etiopía y Seychelles toda la diferencia
+      per cápita proviene de la población (diferencia del PIB total ≈ 0).
+  - tipo: metodo
+    descripcion: >
+      Cuentas nacionales distintas (fuente, revisión o año base) para el PIB total; dominante en
+      Zimbabue, Burundi, Papúa Nueva Guinea y varias islas del Pacífico.
+  - tipo: ppa
+    descripcion: >
+      Extrapolación de la PPA desde el año de referencia 2021: efecto menor (la mediana pasa de
+      ~1.6 % cerca de 2021 a ~3 % hace 30 años).
+presentacion: principal_con_referencia   # WDI principal; WEO como contraste en la procedencia
+estado: explicada
+fecha: 2026-10-03

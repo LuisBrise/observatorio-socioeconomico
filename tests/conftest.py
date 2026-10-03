@@ -89,6 +89,10 @@ class FakeWDI:
 def env(tmp_path: Path):
     root = tmp_path / "repo"
     shutil.copytree(REPO / "catalog", root / "catalog")
+    # Las pruebas empiezan sin datos publicados ni discrepancias documentadas.
+    (root / "catalog" / "vintages.lock.yaml").write_text("datasets: {}\n")
+    for f in (root / "catalog" / "discrepancies").glob("*.yaml"):
+        f.unlink()
     (root / "site").mkdir()
     paths = Paths(root=root, data=tmp_path / "data")
     return paths, load_catalog(paths.catalog)

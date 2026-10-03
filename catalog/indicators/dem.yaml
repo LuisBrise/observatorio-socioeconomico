@@ -9,7 +9,7 @@
     ritmo: estructural
     direccion_normativa: neutral
     cobertura: [mundo]
-  series: [wb_wdi:SP.POP.TOTL]
+  series: [wb_wdi:SP.POP.TOTL, fmi_weo:LP]
   rangos_validos: {min: 1, max: 15000000000}   # imposible: < 1 persona o > 15 mil millones (incluye agregados mundiales)
   atipicos: {z: 6.0, cambio_minimo: 0.10}
   notas_interpretacion: >

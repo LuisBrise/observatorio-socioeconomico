@@ -46,6 +46,8 @@ def _series_provenance(paths: Paths, catalog: Catalog, indicator_ids: list[str])
                 continue
             seen.add(sid)
             dataset_id = sid.split(":", 1)[0]
+            if dataset_id not in lock:  # serie del catálogo aún no publicada
+                continue
             ds = catalog.datasets[dataset_id]
             entry = lock[dataset_id]
             manifest = store.manifest(ds.fuente, dataset_id, entry["vintage"])
@@ -85,7 +87,16 @@ def write_chart(paths: Paths, catalog: Catalog, spec: ChartSpec,
     for ind_id in spec.indicators:
         ind = catalog.indicators[ind_id]
         base = ind.series or catalog.indicators[str(ind.derivacion.parametros["indicador"])].series
+        base = [b for b in base if b.split(":", 1)[0] in read_lock(paths)]  # solo lo publicado
         origins = {series_origin(catalog, s) for s in base}
+        if len(origins) >= 2:
+            dis = [d for d in catalog.discrepancies.values() if set(d.series) <= set(base)]
+            spec.caveats.append(
+                f"{ind.nombre}: contrastado con fuentes independientes "
+                f"({', '.join(base[1:])})"
+                + (f"; diferencias documentadas en {', '.join(d.id for d in dis)} "
+                   f"(estado: {', '.join(d.estado for d in dis)})." if dis
+                   else "; las diferencias aún no están documentadas."))
         if len(origins) < 2:
             spec.caveats.append(
                 f"{ind.nombre}: por ahora proviene de una sola fuente ({', '.join(sorted(origins))}); "
@@ -95,11 +106,15 @@ def write_chart(paths: Paths, catalog: Catalog, spec: ChartSpec,
     geos = {g for df in tables.values() if "geo_id" in df.columns for g in df["geo_id"].to_list()}
     geos |= {g for members in spec.groups.values() for g in members}
     doubtful = [r for r in catalog.outlier_reviews.values()
-                if r.resolucion == "dudoso" and r.serie in sids and r.geo in geos]
+                if r.resolucion in ("dudoso", "ruptura_metodologica")
+                and r.serie in sids and r.geo in geos]
     if doubtful:
         spec.caveats.append(
-            "Valores de la fuente marcados como dudosos tras revisión (se conservan): "
-            + "; ".join(f"{catalog.geo_name(r.geo)} {r.periodo}" for r in doubtful)
+            "Valores de la fuente marcados como dudosos o con ruptura metodológica tras revisión "
+            "(se conservan): "
+            + "; ".join(f"{catalog.geo_name(r.geo)} {r.periodo}"
+                        + (" (ruptura)" if r.resolucion == "ruptura_metodologica" else "")
+                        for r in doubtful)
             + ". Ver catalog/revisiones/.")
     provenance = {
         "chart_id": spec.chart_id,

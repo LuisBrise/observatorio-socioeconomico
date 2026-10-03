@@ -1,0 +1,45 @@
+id: fmi_weo
+nombre: World Economic Outlook (FMI)
+fuente: fmi
+conector: fmi_weo
+url: https://data.imf.org/
+acceso:
+  metodo: api
+  endpoint: https://api.imf.org/external/sdmx/2.1/data/IMF.RES,WEO/
+  credenciales: ninguna
+  formato: csv (SDMX-CSV 1.0)
+licencia:
+  nombre: "© FMI. Reutilización de datos permitida con atribución; uso comercial requiere permiso (copyright@imf.org)"
+  url: https://www.imf.org/en/about/copyright-and-terms
+  redistribucion: no_comercial_con_atribucion
+cobertura:
+  geografica: 196 economías y agregados del FMI
+  temporal: 1980 en adelante, con proyecciones a 5-6 años
+  poblacion: Residentes
+frecuencia: semestral (abril y octubre)
+rezago_tipico_dias: 120
+calendario: >
+  Ediciones de abril y octubre. Los términos del FMI prohíben descargas masivas
+  automatizadas sin permiso: el conector solo pide las series del catálogo y solo se ejecuta
+  cuando hay una edición nueva.
+metodologia: https://www.imf.org/en/Publications/WEO
+revisiones: Cada edición revisa datos históricos y proyecciones.
+limitaciones: >
+  Los años posteriores al último dato observado de cada país (LATEST_ACTUAL_ANNUAL_DATA) son
+  estimaciones o proyecciones del FMI y se marcan como F. Algunos países reportan en año
+  fiscal (p. ej., "FY2019/20"); se toma el primer año como último observado.
+rupturas_conocidas: []
+series:
+  - codigo: NGDPRPPPPC
+    indicador: eco.actividad.ingreso_pc.pib_pc_ppa
+    unidad: dólares internacionales constantes (PPA, ICP 2021)
+    origen: fmi_weo   # compilación del FMI a partir de cuentas nacionales; independiente de WDI
+  - codigo: LP
+    indicador: dem.poblacion.tamano.total
+    unidad: personas (índice en agregados regionales)
+    origen: fmi_weo   # fuentes nacionales compiladas por el FMI; independiente de ONU WPP
+umbrales:
+  revision_advertencia_pct: 5.0
+  revision_advertencia_share: 0.25
+  caida_cobertura_pct: 2.0
+fecha_alta: 2026-10-03

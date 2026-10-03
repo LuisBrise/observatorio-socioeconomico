@@ -26,7 +26,13 @@ def series_origin(catalog: Catalog, series_id: str) -> str:
 
 
 def compare_pair(obs: pl.DataFrame, a: str, b: str) -> pl.DataFrame:
-    """Diferencia relativa (b/a − 1) por geografía y periodo donde ambas series tienen dato."""
+    """Diferencia relativa (b/a − 1) por geografía y periodo donde ambas series tienen dato.
+
+    Se excluyen pronósticos (obs_status F): comparar una proyección con un dato observado no
+    verifica nada.
+    """
+    if "obs_status" in obs.columns:
+        obs = obs.filter(pl.col("obs_status") != "F")
     va = obs.filter(pl.col("series_id") == a).select("geo_id", "period", pl.col("value").alias("a"))
     vb = obs.filter(pl.col("series_id") == b).select("geo_id", "period", pl.col("value").alias("b"))
     return (va.join(vb, on=["geo_id", "period"], how="inner")

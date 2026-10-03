@@ -49,6 +49,8 @@ class Catalog:
     dimensions: list[Dimension] = field(default_factory=list)
     geographies: dict[str, Geography] = field(default_factory=dict)
     discrepancies: dict[str, Discrepancy] = field(default_factory=dict)
+    # Equivalencias de códigos geográficos por dataset: {dataset: {código_fuente: geo_id}}
+    geo_crosswalk: dict[str, dict[str, str]] = field(default_factory=dict)
     outlier_reviews: dict[tuple[str, str, str], OutlierReview] = field(default_factory=dict)
 
     @property
@@ -70,11 +72,11 @@ def _read_yaml(path: Path) -> object:
         return yaml.safe_load(fh)
 
 
-def _load_dir(directory: Path, model: type[T], errors: list[str]) -> dict[str, T]:
+def _load_dir(directory: Path, model: type[T], errors: list[str], pattern: str = "*.yaml") -> dict[str, T]:
     items: dict[str, T] = {}
     if not directory.exists():
         return items
-    for path in sorted(directory.glob("*.yaml")):
+    for path in sorted(directory.glob(pattern)):
         raw = _read_yaml(path)
         docs = raw if isinstance(raw, list) else [raw]
         for doc in docs:
@@ -105,10 +107,17 @@ def load_catalog(root: Path) -> Catalog:
     cat.sources = _load_dir(root / "sources", Source, errors)
     cat.datasets = _load_dir(root / "datasets", Dataset, errors)
     cat.indicators = _load_dir(root / "indicators", Indicator, errors)
-    cat.groups = _load_dir(root / "geographies", Group, errors)
+    cat.groups = _load_dir(root / "geographies", Group, errors, pattern="grupos*.yaml")
     cat.events = _load_dir(root / "events", Event, errors)
     cat.geographies = _load_geographies(root / "geographies")
     cat.discrepancies = _load_dir(root / "discrepancies", Discrepancy, errors)
+    xwalk = root / "geographies" / "equivalencias.yaml"
+    if xwalk.exists():
+        cat.geo_crosswalk = _read_yaml(xwalk) or {}
+        for ds_id, mapping in cat.geo_crosswalk.items():
+            for code, geo in mapping.items():
+                if geo not in cat.geographies:
+                    errors.append(f"equivalencias.yaml: {ds_id}:{code} → geografía desconocida {geo!r}")
     for path in sorted((root / "revisiones").glob("atipicos_*.yaml")):
         for doc in _read_yaml(path) or []:
             try:

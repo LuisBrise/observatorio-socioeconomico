@@ -7,12 +7,13 @@ from pathlib import Path
 
 import polars as pl
 
+from observatorio.staging.fmi_weo import parse_fmi_weo
 from observatorio.staging.wb_wdi import parse_wb_wdi
 
 # Un parser devuelve (observaciones, entidades_geograficas_de_la_fuente).
 Parser = Callable[[Path, str, str], tuple[pl.DataFrame, pl.DataFrame]]
 
-PARSERS: dict[str, Parser] = {"wb_wdi": parse_wb_wdi}
+PARSERS: dict[str, Parser] = {"wb_wdi": parse_wb_wdi, "fmi_weo": parse_fmi_weo}
 
 STAGING_SCHEMA = {
     "dataset_id": pl.String,

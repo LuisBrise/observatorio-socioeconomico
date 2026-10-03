@@ -12,7 +12,7 @@
     ritmo: estructural
     direccion_normativa: neutral
     cobertura: [mundo]
-  series: [wb_wdi:NY.GDP.PCAP.PP.KD]
+  series: [wb_wdi:NY.GDP.PCAP.PP.KD, fmi_weo:NGDPRPPPPC]   # la primera es la principal
   rangos_validos: {min: 0, max: 1000000}
   atipicos: {z: 6.0, cambio_minimo: 0.20}
   notas_interpretacion: >
