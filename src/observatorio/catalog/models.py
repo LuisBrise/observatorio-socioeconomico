@@ -174,6 +174,9 @@ class OutlierRule(_Base):
 
     z: float = 6.0
     cambio_minimo: float = 0.10
+    # Se ignoran variaciones cuando ambos valores (anterior y actual) están por debajo de este piso:
+    # los cambios relativos sobre bases casi nulas (p. ej., pobreza de 0.1 % a 0.3 %) no son informativos.
+    piso: float = 0.0
 
 
 class Indicator(_Base):

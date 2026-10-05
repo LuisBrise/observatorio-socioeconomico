@@ -1,0 +1,120 @@
+- id: bie.pobreza.internacional.linea_300
+  nombre: Pobreza extrema internacional (US$3.00 diarios, PPA 2021)
+  concepto: bie.pobreza.monetaria_internacional
+  definicion: Porcentaje de la población que vive en hogares con ingreso (o consumo) per cápita diario menor a la
+    línea, en dólares de PPA de 2021. US$3.00 es la línea internacional de pobreza extrema (mediana de las líneas
+    nacionales de países de ingreso bajo).
+  unidad: '% de la población'
+  facetas:
+    tipo_medicion: encuesta
+    cadena: resultado
+    ritmo: intermedio
+    direccion_normativa: menos_es_mejor
+    cobertura:
+    - mundo
+  series:
+  - wb_pip:pobreza_3.00.ingreso.nacional
+  - wb_pip:pobreza_3.00.ingreso.urbano
+  - wb_pip:pobreza_3.00.consumo.nacional
+  - wb_pip:pobreza_3.00.consumo.urbano
+  rangos_validos:
+    min: 0
+    max: 100
+  atipicos:
+    z: 6.0
+    cambio_minimo: 0.7
+    piso: 5.0
+  notas_interpretacion: Línea pensada para países de ingreso bajo; en México y gran parte de ALC afecta a una fracción
+    pequeña.
+  preguntas:
+  - D1
+  fecha_alta: '2026-10-05'
+- id: bie.pobreza.internacional.linea_420
+  nombre: Pobreza a US$4.20 diarios (PPA 2021)
+  concepto: bie.pobreza.monetaria_internacional
+  definicion: Porcentaje de la población que vive en hogares con ingreso (o consumo) per cápita diario menor a la
+    línea, en dólares de PPA de 2021. US$4.20 corresponde a países de ingreso medio-bajo.
+  unidad: '% de la población'
+  facetas:
+    tipo_medicion: encuesta
+    cadena: resultado
+    ritmo: intermedio
+    direccion_normativa: menos_es_mejor
+    cobertura:
+    - mundo
+  series:
+  - wb_pip:pobreza_4.20.ingreso.nacional
+  - wb_pip:pobreza_4.20.ingreso.urbano
+  - wb_pip:pobreza_4.20.consumo.nacional
+  - wb_pip:pobreza_4.20.consumo.urbano
+  rangos_validos:
+    min: 0
+    max: 100
+  atipicos:
+    z: 6.0
+    cambio_minimo: 0.5
+    piso: 5.0
+  notas_interpretacion: Línea de referencia para países de ingreso medio-bajo.
+  preguntas:
+  - D1
+  fecha_alta: '2026-10-05'
+- id: bie.pobreza.internacional.linea_830
+  nombre: Pobreza a US$8.30 diarios (PPA 2021)
+  concepto: bie.pobreza.monetaria_internacional
+  definicion: Porcentaje de la población que vive en hogares con ingreso (o consumo) per cápita diario menor a la
+    línea, en dólares de PPA de 2021. US$8.30 corresponde a países de ingreso medio-alto, como México.
+  unidad: '% de la población'
+  facetas:
+    tipo_medicion: encuesta
+    cadena: resultado
+    ritmo: intermedio
+    direccion_normativa: menos_es_mejor
+    cobertura:
+    - mundo
+  series:
+  - wb_pip:pobreza_8.30.ingreso.nacional
+  - wb_pip:pobreza_8.30.ingreso.urbano
+  - wb_pip:pobreza_8.30.consumo.nacional
+  - wb_pip:pobreza_8.30.consumo.urbano
+  rangos_validos:
+    min: 0
+    max: 100
+  atipicos:
+    z: 6.0
+    cambio_minimo: 0.3
+    piso: 5.0
+  notas_interpretacion: Es la línea internacional más relevante para México. No es la medición oficial de pobreza
+    de México (multidimensional, INEGI).
+  preguntas:
+  - D1
+  fecha_alta: '2026-10-05'
+- id: bie.desigualdad.ingreso.gini_encuestas
+  nombre: Índice de Gini (encuestas de hogares)
+  concepto: bie.desigualdad.ingreso
+  definicion: 'Concentración del ingreso (o consumo) per cápita entre personas: 0 = igualdad total, 100 = una persona
+    concentra todo.'
+  unidad: índice de Gini (0-100)
+  facetas:
+    tipo_medicion: encuesta
+    cadena: resultado
+    ritmo: intermedio
+    direccion_normativa: en_disputa
+    cobertura:
+    - mundo
+  series:
+  - wb_pip:gini.ingreso.nacional
+  - wb_pip:gini.ingreso.urbano
+  - wb_pip:gini.consumo.nacional
+  - wb_pip:gini.consumo.urbano
+  rangos_validos:
+    min: 0
+    max: 100
+  atipicos:
+    z: 6.0
+    cambio_minimo: 0.15
+  notas_interpretacion: 'Las encuestas captan mal los ingresos más altos: el Gini de encuestas subestima la concentración
+    (ver WID para datos fiscales). Gini de ingreso y de consumo no son comparables. La dirección deseable de la
+    desigualdad es un juicio normativo en disputa.'
+  preguntas:
+  - D1
+  fecha_alta: '2026-10-05'

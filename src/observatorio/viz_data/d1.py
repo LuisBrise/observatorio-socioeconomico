@@ -147,4 +147,108 @@ def build(paths: Paths, catalog: Catalog) -> list[str]:
     write_chart(paths, catalog, spec3, {"observado": observado, "proyeccion": proyeccion},
                 extra={"foco": FOCO, "minimo": minimo})
     built.append(spec3.chart_id)
+    built += _bienestar(paths, catalog, obs, alc)
+    return built
+
+
+POBREZA = {"3.00": "bie.pobreza.internacional.linea_300", "4.20": "bie.pobreza.internacional.linea_420",
+           "8.30": "bie.pobreza.internacional.linea_830"}
+GINI = "bie.desigualdad.ingreso.gini_encuestas"
+
+
+def _with_segments(df: pl.DataFrame) -> pl.DataFrame:
+    """Numera tramos comparables: cada ruptura (B) inicia un tramo nuevo."""
+    return df.sort("period").with_columns(
+        (pl.col("obs_status") == "B").cast(pl.Int32).cum_sum().alias("tramo"))
+
+
+def _bienestar(paths: Paths, catalog: Catalog, obs: pl.DataFrame, alc: list[str]) -> list[str]:
+    built: list[str] = []
+    if not obs.filter(pl.col("series_id").str.starts_with("wb_pip:")).height:
+        return built  # PIP aún no publicado (lockfile sin wb_pip)
+    # 1.5 · Pobreza en México con líneas internacionales (ingreso, cobertura nacional)
+    frames = []
+    for line in POBREZA:
+        sid = f"wb_pip:pobreza_{line}.ingreso.nacional"
+        frames.append(_with_segments(
+            obs.filter((pl.col("series_id") == sid) & (pl.col("geo_id") == FOCO))
+            .select("period", "value", "obs_status")).with_columns(pl.lit(line).alias("linea")))
+    pobreza = pl.concat(frames)
+    rupturas = (pobreza.filter(pl.col("obs_status") == "B").select("period").unique().sort("period")
+                ["period"].to_list())
+    breaks = [b for b in catalog.datasets["wb_pip"].rupturas_conocidas if "pobreza" in b.serie]
+    spec = ChartSpec(
+        chart_id="d1/pobreza-mex",
+        question=("¿Qué proporción de la población de México vive bajo las líneas internacionales de "
+                  "pobreza del Banco Mundial, y cómo ha cambiado?"),
+        indicators=list(POBREZA.values()),
+        caveats=[
+            "Líneas internacionales en dólares PPA 2021 por persona y día (US$3.00, 4.20 y 8.30); no es "
+            "la medición oficial de pobreza de México (multidimensional, INEGI), que usa otro concepto.",
+            "Pobreza por ingreso según encuestas de hogares (ENIGH); las encuestas no captan bien los "
+            "ingresos más altos ni algunos ingresos no monetarios.",
+            "La línea se corta donde cambia la encuesta: entre 2014 y 2016 se pasó de la ENIGH tradicional "
+            "a la ENIGH Nueva Serie. La diferencia entre ambos lados mezcla cambio real y cambio de "
+            "medición, y no debe leerse como reducción de la pobreza.",
+            "Solo años con encuesta (bienal); no se interpolan los años intermedios.",
+        ],
+        transformations=[LineageStep("tramos_comparables@1",
+                                     {"criterio": "comparable_spell de PIP (obs_status B inicia tramo)"},
+                                     list(POBREZA.values())).to_dict()],
+    )
+    write_chart(paths, catalog, spec, {"pobreza": pobreza},
+                extra={"foco": FOCO, "rupturas": rupturas,
+                       "notas_ruptura": [b.descripcion for b in breaks]})
+    built.append(spec.chart_id)
+
+    # 1.6 · Gini en ALC: alrededor de 2000 vs último dato (ingreso)
+    filas, excluidos = [], []
+    for geo in alc:
+        for cobertura in ("nacional", "urbano"):
+            sid = f"wb_pip:gini.ingreso.{cobertura}"
+            g = obs.filter((pl.col("series_id") == sid) & (pl.col("geo_id") == geo)).sort("period")
+            if g.is_empty():
+                continue
+            years = g["period"].cast(pl.Int32)
+            ini = g.filter(years.is_between(1998, 2003)).with_columns(
+                (pl.col("period").cast(pl.Int32) - 2000).abs().alias("_d")).sort("_d", "period")
+            fin = g.filter(years >= 2019).tail(1)
+            if ini.is_empty() or fin.is_empty():
+                continue
+            a, b = ini.row(0, named=True), fin.row(0, named=True)
+            entre = g.filter(pl.col("period").cast(pl.Int32).is_between(int(a["period"]) + 1,
+                                                                        int(b["period"])))
+            filas.append({"geo_id": geo, "nombre": catalog.geo_name(geo), "cobertura": cobertura,
+                          "anio_inicio": a["period"], "inicio": a["value"],
+                          "anio_fin": b["period"], "fin": b["value"],
+                          "ruptura": bool((entre["obs_status"] == "B").any())})
+            break
+        else:
+            excluidos.append(catalog.geo_name(geo))
+    gini = pl.DataFrame(filas).sort("fin")
+    urbanos = [f["nombre"] for f in filas if f["cobertura"] == "urbano"]
+    rupt = [f["nombre"] for f in filas if f["ruptura"]]
+    spec2 = ChartSpec(
+        chart_id="d1/gini-alc",
+        question=("¿Cómo cambió la desigualdad del ingreso medida por encuestas en los países de América "
+                  "Latina entre alrededor de 2000 y el dato más reciente?"),
+        indicators=[GINI],
+        caveats=[
+            "Gini de ingreso según encuestas de hogares: subestima la concentración porque las encuestas "
+            "captan mal los ingresos más altos (las fuentes que usan datos fiscales, como WID, muestran "
+            "más concentración). Esta gráfica compara encuestas con encuestas.",
+            "Inicio: dato más cercano a 2000 entre 1998 y 2003; fin: dato más reciente desde 2019.",
+            ("Con cambio de encuesta o método entre ambos puntos (punto final hueco): " + ", ".join(rupt)
+             + ". En esos países el cambio mezcla variación real y cambio de medición.") if rupt else
+            "Ningún país tiene cambio de encuesta entre ambos puntos.",
+            ("Solo cobertura urbana: " + ", ".join(urbanos) + ".") if urbanos else
+            "Todos los países con cobertura nacional.",
+            "Sin dato de ingreso con la misma cobertura en ambos periodos (no aparecen): "
+            + ", ".join(excluidos) + ".",
+            "La dirección deseable de la desigualdad es un juicio normativo: los colores no la valoran.",
+        ],
+        groups={"G.ALC_CEPAL33": alc},
+    )
+    write_chart(paths, catalog, spec2, {"gini": gini}, extra={"foco": FOCO})
+    built.append(spec2.chart_id)
     return built

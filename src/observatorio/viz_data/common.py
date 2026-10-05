@@ -106,9 +106,15 @@ def write_chart(paths: Paths, catalog: Catalog, spec: ChartSpec,
     sids = {s["series_id"] for s in series}
     geos = {g for df in tables.values() if "geo_id" in df.columns for g in df["geo_id"].to_list()}
     geos |= {g for members in spec.groups.values() for g in members}
+    # Solo los años que la gráfica muestra: columnas `period` o `anio_*` de sus tablas.
+    periods: set[str] = set()
+    for df in tables.values():
+        for col in df.columns:
+            if col == "period" or col.startswith("anio"):
+                periods |= {str(v) for v in df[col].drop_nulls().to_list()}
     doubtful = [r for r in catalog.outlier_reviews.values()
                 if r.resolucion in ("dudoso", "ruptura_metodologica")
-                and r.serie in sids and r.geo in geos]
+                and r.serie in sids and r.geo in geos and (not periods or r.periodo in periods)]
     if doubtful:
         spec.caveats.append(
             "Valores de la fuente marcados como dudosos o con ruptura metodológica tras revisión "

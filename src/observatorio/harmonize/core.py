@@ -35,6 +35,8 @@ STATUS_MAP: dict[str, dict[str, str]] = {
     "wb_wdi": {"": "A", "E": "E", "F": "F", "P": "P"},
     "fmi_weo": {"": "A", "F": "F"},  # F = proyección del FMI (posterior al último año observado)
     "onu_wpp_prob": {"F": "F"},  # todo es proyección
+    # PIP: B = inicio de un nuevo periodo de comparabilidad; E = sin microdatos (group/imputed/synthetic)
+    "wb_pip": {"": "A", "E": "E", "B": "B"},
 }
 
 _ANNUAL = re.compile(r"^\d{4}$")

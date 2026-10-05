@@ -9,13 +9,14 @@ import polars as pl
 
 from observatorio.staging.fmi_weo import parse_fmi_weo
 from observatorio.staging.onu_wpp import parse_onu_wpp
+from observatorio.staging.wb_pip import parse_wb_pip
 from observatorio.staging.wb_wdi import parse_wb_wdi
 
 # Un parser devuelve (observaciones, entidades_geograficas_de_la_fuente).
 Parser = Callable[[Path, str, str], tuple[pl.DataFrame, pl.DataFrame]]
 
 PARSERS: dict[str, Parser] = {"wb_wdi": parse_wb_wdi, "fmi_weo": parse_fmi_weo,
-                              "onu_wpp_prob": parse_onu_wpp}
+                              "onu_wpp_prob": parse_onu_wpp, "wb_pip": parse_wb_pip}
 
 STAGING_SCHEMA = {
     "dataset_id": pl.String,

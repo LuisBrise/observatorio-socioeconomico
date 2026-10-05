@@ -16,6 +16,8 @@
   --obs-band: rgba(82, 81, 78, 0.12); /* banda intercuartil */
   --obs-focus: #4a3aa7;         /* México */
   --obs-compare: #c98500;       /* comparador */
+  /* Rampa ordinal de un tono (validada): de menor a mayor énfasis */
+  --obs-ord-1: #b3abeb; --obs-ord-2: #7c6fd6; --obs-ord-3: #4a3aa7;
   --obs-font: system-ui, -apple-system, "Segoe UI", sans-serif;
 }
 @media (prefers-color-scheme: dark) {
@@ -23,12 +25,14 @@
     --obs-surface: #1a1a19; --obs-page: #0d0d0d; --obs-ink: #ffffff; --obs-ink-2: #c3c2b7;
     --obs-muted: #898781; --obs-grid: #2c2c2a; --obs-axis: #383835; --obs-context: #4a4a46;
     --obs-band: rgba(195, 194, 183, 0.14); --obs-focus: #9085e9; --obs-compare: #c98500;
+    --obs-ord-1: #5a4cc0; --obs-ord-2: #9085e9; --obs-ord-3: #c4bdf5;
   }
 }
 :root[data-theme="dark"], body.quarto-dark {
   --obs-surface: #1a1a19; --obs-page: #0d0d0d; --obs-ink: #ffffff; --obs-ink-2: #c3c2b7;
   --obs-muted: #898781; --obs-grid: #2c2c2a; --obs-axis: #383835; --obs-context: #4a4a46;
   --obs-band: rgba(195, 194, 183, 0.14); --obs-focus: #9085e9; --obs-compare: #c98500;
+  --obs-ord-1: #5a4cc0; --obs-ord-2: #9085e9; --obs-ord-3: #c4bdf5;
 }
 
 .obs-chart { font-family: var(--obs-font); color: var(--obs-ink); margin: 1.5rem 0 2rem; }

@@ -31,8 +31,14 @@
 - id: bie
   nombre: Bienestar, pobreza y distribución
   subdimensiones:
-    - {id: bie.pobreza, nombre: Pobreza}
-    - {id: bie.desigualdad, nombre: Desigualdad}
+    - id: bie.pobreza
+      nombre: Pobreza
+      conceptos:
+        - {id: bie.pobreza.monetaria_internacional, nombre: Pobreza monetaria con líneas internacionales}
+    - id: bie.desigualdad
+      nombre: Desigualdad
+      conceptos:
+        - {id: bie.desigualdad.ingreso, nombre: Desigualdad del ingreso}
     - {id: bie.ingreso_hogares, nombre: Ingreso de los hogares}
     - {id: bie.salud, nombre: Salud}
     - {id: bie.educacion, nombre: Educación}

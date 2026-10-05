@@ -120,13 +120,16 @@ def find_outliers(df: pl.DataFrame, dataset: Dataset, catalog: Catalog) -> pl.Da
             pl.col("value").shift(1).over("geo_id").alias("value_prev"),
             pl.col("value").log().diff().over("geo_id").alias("dlog"),
         ).filter(pl.col("dlog").is_not_null())
+        # Una ruptura de serie (B) ya está señalada: el salto no se revisa también como atípico.
+        ch = ch.filter(pl.col("obs_status") != "B")
         st = ch.with_columns(pl.col("dlog").median().over("geo_id").alias("med")).with_columns(
             (pl.col("dlog") - pl.col("med")).abs().median().over("geo_id").alias("mad"),
             pl.len().over("geo_id").alias("n"),
         ).filter((pl.col("mad") > 0) & (pl.col("n") >= 10)).with_columns(
             ((pl.col("dlog") - pl.col("med")) / (1.4826 * pl.col("mad"))).alias("z"))
         frames.append(st.filter((pl.col("z").abs() > rule.z)
-                                & ((pl.col("dlog") - pl.col("med")).abs() > rule.cambio_minimo)))
+                                & ((pl.col("dlog") - pl.col("med")).abs() > rule.cambio_minimo)
+                                & (pl.max_horizontal("value", "value_prev") >= rule.piso)))
     if not frames:
         return pl.DataFrame()
     out = pl.concat(frames)

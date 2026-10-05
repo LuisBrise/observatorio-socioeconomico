@@ -1,0 +1,119 @@
+# Generado como lista explícita: medida × bienestar × cobertura.
+id: wb_pip
+nombre: Poverty and Inequality Platform (PIP)
+fuente: banco_mundial
+conector: wb_pip
+url: https://pip.worldbank.org/
+acceso:
+  metodo: api
+  endpoint: https://api.worldbank.org/pip/v1/pip
+  credenciales: ninguna
+  formato: json
+licencia:
+  nombre: CC BY 4.0
+  url: https://www.worldbank.org/en/about/legal/terms-of-use-for-datasets
+  redistribucion: permitida_con_atribucion
+cobertura:
+  geografica: ~170 economías con encuestas de hogares
+  temporal: 1963 en adelante (años de encuesta)
+  poblacion: Hogares de la encuesta (nacional o urbana)
+frecuencia: irregular (años de encuesta)
+rezago_tipico_dias: 365
+calendario: Actualizaciones globales en marzo/abril, junio y septiembre.
+metodologia: https://datanalytics.worldbank.org/PIP-Methodology/
+revisiones: Cada actualización puede revisar toda la historia (nuevas encuestas, PPA, líneas). En junio de 2025
+  se adoptaron las PPA 2021 y las líneas de US$3.00, 4.20 y 8.30 diarios.
+limitaciones: 'Solo años con encuesta (sin interpolar). Ingreso y consumo no son comparables entre sí; las encuestas
+  subestiman los ingresos más altos. Los periodos de comparabilidad (comparable_spell) marcan cambios de encuesta
+  o método: entre periodos la serie no es continua. Argentina solo tiene cobertura urbana. Cobertura escasa en el
+  Caribe, Cuba y Venezuela (sin datos desde 2006).'
+rupturas_conocidas:
+- serie: wb_pip:pobreza_8.30.ingreso.nacional
+  fecha: '2016'
+  descripcion: 'México: cambio de ENIGH a ENIGH Nueva Serie (comparable_spell 1984-2014 → 2016-2024).'
+series:
+- codigo: pobreza_3.00.ingreso.nacional
+  indicador: bie.pobreza.internacional.linea_300
+  unidad: '% de la población'
+  multiplicador: 100.0
+  origen: banco_mundial_pip
+- codigo: pobreza_3.00.ingreso.urbano
+  indicador: bie.pobreza.internacional.linea_300
+  unidad: '% de la población'
+  multiplicador: 100.0
+  origen: banco_mundial_pip
+- codigo: pobreza_3.00.consumo.nacional
+  indicador: bie.pobreza.internacional.linea_300
+  unidad: '% de la población'
+  multiplicador: 100.0
+  origen: banco_mundial_pip
+- codigo: pobreza_3.00.consumo.urbano
+  indicador: bie.pobreza.internacional.linea_300
+  unidad: '% de la población'
+  multiplicador: 100.0
+  origen: banco_mundial_pip
+- codigo: pobreza_4.20.ingreso.nacional
+  indicador: bie.pobreza.internacional.linea_420
+  unidad: '% de la población'
+  multiplicador: 100.0
+  origen: banco_mundial_pip
+- codigo: pobreza_4.20.ingreso.urbano
+  indicador: bie.pobreza.internacional.linea_420
+  unidad: '% de la población'
+  multiplicador: 100.0
+  origen: banco_mundial_pip
+- codigo: pobreza_4.20.consumo.nacional
+  indicador: bie.pobreza.internacional.linea_420
+  unidad: '% de la población'
+  multiplicador: 100.0
+  origen: banco_mundial_pip
+- codigo: pobreza_4.20.consumo.urbano
+  indicador: bie.pobreza.internacional.linea_420
+  unidad: '% de la población'
+  multiplicador: 100.0
+  origen: banco_mundial_pip
+- codigo: pobreza_8.30.ingreso.nacional
+  indicador: bie.pobreza.internacional.linea_830
+  unidad: '% de la población'
+  multiplicador: 100.0
+  origen: banco_mundial_pip
+- codigo: pobreza_8.30.ingreso.urbano
+  indicador: bie.pobreza.internacional.linea_830
+  unidad: '% de la población'
+  multiplicador: 100.0
+  origen: banco_mundial_pip
+- codigo: pobreza_8.30.consumo.nacional
+  indicador: bie.pobreza.internacional.linea_830
+  unidad: '% de la población'
+  multiplicador: 100.0
+  origen: banco_mundial_pip
+- codigo: pobreza_8.30.consumo.urbano
+  indicador: bie.pobreza.internacional.linea_830
+  unidad: '% de la población'
+  multiplicador: 100.0
+  origen: banco_mundial_pip
+- codigo: gini.ingreso.nacional
+  indicador: bie.desigualdad.ingreso.gini_encuestas
+  unidad: índice de Gini (0-100)
+  multiplicador: 100.0
+  origen: banco_mundial_pip
+- codigo: gini.ingreso.urbano
+  indicador: bie.desigualdad.ingreso.gini_encuestas
+  unidad: índice de Gini (0-100)
+  multiplicador: 100.0
+  origen: banco_mundial_pip
+- codigo: gini.consumo.nacional
+  indicador: bie.desigualdad.ingreso.gini_encuestas
+  unidad: índice de Gini (0-100)
+  multiplicador: 100.0
+  origen: banco_mundial_pip
+- codigo: gini.consumo.urbano
+  indicador: bie.desigualdad.ingreso.gini_encuestas
+  unidad: índice de Gini (0-100)
+  multiplicador: 100.0
+  origen: banco_mundial_pip
+umbrales:
+  revision_advertencia_pct: 5.0
+  revision_advertencia_share: 0.25
+  caida_cobertura_pct: 2.0
+fecha_alta: '2026-10-05'

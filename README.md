@@ -3,9 +3,10 @@
 Sistema reproducible para analizar la evolución política, económica y social de
 **México**, **América Latina y el Caribe** y **el mundo**: pasado, presente y escenarios futuros.
 
-> **Estado:** pipeline completo con datos reales de tres fuentes (Banco Mundial WDI, FMI WEO y
+> **Estado:** pipeline completo con datos reales de cuatro fuentes (Banco Mundial WDI y PIP, FMI WEO y
 > proyecciones probabilísticas de ONU WPP 2024), validación, revisión de atípicos, comparación entre
-> fuentes y dashboard D1 en Quarto (ingreso, contraste internacional y transición demográfica).
+> fuentes y dashboard D1 en Quarto (ingreso, contraste internacional, transición demográfica, pobreza
+> y desigualdad).
 > Aún no se ha publicado el sitio.
 
 ## Uso rápido (Ubuntu)

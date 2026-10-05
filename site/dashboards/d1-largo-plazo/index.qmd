@@ -21,6 +21,10 @@ rel = FileAttachment("../../data/d1/ingreso-relativo-contraste/data.json").json(
 relProv = FileAttachment("../../data/d1/ingreso-relativo-contraste/provenance.json").json()
 dep = FileAttachment("../../data/d1/dependencia-mex/data.json").json()
 depProv = FileAttachment("../../data/d1/dependencia-mex/provenance.json").json()
+pob = FileAttachment("../../data/d1/pobreza-mex/data.json").json()
+pobProv = FileAttachment("../../data/d1/pobreza-mex/provenance.json").json()
+gini = FileAttachment("../../data/d1/gini-alc/data.json").json()
+giniProv = FileAttachment("../../data/d1/gini-alc/provenance.json").json()
 ```
 
 ## Contexto
@@ -81,6 +85,40 @@ html`<div class="obs-chart">
   ${charts.procedencia(depProv, { csv: [["estimaciones (CSV)", "../../data/d1/dependencia-mex/observado.csv"],
                                          ["proyección (CSV)", "../../data/d1/dependencia-mex/proyeccion.csv"]] })}
   ${charts.advertencias(depProv)}
+</div>`
+```
+
+## Pobreza y desigualdad
+
+[DATO]{.obs-tag} No existe una sola medida de pobreza. El Banco Mundial usa líneas monetarias
+internacionales (dólares por persona al día, comparables entre países); México mide oficialmente la
+pobreza de forma **multidimensional** (ingreso y carencias sociales), con otra definición. Las cifras
+no deben compararse entre sí como si midieran lo mismo. Esta sección empieza por las líneas
+internacionales; la medición oficial de México se incorporará como serie propia.
+
+```{ojs}
+//| echo: false
+html`<div class="obs-chart">
+  <h3>Población de México bajo líneas internacionales de pobreza</h3>
+  <p class="obs-sub">% de la población · ingreso per cápita del hogar · dólares PPA 2021 por persona al día · años con encuesta</p>
+  ${charts.lineasTramos(pob, { tokens, width, unidad: "% de la población",
+    series: [{ key: "3.00", label: "US$3.00" }, { key: "4.20", label: "US$4.20" }, { key: "8.30", label: "US$8.30" }] })}
+  ${charts.procedencia(pobProv, { csv: [["datos (CSV)", "../../data/d1/pobreza-mex/pobreza.csv"]] })}
+  ${charts.advertencias(pobProv)}
+</div>`
+```
+
+[ANÁLISIS]{.obs-tag} El corte entre 2014 y 2016 es un cambio de encuesta, no un dato: la serie
+anterior y la posterior no son directamente comparables.
+
+```{ojs}
+//| echo: false
+html`<div class="obs-chart">
+  <h3>Desigualdad del ingreso en América Latina: alrededor de 2000 y dato más reciente</h3>
+  <p class="obs-sub">Índice de Gini (0-100) · encuestas de hogares · ingreso · ordenado por el dato más reciente</p>
+  ${charts.pesas(gini, { tokens, width, unidad: "Gini (0-100)" })}
+  ${charts.procedencia(giniProv, { csv: [["datos (CSV)", "../../data/d1/gini-alc/gini.csv"]] })}
+  ${charts.advertencias(giniProv)}
 </div>`
 ```
 

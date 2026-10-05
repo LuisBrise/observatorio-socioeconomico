@@ -12,13 +12,15 @@
 const DEFAULT_TOKENS = {
   surface: "#fcfcfb", ink: "#0b0b0b", ink2: "#52514e", muted: "#898781", grid: "#e1e0d9",
   axis: "#c3c2b7", context: "#c9c8c0", band: "rgba(82, 81, 78, 0.12)", focus: "#4a3aa7",
-  compare: "#c98500", font: "system-ui, -apple-system, 'Segoe UI', sans-serif",
+  compare: "#c98500", ord1: "#b3abeb", ord2: "#7c6fd6", ord3: "#4a3aa7",
+  font: "system-ui, -apple-system, 'Segoe UI', sans-serif",
 };
 
 const TOKEN_VARS = {
   surface: "--obs-surface", ink: "--obs-ink", ink2: "--obs-ink-2", muted: "--obs-muted",
   grid: "--obs-grid", axis: "--obs-axis", context: "--obs-context", band: "--obs-band",
   focus: "--obs-focus", compare: "--obs-compare", font: "--obs-font",
+  ord1: "--obs-ord-1", ord2: "--obs-ord-2", ord3: "--obs-ord-3",
 };
 
 export function readTokens(doc = globalThis.document) {
@@ -291,7 +293,98 @@ export function createCharts({ Plot, document: doc = globalThis.document }) {
     ]);
   }
 
-  return { legend, serieDistribucion, multiplesReferencia, abanico, procedencia, advertencias };
+
+  // Varias series (p. ej., líneas de pobreza) cortadas en rupturas de comparabilidad: cada tramo
+  // se dibuja por separado y la ruptura se anota. Colores: rampa ordinal de un tono.
+  function lineasTramos(data, { tokens: t = DEFAULT_TOKENS, width = 720, unidad = "", serieKey = "linea",
+                                series = [] } = {}) {
+    const rows = data.pobreza.map((d) => ({ ...d, year: year(d) }));
+    const colors = [t.ord1, t.ord2, t.ord3];
+    const color = Object.fromEntries(series.map((s, i) => [s.key, colors[i] ?? t.ink2]));
+    const label = Object.fromEntries(series.map((s) => [s.key, s.label]));
+    // Etiquetas finales solo si no chocan (no se desplazan: la leyenda y el tooltip identifican el resto).
+    const last = [];
+    for (const d of series.map((s) => rows.filter((r) => r[serieKey] === s.key).at(-1)).filter(Boolean)
+      .sort((a, b) => b.value - a.value)) {
+      if (last.every((l) => Math.abs(l.value - d.value) >= 7)) last.push(d);
+    }
+    const rupt = (data.rupturas ?? []).map((p) => ({ year: +p }));
+    const fig = Plot.plot({
+      document: doc, width, height: Math.round(Math.min(400, Math.max(280, width * 0.5))),
+      marginLeft: 44, marginRight: 110, marginTop: 30, style: baseStyle(t),
+      x: { label: null, tickFormat: "d", ticks: Math.max(4, Math.floor(width / 110)) },
+      y: { label: unidad, labelAnchor: "top", domain: [0, 100], ticks: 5 },
+      marks: [
+        Plot.gridY({ stroke: t.grid, strokeOpacity: 1, ticks: 5 }),
+        Plot.ruleY([0], { stroke: t.axis }),
+        // La ruptura se ubica entre el último año del tramo anterior y el primero del nuevo.
+        Plot.ruleX(rupt, { x: (d) => d.year - 1, stroke: t.axis, strokeDasharray: "3,3" }),
+        Plot.text(rupt, { x: (d) => d.year - 1, frameAnchor: "top", dy: -16, textAnchor: "middle",
+          fill: t.muted, fontSize: 10, text: () => "Cambio de encuesta" }),
+        Plot.lineY(rows, { x: "year", y: "value", z: (d) => `${d[serieKey]}-${d.tramo}`,
+          stroke: (d) => color[d[serieKey]], strokeWidth: 2 }),
+        Plot.dot(rows, { x: "year", y: "value", r: 3, fill: (d) => color[d[serieKey]],
+          stroke: t.surface, strokeWidth: 1.5 }),
+        Plot.text(last, { x: "year", y: "value", dx: 8, textAnchor: "start", fill: t.ink,
+          text: (d) => `${label[d[serieKey]]}: ${fmt1.format(d.value)} %` }),
+        Plot.tip(rows, Plot.pointer({ x: "year", y: "value", fill: t.surface, stroke: t.axis,
+          title: (d) => `${d.period} · ${label[d[serieKey]]}\n${fmt1.format(d.value)} % de la población` +
+            (d.obs_status === "B" ? "\nInicio de un nuevo tramo comparable" : "") })),
+      ],
+    });
+    fig.setAttribute("role", "img");
+    fig.setAttribute("aria-label", "Porcentaje de la población bajo líneas internacionales de pobreza; " +
+      "la serie se corta en los cambios de encuesta.");
+    return el("div", {}, [
+      legend(series.map((s) => ({ label: s.label, color: color[s.key] }))),
+      fig,
+    ]);
+  }
+
+  // Pesas (dumbbell): valor inicial y final por país, ordenado por el final; foco resaltado.
+  // Punto final hueco = hubo cambio de encuesta o método entre ambos puntos.
+  function pesas(data, { tokens: t = DEFAULT_TOKENS, width = 720, unidad = "" } = {}) {
+    const rows = data.gini;
+    const fig = Plot.plot({
+      document: doc, width, height: 26 * rows.length + 60, marginLeft: 150, marginRight: 30,
+      marginTop: 30, style: baseStyle(t),
+      x: { label: unidad, labelAnchor: "right", nice: true, grid: true },
+      y: { label: null, domain: rows.map((d) => d.nombre + (d.cobertura === "urbano" ? " (urbano)" : "")) },
+      marks: [
+        Plot.gridX({ stroke: t.grid, strokeOpacity: 1 }),
+        Plot.link(rows, { x1: "inicio", x2: "fin", y1: (d) => d.nombre + (d.cobertura === "urbano" ? " (urbano)" : ""),
+          y2: (d) => d.nombre + (d.cobertura === "urbano" ? " (urbano)" : ""),
+          stroke: (d) => (d.geo_id === data.foco ? t.focus : t.context), strokeWidth: 2 }),
+        Plot.dot(rows, { x: "inicio", y: (d) => d.nombre + (d.cobertura === "urbano" ? " (urbano)" : ""),
+          r: 4, fill: (d) => (d.geo_id === data.foco ? t.focus : t.ink2), stroke: t.surface, strokeWidth: 2 }),
+        Plot.dot(rows, { x: "fin", y: (d) => d.nombre + (d.cobertura === "urbano" ? " (urbano)" : ""),
+          r: 5, fill: (d) => (d.ruptura ? t.surface : (d.geo_id === data.foco ? t.focus : t.ink)),
+          stroke: (d) => (d.geo_id === data.foco ? t.focus : t.ink), strokeWidth: 2 }),
+        Plot.tip(rows, Plot.pointerY({ x: "fin", y: (d) => d.nombre + (d.cobertura === "urbano" ? " (urbano)" : ""),
+          fill: t.surface, stroke: t.axis,
+          title: (d) => `${d.nombre}${d.cobertura === "urbano" ? " (solo urbano)" : ""}\n` +
+            `${d.anio_inicio}: ${fmt1.format(d.inicio)} → ${d.anio_fin}: ${fmt1.format(d.fin)}` +
+            (d.ruptura ? "\nHubo cambio de encuesta o método entre ambos años" : "") })),
+      ],
+    });
+    fig.setAttribute("role", "img");
+    fig.setAttribute("aria-label", "Índice de Gini por país alrededor de 2000 y en el dato más reciente.");
+    const key = (filled, label) => el("span", {}, [
+      el("i", { style: `display:inline-block;width:10px;height:10px;border-radius:50%;border:2px solid ${t.ink};` +
+        `background:${filled ? t.ink : "transparent"}` }), label]);
+    return el("div", {}, [
+      el("div", { class: "obs-legend" }, [
+        el("span", {}, [el("i", { style: `display:inline-block;width:8px;height:8px;border-radius:50%;background:${t.ink2}` }), "Alrededor de 2000"]),
+        key(true, "Dato más reciente"),
+        key(false, "Dato más reciente, con cambio de encuesta en el periodo"),
+        el("span", {}, [el("i", { class: "obs-key-line", style: `border-color:${t.focus}` }), data.foco === "MEX" ? "México" : data.foco]),
+      ]),
+      fig,
+    ]);
+  }
+
+  return { legend, serieDistribucion, multiplesReferencia, abanico, lineasTramos, pesas, procedencia,
+    advertencias };
 }
 
 function d3group(rows, key) {

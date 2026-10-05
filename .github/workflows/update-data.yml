@@ -24,6 +24,8 @@ jobs:
         run: uv run obs rebuild
       - name: Descargar y validar WDI
         run: uv run obs run wb_wdi | tee run.log
+      - name: Descargar y validar Banco Mundial PIP (pobreza y desigualdad)
+        run: uv run obs run wb_pip | tee -a run.log
       - name: Descargar y validar FMI WEO (solo en meses de publicación)
         # Los términos del FMI prohíben descargas masivas automatizadas: solo se consulta
         # cuando puede haber una edición nueva (abril y octubre, con un mes de margen).

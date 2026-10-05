@@ -26,6 +26,7 @@ OVERRIDES_ES = {
     "KNA": "San Cristóbal y Nieves", "LCA": "Santa Lucía", "TUR": "Turquía",
     "NLD": "Países Bajos", "CIV": "Costa de Marfil", "BRN": "Brunéi",
     "CPV": "Cabo Verde", "SWZ": "Esuatini", "TLS": "Timor Oriental",
+    "SUR": "Surinam", "MMR": "Myanmar", "MDV": "Maldivas", "NER": "Níger",
 }
 EXTRA = [  # Códigos usados por fuentes internacionales que no están en ISO 3166-1.
     ("XKX", "Kosovo", "Kosovo"),

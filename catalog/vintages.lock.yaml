@@ -13,6 +13,12 @@ datasets:
     retrieved_at: '2026-10-03T04:34:13Z'
     source_declared_version: null
     validation_status: ok
+  wb_pip:
+    vintage: 2026-10-05T180317Z
+    content_sha256: 25370ffe53d396fc33bd25ed0515f860c6643a810fd91461f3a7a975855371d7
+    retrieved_at: '2026-10-05T18:03:17Z'
+    source_declared_version: null
+    validation_status: ok
   wb_wdi:
     vintage: 2026-10-03T043707Z
     content_sha256: 01b3c10fa62f796dffdc607fefa3c5e0bfc64c90f7d7da2480c018327fcebd7d
