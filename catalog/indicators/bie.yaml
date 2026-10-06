@@ -515,3 +515,61 @@
   preguntas:
   - D1
   fecha_alta: '2026-10-06'
+- id: bie.pobreza.cepal.pobreza
+  nombre: Pobreza (metodología CEPAL)
+  concepto: bie.pobreza.monetaria_regional
+  definicion: Porcentaje de la población con ingreso per cápita del hogar menor a la línea de pobreza de CEPAL (canasta
+    básica alimentaria y no alimentaria por país).
+  unidad: '% de la población'
+  facetas:
+    tipo_medicion: encuesta
+    cadena: resultado
+    ritmo: intermedio
+    direccion_normativa: menos_es_mejor
+    cobertura:
+    - ALC
+  series:
+  - cepal_pobreza:pobreza.nacional
+  - cepal_pobreza:pobreza.urbana
+  - cepal_pobreza:pobreza.rural
+  rangos_validos:
+    min: 0
+    max: 100
+  atipicos:
+    z: 6.0
+    cambio_minimo: 0.3
+    piso: 5.0
+  notas_interpretacion: 'Definición regional de CEPAL: no es comparable directamente con la medición oficial de
+    México ni con las líneas internacionales del Banco Mundial.'
+  preguntas:
+  - D1
+  fecha_alta: '2026-10-06'
+- id: bie.pobreza.cepal.extrema
+  nombre: Pobreza extrema (metodología CEPAL)
+  concepto: bie.pobreza.monetaria_regional
+  definicion: Porcentaje de la población con ingreso per cápita del hogar menor a la línea de pobreza extrema de
+    CEPAL (canasta básica alimentaria).
+  unidad: '% de la población'
+  facetas:
+    tipo_medicion: encuesta
+    cadena: resultado
+    ritmo: intermedio
+    direccion_normativa: menos_es_mejor
+    cobertura:
+    - ALC
+  series:
+  - cepal_pobreza:pobreza_extrema.nacional
+  - cepal_pobreza:pobreza_extrema.urbana
+  - cepal_pobreza:pobreza_extrema.rural
+  rangos_validos:
+    min: 0
+    max: 100
+  atipicos:
+    z: 6.0
+    cambio_minimo: 0.3
+    piso: 5.0
+  notas_interpretacion: 'Definición regional de CEPAL: no es comparable directamente con la medición oficial de
+    México ni con las líneas internacionales del Banco Mundial.'
+  preguntas:
+  - D1
+  fecha_alta: '2026-10-06'

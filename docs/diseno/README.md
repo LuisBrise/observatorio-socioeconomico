@@ -15,5 +15,6 @@ Documentos de diseño, en el orden en que conviene leerlos:
 | 08 | [Marco analítico](08-marco-analitico.md) | Métodos, comparaciones, cambio estructural, prospectiva, mapa de evidencia |
 | 09 | [Primeros dashboards y sistema visual](09-dashboards-iniciales.md) | D1, D2, D3 y borrador del sistema visual |
 | 10 | [Preguntas abiertas](10-preguntas-abiertas.md) | Qué necesito saber de ti para empezar |
+| 11 | [Plan de seguridad](11-plan-seguridad.md) | Homicidios, feminicidios y desapariciones (D4) |
 
 Las decisiones de diseño se registran en [`../decisiones/`](../decisiones/README.md).

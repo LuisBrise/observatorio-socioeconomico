@@ -37,6 +37,8 @@ jobs:
         run: |
           if [ "$(date -u +%d)" -le 7 ]; then uv run obs run wid | tee -a run.log
           else echo "wid: se consulta solo la primera semana del mes" | tee -a run.log; fi
+      - name: Descargar y validar CEPAL (pobreza)
+        run: uv run obs run cepal_pobreza | tee -a run.log
       - name: Descargar y validar FMI WEO (solo en meses de publicación)
         # Los términos del FMI prohíben descargas masivas automatizadas: solo se consulta
         # cuando puede haber una edición nueva (abril y octubre, con un mes de margen).

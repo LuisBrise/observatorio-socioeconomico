@@ -1,6 +1,12 @@
 # Versión (vintage) de cada dataset que alimenta la publicación vigente.
 # Lo actualiza `obs lock`; su historial en git es el historial de datos del observatorio.
 datasets:
+  cepal_pobreza:
+    vintage: 2026-10-06T062035Z
+    content_sha256: 472d6598295719b995fd72ed919f580e4b40218d1cdbb9d06f3200e7351b2eea
+    retrieved_at: '2026-10-06T06:20:35Z'
+    source_declared_version: null
+    validation_status: ok
   fmi_weo:
     vintage: 2026-10-03T041958Z
     content_sha256: d20c629f0cae4d8f827bdd1f041dac1da8c52b7e15cd33697415cb7befdc11c1

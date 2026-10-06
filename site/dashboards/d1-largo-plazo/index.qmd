@@ -105,14 +105,14 @@ su definición; ninguna es "la verdadera".
 //| echo: false
 html`<div class="obs-chart">
   <h3>¿Cuánta pobreza hay en México? Depende de cómo se defina</h3>
-  <p class="obs-sub">Tres definiciones, mismo periodo y misma encuesta (ENIGH Nueva Serie)</p>
+  <p class="obs-sub">Cuatro definiciones, mismo periodo y misma encuesta (ENIGH Nueva Serie)</p>
   ${charts.panelesDefiniciones(defs, { tokens, width, unidad: "% de la población" })}
   ${charts.procedencia(defsProv, { csv: [["datos (CSV)", "../../data/d1/pobreza-definiciones/medidas.csv"]] })}
   ${charts.advertencias(defsProv)}
 </div>`
 ```
 
-[ANÁLISIS]{.obs-tag} Los niveles difieren según la definición, pero en 2016–2024 las tres medidas
+[ANÁLISIS]{.obs-tag} Los niveles difieren según la definición, pero en 2016–2024 las cuatro medidas
 se mueven en la misma dirección. Una tendencia común a definiciones distintas es más robusta que
 una cifra aislada.
 

@@ -95,9 +95,14 @@ class License(_Base):
 
 
 class KnownBreak(_Base):
+    """Ruptura de serie conocida. Si declara `geo`, la armonización marca esa observación como B
+    (inicio de un nuevo tramo comparable) aunque la fuente no lo indique."""
+
     serie: str
     fecha: str
     descripcion: str
+    geo: str | None = None
+    evidencia: str | None = None  # referencia que documenta la ruptura
 
 
 class SeriesSpec(_Base):

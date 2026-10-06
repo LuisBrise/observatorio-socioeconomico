@@ -38,7 +38,8 @@ STATUS_MAP: dict[str, dict[str, str]] = {
     # PIP: B = inicio de un nuevo periodo de comparabilidad; E = sin microdatos (group/imputed/synthetic)
     "wb_pip": {"": "A", "E": "E", "B": "B"},
     "inegi_pm": {"": "A"},
-    "wid": {"": "A", "I": "I"},  # I = imputado/extrapolado (data_quality <= 1)
+    "wid": {"": "A", "I": "I"},
+    "cepal_pobreza": {"": "A", "B": "B"},  # I = imputado/extrapolado (data_quality <= 1)
 }
 
 _ANNUAL = re.compile(r"^\d{4}$")
@@ -151,4 +152,18 @@ def harmonize(
         (pl.col("value") * pl.col("source_series").replace_strict(mult, return_dtype=pl.Float64)),
         pl.col("source_obs_status").replace_strict(smap, default="A").alias("obs_status"),
     ).select(list(OBSERVATION_SCHEMA))
+
+    # Rupturas documentadas en el catálogo con geografía: se marcan como B (inicio de tramo).
+    for brk in dataset.rupturas_conocidas:
+        if brk.geo is None:
+            continue
+        hit = ((pl.col("series_id") == brk.serie) & (pl.col("geo_id") == brk.geo)
+               & (pl.col("period") == brk.fecha))
+        n = out.filter(hit).height
+        out = out.with_columns(pl.when(hit).then(pl.lit("B")).otherwise(pl.col("obs_status"))
+                               .alias("obs_status"))
+        issues.append(HarmonizeIssue(
+            "ruptura_catalogo", "INFO" if n else "ADVERTENCIA",
+            f"{brk.serie} {brk.geo} {brk.fecha}: ruptura documentada en el catálogo "
+            + ("aplicada" if n else "sin observación correspondiente (¿cambió la serie?)"), n))
     return out.cast(OBSERVATION_SCHEMA).sort("series_id", "geo_id", "period_start"), issues

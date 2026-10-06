@@ -1,0 +1,100 @@
+id: cepal_pobreza
+nombre: CEPALSTAT — Pobreza y pobreza extrema por área (indicador 3328)
+fuente: cepal
+conector: cepalstat
+url: https://statistics.cepal.org/portal/cepalstat/
+acceso:
+  metodo: api
+  endpoint: https://api-cepalstat.cepal.org/cepalstat/api/v1/
+  credenciales: ninguna
+  formato: json
+licencia:
+  nombre: Términos de uso de CEPAL (uso libre con atribución)
+  url: https://www.cepal.org/es/terminos-condiciones-uso
+  redistribucion: permitida_con_atribucion
+cobertura:
+  geografica: 18 países de América Latina y agregado regional
+  temporal: 2000–2024 (años de encuesta)
+  poblacion: Población de las encuestas de hogares
+frecuencia: anual (años de encuesta)
+rezago_tipico_dias: 365
+calendario: Panorama Social de América Latina (noviembre-diciembre).
+metodologia: https://repositorio.cepal.org/entities/publication/97ace584-767d-49c2-a0e7-da67ce512b9e
+revisiones: Revisa cuando cambian las encuestas; notas de 'serie comparable desde/hasta'.
+limitaciones: Líneas de pobreza propias de CEPAL (distintas de las oficiales nacionales y de las del Banco Mundial).
+  Cobertura regional de 18 países (sin Cuba ni el Caribe angloparlante). Argentina solo urbana.
+rupturas_conocidas:
+- serie: cepal_pobreza:pobreza.nacional
+  fecha: '2016'
+  geo: MEX
+  descripcion: 'México: cambio de la ENIGH tradicional a la ENIGH Nueva Serie (2016). CEPAL no lo anota como ruptura,
+    pero es el mismo cambio que PIP marca como nuevo periodo comparable y que separa las series oficiales 2008–2014
+    y 2016–2024.'
+  evidencia: 'PIP comparable_spell 1984–2014 → 2016–2024 (wb_pip); INEGI/CONEVAL: serie comparable 2016–2024.'
+- serie: cepal_pobreza:pobreza.urbana
+  fecha: '2016'
+  geo: MEX
+  descripcion: 'México: cambio de la ENIGH tradicional a la ENIGH Nueva Serie (2016). CEPAL no lo anota como ruptura,
+    pero es el mismo cambio que PIP marca como nuevo periodo comparable y que separa las series oficiales 2008–2014
+    y 2016–2024.'
+  evidencia: 'PIP comparable_spell 1984–2014 → 2016–2024 (wb_pip); INEGI/CONEVAL: serie comparable 2016–2024.'
+- serie: cepal_pobreza:pobreza.rural
+  fecha: '2016'
+  geo: MEX
+  descripcion: 'México: cambio de la ENIGH tradicional a la ENIGH Nueva Serie (2016). CEPAL no lo anota como ruptura,
+    pero es el mismo cambio que PIP marca como nuevo periodo comparable y que separa las series oficiales 2008–2014
+    y 2016–2024.'
+  evidencia: 'PIP comparable_spell 1984–2014 → 2016–2024 (wb_pip); INEGI/CONEVAL: serie comparable 2016–2024.'
+- serie: cepal_pobreza:pobreza_extrema.nacional
+  fecha: '2016'
+  geo: MEX
+  descripcion: 'México: cambio de la ENIGH tradicional a la ENIGH Nueva Serie (2016). CEPAL no lo anota como ruptura,
+    pero es el mismo cambio que PIP marca como nuevo periodo comparable y que separa las series oficiales 2008–2014
+    y 2016–2024.'
+  evidencia: 'PIP comparable_spell 1984–2014 → 2016–2024 (wb_pip); INEGI/CONEVAL: serie comparable 2016–2024.'
+- serie: cepal_pobreza:pobreza_extrema.urbana
+  fecha: '2016'
+  geo: MEX
+  descripcion: 'México: cambio de la ENIGH tradicional a la ENIGH Nueva Serie (2016). CEPAL no lo anota como ruptura,
+    pero es el mismo cambio que PIP marca como nuevo periodo comparable y que separa las series oficiales 2008–2014
+    y 2016–2024.'
+  evidencia: 'PIP comparable_spell 1984–2014 → 2016–2024 (wb_pip); INEGI/CONEVAL: serie comparable 2016–2024.'
+- serie: cepal_pobreza:pobreza_extrema.rural
+  fecha: '2016'
+  geo: MEX
+  descripcion: 'México: cambio de la ENIGH tradicional a la ENIGH Nueva Serie (2016). CEPAL no lo anota como ruptura,
+    pero es el mismo cambio que PIP marca como nuevo periodo comparable y que separa las series oficiales 2008–2014
+    y 2016–2024.'
+  evidencia: 'PIP comparable_spell 1984–2014 → 2016–2024 (wb_pip); INEGI/CONEVAL: serie comparable 2016–2024.'
+archivos:
+- '3328'
+series:
+- codigo: pobreza.nacional
+  indicador: bie.pobreza.cepal.pobreza
+  unidad: '% de la población'
+  origen: cepal_badehog
+- codigo: pobreza.urbana
+  indicador: bie.pobreza.cepal.pobreza
+  unidad: '% de la población'
+  origen: cepal_badehog
+- codigo: pobreza.rural
+  indicador: bie.pobreza.cepal.pobreza
+  unidad: '% de la población'
+  origen: cepal_badehog
+- codigo: pobreza_extrema.nacional
+  indicador: bie.pobreza.cepal.extrema
+  unidad: '% de la población'
+  origen: cepal_badehog
+- codigo: pobreza_extrema.urbana
+  indicador: bie.pobreza.cepal.extrema
+  unidad: '% de la población'
+  origen: cepal_badehog
+- codigo: pobreza_extrema.rural
+  indicador: bie.pobreza.cepal.extrema
+  unidad: '% de la población'
+  origen: cepal_badehog
+umbrales:
+  revision_advertencia_pct: 5.0
+  revision_advertencia_share: 0.25
+  caida_cobertura_pct: 2.0
+fecha_alta: '2026-10-06'

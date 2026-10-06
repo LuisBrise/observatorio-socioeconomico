@@ -1,0 +1,14 @@
+id: cepal
+nombre: Comisión Económica para América Latina y el Caribe (CEPAL)
+tipo: organismo_internacional
+url: https://statistics.cepal.org/
+evaluacion:
+  mandato: Comisión regional de las Naciones Unidas; produce estadísticas sociales armonizadas para la región.
+  metodologia: Líneas de pobreza propias por país (canastas básicas actualizadas en 2018), aplicadas a encuestas
+    de hogares armonizadas (BADEHOG).
+  revisiones: Revisa series cuando cambian las encuestas; anota los tramos comparables en notas.
+  continuidad: Serie regional desde los años noventa; cobertura de 18 países.
+  independencia: Organismo intergubernamental; metodología propia distinta de las mediciones oficiales nacionales.
+  primaria_o_compiladora: Primaria en la estimación (procesa microdatos de encuestas nacionales con su metodología);
+    comparte la fuente básica (encuestas) con PIP y con las mediciones nacionales.
+fecha_alta: '2026-10-06'

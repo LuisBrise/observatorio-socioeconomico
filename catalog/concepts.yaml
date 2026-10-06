@@ -37,6 +37,7 @@
         - {id: bie.pobreza.monetaria_internacional, nombre: Pobreza monetaria con líneas internacionales}
         - {id: bie.pobreza.multidimensional_oficial, nombre: Pobreza multidimensional (medición oficial de México)}
         - {id: bie.pobreza.monetaria_oficial, nombre: Pobreza por ingresos (líneas oficiales de México)}
+        - {id: bie.pobreza.monetaria_regional, nombre: Pobreza monetaria con líneas regionales (CEPAL)}
         - {id: bie.carencias_sociales, nombre: Carencias sociales}
     - id: bie.desigualdad
       nombre: Desigualdad

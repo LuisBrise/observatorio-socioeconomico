@@ -353,6 +353,9 @@ DEFINICIONES = [
     ("ingreso_oficial", "inegi_pm:ingreso_bajo_lpi", "bie.pobreza.oficial.ingreso_bajo_lpi",
      "Pobreza por ingresos (línea oficial)",
      "Ingreso menor al valor de las canastas alimentaria y no alimentaria de México"),
+    ("cepal", "cepal_pobreza:pobreza.nacional", "bie.pobreza.cepal.pobreza",
+     "Pobreza (metodología CEPAL)",
+     "Ingreso menor a la línea de pobreza regional de CEPAL (canastas básicas por país)"),
     ("internacional", "wb_pip:pobreza_8.30.ingreso.nacional", "bie.pobreza.internacional.linea_830",
      "Línea internacional US$8.30 (Banco Mundial)",
      "Ingreso menor a US$8.30 diarios en PPA 2021, línea para países de ingreso medio-alto"),
@@ -388,9 +391,9 @@ def _definiciones_pobreza(paths: Paths, catalog: Catalog, obs: pl.DataFrame) -> 
         question="¿Cuánta pobreza hay en México? La respuesta depende de cómo se define.",
         indicators=[ind for _, ind, *_ in paneles],
         caveats=[
-            "Las tres cifras son correctas según su propia definición: no miden lo mismo y no deben "
+            "Cada cifra es correcta según su propia definición: no miden lo mismo y no deben "
             "promediarse ni elegirse una como 'la verdadera'.",
-            f"Periodo común a las tres medidas ({comun[0]}–{comun[-1]}), todas con la ENIGH Nueva Serie.",
+            f"Periodo común a todas las medidas ({comun[0]}–{comun[-1]}), todas con la ENIGH Nueva Serie.",
             "Las líneas oficiales de México son distintas para zonas urbanas y rurales y se actualizan con "
             "el valor de las canastas; la línea internacional es una sola cifra en dólares PPA.",
             "Solo el último año de la medición oficial trae intervalo de confianza al 95 % en el archivo de "

@@ -393,7 +393,7 @@ export function createCharts({ Plot, document: doc = globalThis.document }) {
   function panelesDefiniciones(data, { tokens: t = DEFAULT_TOKENS, width = 720, unidad = "" } = {}) {
     const rows = data.medidas.map((d) => ({ ...d, year: year(d) }));
     const yMax = Math.max(...rows.map((d) => d.hi ?? d.value));
-    const cols = width >= 640 ? data.orden.length : 1;
+    const cols = width >= 900 ? data.orden.length : width >= 480 ? 2 : 1;
     const panelW = Math.floor((width - (cols - 1) * 20) / cols);
     const panels = data.orden.map((key) => {
       const r = rows.filter((d) => d.medida === key);
@@ -420,14 +420,17 @@ export function createCharts({ Plot, document: doc = globalThis.document }) {
       });
       p.setAttribute("role", "img");
       p.setAttribute("aria-label", `${r[0].titulo}: ${fmt1.format(last.value)} % en ${last.period}.`);
+      // Encabezado de altura fija: las gráficas quedan alineadas aunque los títulos difieran.
       return el("div", {}, [
-        el("p", { class: "obs-panel-title", text: r[0].titulo }),
-        el("p", { class: "obs-sub", style: "margin:0 0 .3rem;font-size:.8rem", text: r[0].definicion }),
+        el("div", { style: "min-height:5.4em" }, [
+          el("p", { class: "obs-panel-title", text: r[0].titulo }),
+          el("p", { class: "obs-sub", style: "margin:0 0 .3rem;font-size:.8rem", text: r[0].definicion }),
+        ]),
         p,
       ]);
     });
     return el("div", {}, [
-      el("p", { class: "obs-sub", style: "font-size:.85rem", text: `${unidad} · misma escala en los tres paneles` }),
+      el("p", { class: "obs-sub", style: "font-size:.85rem", text: `${unidad} · misma escala en todos los paneles` }),
       el("div", { class: "obs-grid-multiples", style: `grid-template-columns:repeat(${cols}, 1fr)` }, panels),
     ]);
   }
