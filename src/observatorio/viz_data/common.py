@@ -104,7 +104,16 @@ def write_chart(paths: Paths, catalog: Catalog, spec: ChartSpec,
                 + (f"; diferencias documentadas en {', '.join(d.id for d in dis)} "
                    f"(estado: {', '.join(d.estado for d in dis)})." if dis
                    else "; las diferencias aún no están documentadas."))
-        if len(origins) < 2:
+        # Comparación con un registro independiente de OTRO concepto, documentada como discrepancia.
+        otros = [d for d in catalog.discrepancies.values()
+                 if set(base) & set(d.series)
+                 and {series_origin(catalog, s) for s in d.series} - origins]
+        if len(origins) < 2 and otros:
+            spec.caveats.append(
+                f"{ind.nombre}: sin otra fuente del mismo concepto; comparado con un registro independiente "
+                f"de concepto distinto en {', '.join(d.id for d in otros)} "
+                f"(estado: {', '.join(d.estado for d in otros)}).")
+        elif len(origins) < 2:
             spec.caveats.append(
                 f"{ind.nombre}: por ahora proviene de una sola fuente ({', '.join(sorted(origins))}); "
                 "aún no está verificado contra una fuente independiente.")

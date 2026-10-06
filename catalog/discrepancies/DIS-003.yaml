@@ -1,0 +1,34 @@
+id: DIS-003
+indicador: seg.violencia_letal.homicidio.defunciones
+series: [inegi_homicidios:Mortalidad_08.total, sesnsp_victimas:homicidio_doloso.total, sesnsp_victimas:feminicidio.total,
+         inegi_homicidios:Mortalidad_08.mujeres, sesnsp_victimas:homicidio_doloso.mujer]
+diferencia_observada: >
+  En 2015–2025 las defunciones por homicidio de INEGI superan a las víctimas de homicidio doloso más
+  feminicidio del SESNSP todos los años: 13.4 % en 2015, mínimo de 2.7 % en 2019, y de nuevo 8.5 % en
+  2024 y 15 % en 2025 (INEGI preliminar). Ambas fuentes coinciden en la dirección del cambio anual en todos los
+  años salvo 2019 y 2020, cuando ambas cambian menos de 3 %. Para mujeres (INEGI vs homicidio doloso de mujeres +
+  feminicidio) la diferencia va de −0.7 % a 12 %.
+causas_documentadas:
+  - tipo: definicion
+    descripcion: >
+      INEGI clasifica por causa básica de muerte en el certificado (CIE-10 X85-Y09, agresiones), sin
+      calificar la intención penal; el SESNSP clasifica por el delito con que la fiscalía abre la carpeta.
+      Muertes registradas en carpetas como "otros delitos contra la vida", homicidio culposo o sin carpeta
+      pueden aparecer en INEGI como homicidio.
+  - tipo: momento_de_registro
+    descripcion: >
+      INEGI cuenta por año de registro de la defunción; el SESNSP por fecha de inicio de la carpeta. Una
+      carpeta puede abrirse antes de localizar el cuerpo (o sin cuerpo).
+  - tipo: cobertura
+    descripcion: >
+      El SESNSP depende de que exista carpeta de investigación (denuncia o inicio de oficio); INEGI de que
+      el cuerpo sea localizado y la muerte certificada. Cuerpos localizados en fosas pueden entrar a INEGI
+      sin una carpeta por homicidio en el mismo año.
+  - tipo: otra
+    descripcion: >
+      La ampliación de la brecha desde 2020 coincide con el crecimiento de "otros delitos que atentan contra
+      la vida" en el SESNSP; con datos agregados no es posible atribuirla a reclasificación. Pendiente:
+      comparar por entidad federativa.
+presentacion: ambas_series_con_nota
+estado: abierta
+fecha: 2026-10-06

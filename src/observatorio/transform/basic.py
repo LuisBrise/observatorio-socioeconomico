@@ -105,3 +105,14 @@ def distribucion_grupo(
                            for c in stat_cols])
             .drop("_geos")
             .sort("period_start"))
+
+
+@transform("suma", 1)
+def suma(*partes: pl.DataFrame) -> pl.DataFrame:
+    """Suma de varias series por geografía y periodo (solo donde todas tienen dato)."""
+    out = partes[0].select("geo_id", "period", "period_start", pl.col("value").alias("_v0"))
+    for i, p in enumerate(partes[1:], start=1):
+        out = out.join(p.select("geo_id", "period", pl.col("value").alias(f"_v{i}")),
+                       on=["geo_id", "period"], how="inner")
+    cols = [f"_v{i}" for i in range(len(partes))]
+    return out.with_columns(pl.sum_horizontal(cols).alias("value")).select(VALUE_COLS)

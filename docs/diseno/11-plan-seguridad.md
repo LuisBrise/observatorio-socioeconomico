@@ -15,10 +15,10 @@ desapariciones** (México, con comparación con ALC y otras regiones del mundo).
 | Concepto | Fuente | Qué mide | Acceso |
 |---|---|---|---|
 | Homicidio | INEGI, estadísticas de defunciones registradas | Defunciones por homicidio según el certificado de defunción (sector salud y registro civil), por año de registro | ✅ servicio de tabulados de inegi.org.mx (2010–); 1990–2009 solo en el sistema de consulta, no automatizable |
-| Homicidio | SESNSP, incidencia delictiva | Víctimas de homicidio doloso en carpetas de investigación de las fiscalías | ⛔ los archivos están en sspcgob-my.sharepoint.com (enlazados desde www.gob.mx) |
+| Homicidio | SESNSP, incidencia delictiva | Víctimas de homicidio doloso en carpetas de investigación de las fiscalías | ✅ ZIP en sspcgob-my.sharepoint.com, localizado por el texto del enlace en www.gob.mx |
 | Homicidio (internacional) | UNODC (vía WDI `VC.IHR.PSRC.P5`) | Homicidio intencional por 100 mil, compilación internacional | ✅ api.worldbank.org (redistribución; origen UNODC) |
 | Homicidio (internacional) | UNODC directo | Ídem, con más detalle (sexo, mecanismo) | ⛔ dataunodc.un.org (sin respuesta) |
-| Feminicidio | SESNSP | Víctimas del delito de feminicidio (tipo penal; su definición varía por entidad) | ⛔ sspcgob-my.sharepoint.com |
+| Feminicidio | SESNSP | Víctimas del delito de feminicidio (tipo penal; su definición varía por entidad) | ✅ mismo archivo |
 | Homicidios de mujeres | INEGI | Defunciones de mujeres por homicidio (no equivale a feminicidio) | ✅ inegi.org.mx |
 | Desaparición | RNPDNO (Comisión Nacional de Búsqueda) | Personas desaparecidas y no localizadas registradas | ✅ versionpublicarnpdno.segob.gob.mx (consultas JSON de la versión pública) |
 
@@ -44,7 +44,9 @@ desapariciones** (México, con comparación con ALC y otras regiones del mundo).
    Hallazgo: para México, la tasa de UNODC es exactamente la de INEGI con la población de la ONU
    (D-023); no son fuentes independientes. Pendiente: entidades federativas (requiere geografías
    subnacionales en el catálogo).
-2. Homicidios: SESNSP y discrepancia INEGI–SESNSP.
-3. Feminicidios y homicidios de mujeres.
+2. ✅ Homicidios: SESNSP (víctimas 2015–2025, metodología 2015–2025) y discrepancia INEGI–SESNSP
+   (DIS-003, abierta). Se vigila "otros delitos contra la vida" (3,692 → 17,110 víctimas, 2015–2025).
+   Pendiente: serie 2026 con la nueva metodología del SESNSP, como tramo distinto (ruptura).
+3. ✅ Feminicidios y homicidios de mujeres (INEGI vs SESNSP, proporción registrada como feminicidio).
 4. ✅ Desapariciones (RNPDNO): instantánea semanal por año de desaparición y estatus (D-024). Se adelantó
    porque el SESNSP requiere permitir sspcgob-my.sharepoint.com. Pendiente: entidades federativas.

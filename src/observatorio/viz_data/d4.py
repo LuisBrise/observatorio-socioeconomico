@@ -45,6 +45,8 @@ def build(paths: Paths, catalog: Catalog) -> list[str]:
     built += _mexico_alc(paths, catalog, obs)
     built += _regiones(paths, catalog, obs)
     built += _desaparecidas(paths, catalog, obs)
+    built += _fuentes_homicidio(paths, catalog, obs)
+    built += _mujeres(paths, catalog, obs)
     return built
 
 
@@ -247,4 +249,126 @@ def _desaparecidas(paths: Paths, catalog: Catalog, obs: pl.DataFrame) -> list[st
     write_chart(paths, catalog, spec,
                 {"estatus": anual, "sexo": sexo.filter(pl.col("period") >= DESDE).sort("period")},
                 extra={"corte": corte, "preliminares": prelim})
+    return [spec.chart_id]
+
+
+def _serie(obs: pl.DataFrame, sid: str, nombre: str) -> pl.DataFrame:
+    return (obs.filter((pl.col("series_id") == sid) & (pl.col("geo_id") == FOCO))
+            .select("geo_id", "period", "period_start", "value", "obs_status",
+                    pl.lit(nombre).alias("serie")))
+
+
+def _largo(*partes: pl.DataFrame) -> pl.DataFrame:
+    cols = ["period", "serie", "value", "obs_status"]
+    return pl.concat([p.select(cols) for p in partes]).sort("serie", "period")
+
+
+def _fuentes_homicidio(paths: Paths, catalog: Catalog, obs: pl.DataFrame) -> list[str]:
+    """4.5 · Dos registros independientes: defunciones (INEGI) y carpetas de investigación (SESNSP).
+    4.6 · Composición de las víctimas de delitos contra la vida en el SESNSP."""
+    inegi = _serie(obs, "inegi_homicidios:Mortalidad_08.total", "inegi")
+    dol = _serie(obs, "sesnsp_victimas:homicidio_doloso.total", "doloso")
+    fem = _serie(obs, "sesnsp_victimas:feminicidio.total", "feminicidio")
+    otros = _serie(obs, "sesnsp_victimas:otros_contra_la_vida.total", "otros")
+    suma = get_transform("suma@1")
+    sesnsp = (suma(dol, fem).join(dol.select("period", "obs_status"), on="period")
+              .with_columns(pl.lit("sesnsp").alias("serie")))
+    comunes = inegi.join(sesnsp.select("period", pl.col("value").alias("s")), on="period")
+    brecha = comunes.with_columns(((pl.col("value") / pl.col("s") - 1) * 100).alias("dif"))
+    bmin, bmax = brecha.sort("dif").row(0, named=True), brecha.sort("dif").row(-1, named=True)
+    rango = f"{comunes['period'].min()}–{comunes['period'].max()}"
+    prelim = inegi.filter(pl.col("obs_status") == "P")["period"].to_list()
+    spec = ChartSpec(
+        chart_id="d4/homicidios-fuentes",
+        question=("¿Cuentan lo mismo los registros de defunciones (INEGI) y las carpetas de investigación "
+                  "(SESNSP)?"),
+        indicators=[HOM, "seg.violencia_letal.homicidio.victimas_doloso",
+                    "seg.violencia_letal.feminicidio.victimas"],
+        caveats=[
+            "Miden cosas distintas: INEGI cuenta defunciones con causa de homicidio en el "
+            "certificado (por año "
+            "de registro); el SESNSP cuenta víctimas de homicidio doloso y feminicidio en carpetas de "
+            "investigación de las fiscalías (por fecha de inicio de la carpeta). No incluyen homicidios "
+            "culposos ni 'otros delitos contra la vida'.",
+            f"En {rango} INEGI registra más que el SESNSP todos los años: la diferencia va de "
+            f"{bmin['dif']:.1f} % ({bmin['period']}) a {bmax['dif']:.1f} % ({bmax['period']}). Causas "
+            "documentadas en DIS-003; la diferencia no se atribuye a una sola causa.",
+            ("Cifras preliminares de INEGI (punto hueco): " + ", ".join(prelim) + ".") if prelim else "",
+            "Son registros de instituciones distintas en momentos distintos del proceso: que coincidan en la "
+            "dirección del cambio es evidencia de que el cambio no es un artefacto de un solo registro.",
+        ],
+        transformations=[LineageStep("suma@1", {}, ["sesnsp_victimas:homicidio_doloso.total",
+                                                    "sesnsp_victimas:feminicidio.total"]).to_dict()],
+    )
+    spec.caveats = [c for c in spec.caveats if c]
+    write_chart(paths, catalog, spec, {"serie": _largo(inegi, sesnsp)})
+
+    comp = _largo(dol, fem, otros)
+    o0, o1 = otros.sort("period").row(0, named=True), otros.sort("period").row(-1, named=True)
+    spec2 = ChartSpec(
+        chart_id="d4/sesnsp-contra-la-vida",
+        question=("¿Cómo han cambiado las víctimas registradas en cada tipo de delito contra la vida en las "
+                  "carpetas de investigación?"),
+        indicators=["seg.violencia_letal.homicidio.victimas_doloso",
+                    "seg.violencia_letal.feminicidio.victimas",
+                    "seg.violencia_letal.otros_contra_vida.victimas"],
+        caveats=[
+            f"'Otros delitos que atentan contra la vida y la integridad corporal' pasó de {o0['value']:,.0f} "
+            f"víctimas en {o0['period']} a {o1['value']:,.0f} en {o1['period']}. Es una categoría "
+            f"residual que "
+            "agrupa delitos distintos según cada código penal; con estos datos no se puede "
+            "saber qué parte, si alguna, corresponde a muertes que antes se habrían registrado como "
+            "homicidio "
+            "doloso. Responderlo requiere revisar los criterios de clasificación de cada fiscalía.",
+            "El feminicidio es un tipo penal: su evolución mezcla cambios en la violencia y en la "
+            "tipificación "
+            "y aplicación por cada fiscalía.",
+            "Víctimas en carpetas de investigación: dependen de la denuncia y de la clasificación de "
+            "la fiscalía.",
+        ],
+    )
+    write_chart(paths, catalog, spec2, {"serie": comp})
+    return [spec.chart_id, spec2.chart_id]
+
+
+def _mujeres(paths: Paths, catalog: Catalog, obs: pl.DataFrame) -> list[str]:
+    """4.7 · Mujeres asesinadas: defunciones (INEGI) vs víctimas de homicidio doloso + feminicidio
+    (SESNSP)."""
+    inegi = _serie(obs, "inegi_homicidios:Mortalidad_08.mujeres", "inegi")
+    dol = _serie(obs, "sesnsp_victimas:homicidio_doloso.mujer", "doloso_mujeres")
+    fem = _serie(obs, "sesnsp_victimas:feminicidio.total", "feminicidio")
+    sesnsp = (get_transform("suma@1")(dol, fem).join(dol.select("period", "obs_status"), on="period")
+              .with_columns(pl.lit("sesnsp").alias("serie")))
+    prop = (fem.select("period", pl.col("value").alias("f"))
+            .join(sesnsp.select("period", pl.col("value").alias("t")), on="period")
+            .with_columns((pl.col("f") / pl.col("t") * 100).alias("pct")).sort("period"))
+    p0, p1 = prop.row(0, named=True), prop.row(-1, named=True)
+    prelim = inegi.filter(pl.col("obs_status") == "P")["period"].to_list()
+    spec = ChartSpec(
+        chart_id="d4/mujeres",
+        question=("¿Cuántas mujeres son asesinadas en México y cuántos de esos casos se investigan como "
+                  "feminicidio?"),
+        indicators=["seg.violencia_letal.homicidio.defunciones_mujeres",
+                    "seg.violencia_letal.homicidio.victimas_doloso_mujeres",
+                    "seg.violencia_letal.feminicidio.victimas"],
+        caveats=[
+            "Feminicidio (SESNSP) es un tipo penal que exige acreditar razones de género; las defunciones de "
+            "mujeres por homicidio (INEGI) incluyen todos los asesinatos de mujeres. Ninguna de las "
+            "dos cifras "
+            "es 'el número de feminicidios' en sentido social o sociológico.",
+            f"La proporción de víctimas mujeres registradas como feminicidio (sobre homicidio doloso "
+            f"de mujeres + "
+            f"feminicidio, SESNSP) pasó de {p0['pct']:.0f} % en {p0['period']} a {p1['pct']:.0f} % en "
+            f"{p1['period']}: refleja también cambios en la tipificación y en las prácticas de las "
+            f"fiscalías.",
+            ("Cifras preliminares de INEGI (punto hueco): " + ", ".join(prelim) + ".") if prelim else "",
+            "Los códigos penales estatales definen el feminicidio de forma distinta: las comparaciones entre "
+            "entidades requieren cautela (no se muestran aquí).",
+        ],
+        transformations=[LineageStep("suma@1", {}, ["sesnsp_victimas:homicidio_doloso.mujer",
+                                                    "sesnsp_victimas:feminicidio.total"]).to_dict()],
+    )
+    spec.caveats = [c for c in spec.caveats if c]
+    write_chart(paths, catalog, spec, {"serie": _largo(inegi, sesnsp, fem)},
+                extra={"proporcion_feminicidio": prop.select("period", "pct").to_dicts()})
     return [spec.chart_id]

@@ -1,0 +1,22 @@
+id: sesnsp
+nombre: Secretariado Ejecutivo del Sistema Nacional de Seguridad Pública (SESNSP)
+tipo: registro_administrativo
+url: https://www.gob.mx/sesnsp
+evaluacion:
+  mandato: >
+    Órgano administrativo del Sistema Nacional de Seguridad Pública que concentra la incidencia
+    delictiva reportada por las fiscalías y procuradurías de las 32 entidades.
+  metodologia: >
+    Delitos y víctimas registrados en carpetas de investigación iniciadas, según la clasificación
+    del instrumento de registro. Metodología vigente de 2015 a 2025; desde 2026 una nueva
+    metodología amplía los delitos y cambia rangos de edad (ruptura de serie).
+  revisiones: >
+    Las fiscalías actualizan cifras de meses anteriores; los archivos se reemplazan cada mes (el
+    nombre del archivo indica el corte).
+  continuidad: Series desde 1997 (delitos) y 2014–2015 (víctimas); cambios de metodología en 2015 y 2026.
+  independencia: >
+    Depende del Ejecutivo federal; la información la generan las fiscalías estatales con criterios de
+    clasificación propios. Independiente de las estadísticas de defunciones de INEGI (otro registro,
+    otra institución, otro momento del proceso).
+  primaria_o_compiladora: Compiladora (registros de 32 fiscalías).
+fecha_alta: '2026-10-06'

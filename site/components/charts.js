@@ -596,8 +596,64 @@ export function createCharts({ Plot, document: doc = globalThis.document }) {
     ]);
   }
 
+  // Varias series de nivel (conteos) con etiqueta final, tramo punteado y punto hueco para
+  // cifras preliminares. Cada serie declara su color con un token (focus, compare, ink2...).
+  function lineasSeries(data, { tokens: t = DEFAULT_TOKENS, width = 720, unidad = "", series = [] } = {}) {
+    const color = Object.fromEntries(series.map((s) => [s.key, t[s.color] ?? s.color]));
+    const label = Object.fromEntries(series.map((s) => [s.key, s.label]));
+    const corto = Object.fromEntries(series.map((s) => [s.key, s.corto ?? s.label]));
+    const rows = data.serie.filter((d) => label[d.serie]).map((d) => ({ ...d, year: year(d) }));
+    const firmes = rows.filter((d) => d.obs_status !== "P");
+    const prelim = rows.filter((d) => d.obs_status === "P");
+    const puentes = series.flatMap((s) => {
+      const p = prelim.filter((d) => d.serie === s.key);
+      const f = firmes.filter((d) => d.serie === s.key).at(-1);
+      return p.length && f ? [f, ...p].map((d) => ({ ...d, seg: s.key })) : [];
+    });
+    const ult = series.map((s) => rows.filter((d) => d.serie === s.key).at(-1)).filter(Boolean)
+      .sort((a, b) => b.value - a.value);
+    const yMax = Math.max(...rows.map((d) => d.value));
+    // Etiquetas finales solo si no se enciman (separación mínima: 7 % del eje).
+    const etiquetas = [];
+    for (const d of ult) if (etiquetas.every((e) => Math.abs(e.value - d.value) > yMax * 0.09)) etiquetas.push(d);
+    const fig = Plot.plot({
+      document: doc, width, height: Math.round(Math.min(400, Math.max(280, width * 0.5))),
+      marginLeft: 56, marginRight: 140, marginTop: 30, style: baseStyle(t),
+      x: { label: null, tickFormat: "d", ticks: Math.max(4, Math.floor(width / 110)) },
+      y: { label: unidad, labelAnchor: "top", domain: [0, yMax * 1.08], nice: true,
+        tickFormat: (v) => fmtNum.format(v) },
+      marks: [
+        Plot.gridY({ stroke: t.grid, strokeOpacity: 1 }),
+        Plot.ruleY([0], { stroke: t.axis }),
+        Plot.lineY(firmes, { x: "year", y: "value", z: "serie", stroke: (d) => color[d.serie], strokeWidth: 2 }),
+        Plot.lineY(puentes, { x: "year", y: "value", z: "seg", stroke: (d) => color[d.serie], strokeWidth: 2,
+          strokeDasharray: "3,3" }),
+        Plot.dot(firmes, { x: "year", y: "value", r: 3, fill: (d) => color[d.serie], stroke: t.surface,
+          strokeWidth: 1.5 }),
+        Plot.dot(prelim, { x: "year", y: "value", r: 4, fill: t.surface, stroke: (d) => color[d.serie],
+          strokeWidth: 2 }),
+        Plot.text(etiquetas, { x: "year", y: "value", dx: 8, textAnchor: "start", fill: t.ink,
+          text: (d) => `${corto[d.serie]}: ${fmtNum.format(d.value)}` }),
+        Plot.tip(rows, Plot.pointer({ x: "year", y: "value", fill: t.surface, stroke: t.axis,
+          title: (d) => `${label[d.serie]} · ${d.period}\n${fmtNum.format(d.value)} ${unidad}` +
+            (d.obs_status === "P" ? "\nCifra preliminar" : "") })),
+      ],
+    });
+    fig.setAttribute("role", "img");
+    fig.setAttribute("aria-label", series.map((s) => s.label).join(", ") + `: serie anual (${unidad}).`);
+    const hueco = el("i", { style: `display:inline-block;width:10px;height:10px;border-radius:50%;` +
+      `border:2px solid ${t.ink2};background:transparent` });
+    return el("div", {}, [
+      el("div", { class: "obs-legend" }, [
+        ...series.map((s) => el("span", {}, [el("i", { class: "obs-key-line", style: `border-color:${color[s.key]}` }), s.label])),
+        prelim.length ? el("span", {}, [hueco, "Cifra preliminar"]) : null,
+      ]),
+      fig,
+    ]);
+  }
+
   return { legend, serieDistribucion, multiplesReferencia, abanico, lineasTramos, pesas,
-    panelesDefiniciones, dosFuentes, seriePreliminar, barrasEstatus, procedencia, advertencias };
+    panelesDefiniciones, dosFuentes, seriePreliminar, barrasEstatus, lineasSeries, procedencia, advertencias };
 }
 
 function d3group(rows, key) {

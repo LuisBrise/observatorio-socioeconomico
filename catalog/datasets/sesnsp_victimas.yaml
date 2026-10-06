@@ -1,0 +1,60 @@
+id: sesnsp_victimas
+nombre: Víctimas de delitos del fuero común (incidencia delictiva estatal, metodología 2015–2025)
+fuente: sesnsp
+conector: sesnsp
+url: https://www.gob.mx/sesnsp/acciones-y-programas/datos-abiertos-de-incidencia-delictiva
+acceso:
+  metodo: descarga_masiva
+  endpoint: https://www.gob.mx/sesnsp/acciones-y-programas/datos-abiertos-de-incidencia-delictiva
+  credenciales: ninguna
+  formato: zip (csv)
+licencia:
+  nombre: Términos de libre uso de datos abiertos del Gobierno de México
+  url: https://datos.gob.mx/libreusomx
+  redistribucion: permitida_con_atribucion
+cobertura:
+  geografica: 32 entidades (se agrega a nacional)
+  temporal: 2015–2025, mensual
+  poblacion: Víctimas registradas en carpetas de investigación del fuero común
+frecuencia: mensual (se agrega a anual)
+rezago_tipico_dias: 20
+calendario: Corte mensual, publicado alrededor del día 20 del mes siguiente.
+metodologia: https://www.gob.mx/sesnsp/articulos/nueva-metodologia-para-el-registro-y-clasificacion-de-los-delitos-y-las-victimas-para-fines-estadisticos
+revisiones: Las fiscalías corrigen meses anteriores; cada corte mensual reemplaza el archivo completo.
+limitaciones: >
+  Cuenta víctimas en carpetas de investigación por fecha de inicio de la carpeta, no defunciones: depende de
+  la denuncia o del inicio de oficio, y de cómo cada fiscalía clasifica el delito (homicidio doloso,
+  feminicidio, otros delitos contra la vida). Los criterios de clasificación varían entre entidades y en
+  el tiempo. Desde 2026 rige otra metodología (archivo distinto, no incluido en esta serie).
+archivos:
+  - '^2015 ?- ?20\d\d \(Fuero Común - Víctimas\)\. Incidencia delictiva estatal$'
+series:
+  - codigo: homicidio_doloso.total
+    indicador: seg.violencia_letal.homicidio.victimas_doloso
+    unidad: víctimas
+    origen: sesnsp_fiscalias
+  - codigo: homicidio_doloso.hombre
+    indicador: seg.violencia_letal.homicidio.victimas_doloso_hombres
+    unidad: víctimas
+    origen: sesnsp_fiscalias
+  - codigo: homicidio_doloso.mujer
+    indicador: seg.violencia_letal.homicidio.victimas_doloso_mujeres
+    unidad: víctimas
+    origen: sesnsp_fiscalias
+  - codigo: homicidio_doloso.no_identificado
+    indicador: seg.violencia_letal.homicidio.victimas_doloso_sexo_ne
+    unidad: víctimas
+    origen: sesnsp_fiscalias
+  - codigo: feminicidio.total
+    indicador: seg.violencia_letal.feminicidio.victimas
+    unidad: víctimas
+    origen: sesnsp_fiscalias
+  - codigo: otros_contra_la_vida.total
+    indicador: seg.violencia_letal.otros_contra_vida.victimas
+    unidad: víctimas
+    origen: sesnsp_fiscalias
+umbrales:
+  revision_advertencia_pct: 3.0
+  revision_advertencia_share: 0.2
+  caida_cobertura_pct: 0.0
+fecha_alta: 2026-10-06

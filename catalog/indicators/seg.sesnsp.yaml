@@ -1,0 +1,97 @@
+# Víctimas en carpetas de investigación (SESNSP).
+
+- id: seg.violencia_letal.homicidio.victimas_doloso
+  nombre: "Víctimas de homicidio doloso (SESNSP)"
+  concepto: seg.violencia_letal.homicidio
+  definicion: >
+    Víctimas de homicidio doloso registradas en carpetas de investigación del fuero común, por año de inicio de la carpeta.
+  unidad: víctimas
+  facetas: {tipo_medicion: administrativo, cadena: resultado, ritmo: coyuntural,
+            direccion_normativa: menos_es_mejor, cobertura: [mexico]}
+  series: [sesnsp_victimas:homicidio_doloso.total]
+  rangos_validos: {min: 0, max: 1000000}
+  atipicos: {z: 6.0, cambio_minimo: 0.25, piso: 200}
+  notas_interpretacion: >
+    Víctimas en carpetas de investigación (fiscalías), no defunciones: depende de la denuncia y de la clasificación de cada fiscalía.
+  preguntas: [D4]
+  fecha_alta: 2026-10-06
+
+- id: seg.violencia_letal.homicidio.victimas_doloso_hombres
+  nombre: "Víctimas de homicidio doloso: hombres (SESNSP)"
+  concepto: seg.violencia_letal.homicidio
+  definicion: >
+    Hombres víctimas de homicidio doloso en carpetas de investigación del fuero común.
+  unidad: víctimas
+  facetas: {tipo_medicion: administrativo, cadena: resultado, ritmo: coyuntural,
+            direccion_normativa: menos_es_mejor, cobertura: [mexico]}
+  series: [sesnsp_victimas:homicidio_doloso.hombre]
+  rangos_validos: {min: 0, max: 1000000}
+  atipicos: {z: 6.0, cambio_minimo: 0.25, piso: 200}
+  notas_interpretacion: >
+    Víctimas en carpetas de investigación (fiscalías), no defunciones: depende de la denuncia y de la clasificación de cada fiscalía.
+  preguntas: [D4]
+  fecha_alta: 2026-10-06
+
+- id: seg.violencia_letal.homicidio.victimas_doloso_mujeres
+  nombre: "Víctimas de homicidio doloso: mujeres (SESNSP)"
+  concepto: seg.violencia_letal.homicidio
+  definicion: >
+    Mujeres víctimas de homicidio doloso (no clasificado como feminicidio) en carpetas de investigación del fuero común.
+  unidad: víctimas
+  facetas: {tipo_medicion: administrativo, cadena: resultado, ritmo: coyuntural,
+            direccion_normativa: menos_es_mejor, cobertura: [mexico]}
+  series: [sesnsp_victimas:homicidio_doloso.mujer]
+  rangos_validos: {min: 0, max: 1000000}
+  atipicos: {z: 6.0, cambio_minimo: 0.25, piso: 200}
+  notas_interpretacion: >
+    Víctimas en carpetas de investigación (fiscalías), no defunciones: depende de la denuncia y de la clasificación de cada fiscalía. Un asesinato de una mujer se registra como feminicidio u homicidio doloso según la fiscalía acredite o no razones de género.
+  preguntas: [D4]
+  fecha_alta: 2026-10-06
+
+- id: seg.violencia_letal.homicidio.victimas_doloso_sexo_ne
+  nombre: "Víctimas de homicidio doloso: sexo no identificado (SESNSP)"
+  concepto: seg.violencia_letal.homicidio
+  definicion: >
+    Víctimas de homicidio doloso cuyo sexo no se identificó en la carpeta.
+  unidad: víctimas
+  facetas: {tipo_medicion: administrativo, cadena: resultado, ritmo: coyuntural,
+            direccion_normativa: neutral, cobertura: [mexico]}
+  series: [sesnsp_victimas:homicidio_doloso.no_identificado]
+  rangos_validos: {min: 0, max: 1000000}
+  atipicos: {z: 6.0, cambio_minimo: 0.25, piso: 200}
+  notas_interpretacion: >
+    Víctimas en carpetas de investigación (fiscalías), no defunciones: depende de la denuncia y de la clasificación de cada fiscalía.
+  preguntas: [D4]
+  fecha_alta: 2026-10-06
+
+- id: seg.violencia_letal.feminicidio.victimas
+  nombre: "Víctimas de feminicidio (SESNSP)"
+  concepto: seg.violencia_letal.feminicidio
+  definicion: >
+    Víctimas del delito de feminicidio en carpetas de investigación del fuero común (tipo penal que exige acreditar razones de género; su definición varía entre códigos penales estatales).
+  unidad: víctimas
+  facetas: {tipo_medicion: administrativo, cadena: resultado, ritmo: coyuntural,
+            direccion_normativa: menos_es_mejor, cobertura: [mexico]}
+  series: [sesnsp_victimas:feminicidio.total]
+  rangos_validos: {min: 0, max: 1000000}
+  atipicos: {z: 6.0, cambio_minimo: 0.25, piso: 200}
+  notas_interpretacion: >
+    Víctimas en carpetas de investigación (fiscalías), no defunciones: depende de la denuncia y de la clasificación de cada fiscalía. Su evolución mezcla cambios en la violencia y en la tipificación y aplicación del delito por cada fiscalía.
+  preguntas: [D4]
+  fecha_alta: 2026-10-06
+
+- id: seg.violencia_letal.otros_contra_vida.victimas
+  nombre: "Víctimas de otros delitos contra la vida y la integridad corporal (SESNSP)"
+  concepto: seg.violencia_letal.otros_contra_vida
+  definicion: >
+    Víctimas registradas como 'otros delitos que atentan contra la vida y la integridad corporal' en carpetas de investigación del fuero común.
+  unidad: víctimas
+  facetas: {tipo_medicion: administrativo, cadena: resultado, ritmo: coyuntural,
+            direccion_normativa: neutral, cobertura: [mexico]}
+  series: [sesnsp_victimas:otros_contra_la_vida.total]
+  rangos_validos: {min: 0, max: 1000000}
+  atipicos: {z: 6.0, cambio_minimo: 0.25, piso: 200}
+  notas_interpretacion: >
+    Víctimas en carpetas de investigación (fiscalías), no defunciones: depende de la denuncia y de la clasificación de cada fiscalía. Se vigila porque un aumento puede reflejar reclasificación de muertes que antes se registraban como homicidio doloso.
+  preguntas: [D4]
+  fecha_alta: 2026-10-06

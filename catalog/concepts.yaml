@@ -68,6 +68,8 @@
       nombre: Violencia letal
       conceptos:
         - {id: seg.violencia_letal.homicidio, nombre: Homicidio}
+        - {id: seg.violencia_letal.feminicidio, nombre: Feminicidio (tipo penal)}
+        - {id: seg.violencia_letal.otros_contra_vida, nombre: Otros delitos contra la vida y la integridad corporal}
     - id: seg.desapariciones
       nombre: Desapariciones
       conceptos:

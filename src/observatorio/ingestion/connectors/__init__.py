@@ -8,6 +8,7 @@ from observatorio.ingestion.connectors.cepal import CEPALSTAT
 from observatorio.ingestion.connectors.fmi_weo import IMFWEO
 from observatorio.ingestion.connectors.inegi_tabulados import INEGITabulados
 from observatorio.ingestion.connectors.rnpdno import RNPDNO
+from observatorio.ingestion.connectors.sesnsp import SESNSP
 from observatorio.ingestion.connectors.wb_pip import WorldBankPIP
 from observatorio.ingestion.connectors.wb_wdi import WorldBankWDI
 from observatorio.ingestion.connectors.wid import WID
@@ -21,6 +22,7 @@ CONNECTORS: dict[str, type] = {
     CEPALSTAT.name: CEPALSTAT,
     INEGITabulados.name: INEGITabulados,
     RNPDNO.name: RNPDNO,
+    SESNSP.name: SESNSP,
 }
 
 

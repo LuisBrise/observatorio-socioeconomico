@@ -4,9 +4,9 @@ subtitle: "¿Cómo han evolucionado los homicidios en México y cómo se compara
 ---
 
 ::: {.callout-note appearance="minimal"}
-**Estado: en construcción.** Por ahora cubre los homicidios según los registros de defunción y el
-registro de personas desaparecidas. Siguen: las carpetas de investigación del SESNSP y su diferencia
-con INEGI, y los feminicidios y homicidios de mujeres.
+**Estado: en construcción.** Cubre homicidios (defunciones y carpetas de investigación), asesinatos
+de mujeres y feminicidios, y el registro de personas desaparecidas, a nivel nacional. Siguen: las
+entidades federativas y la serie del SESNSP con su metodología de 2026.
 :::
 
 ::: {.callout-important appearance="minimal"}
@@ -27,6 +27,12 @@ reg = FileAttachment("../../data/d4/homicidios-regiones/data.json").json()
 regProv = FileAttachment("../../data/d4/homicidios-regiones/provenance.json").json()
 des = FileAttachment("../../data/d4/desaparecidas-anio/data.json").json()
 desProv = FileAttachment("../../data/d4/desaparecidas-anio/provenance.json").json()
+fue = FileAttachment("../../data/d4/homicidios-fuentes/data.json").json()
+fueProv = FileAttachment("../../data/d4/homicidios-fuentes/provenance.json").json()
+cv = FileAttachment("../../data/d4/sesnsp-contra-la-vida/data.json").json()
+cvProv = FileAttachment("../../data/d4/sesnsp-contra-la-vida/provenance.json").json()
+muj = FileAttachment("../../data/d4/mujeres/data.json").json()
+mujProv = FileAttachment("../../data/d4/mujeres/provenance.json").json()
 ```
 
 ## ¿Qué se mide?
@@ -37,9 +43,9 @@ desProv = FileAttachment("../../data/d4/desaparecidas-anio/provenance.json").jso
   es una agresión (códigos X85–Y09 de la clasificación internacional de enfermedades). No dependen de
   que alguien denuncie, pero sí de que el cuerpo sea localizado y la muerte se certifique. Se cuentan
   por año de registro.
-- **Carpetas de investigación (SESNSP):** víctimas de homicidio doloso en las investigaciones abiertas
-  por las fiscalías. Dependen de la denuncia y de cómo cada fiscalía clasifica el delito. *Se
-  incorporarán en la siguiente etapa.*
+- **Carpetas de investigación (SESNSP):** víctimas de homicidio doloso y feminicidio en las
+  investigaciones abiertas por las fiscalías. Dependen de la denuncia y de cómo cada fiscalía
+  clasifica el delito.
 
 Ninguna de las dos incluye a las personas desaparecidas cuyo cuerpo no ha sido localizado.
 
@@ -60,8 +66,62 @@ html`<div class="obs-chart">
 
 [ANÁLISIS]{.obs-tag} La tasa de UNODC para México y la de INEGI no son dos mediciones independientes:
 UNODC usa los registros de INEGI, y entre 2010 y 2023 ambas coinciden exactamente cuando se divide
-entre la misma población. La verificación independiente vendrá de comparar con las carpetas de
-investigación del SESNSP, que miden algo distinto.
+entre la misma población. La comparación independiente es con las carpetas de investigación del
+SESNSP (abajo).
+
+## Dos registros independientes
+
+```{ojs}
+//| echo: false
+html`<div class="obs-chart">
+  <h3>Homicidios según el registro de defunciones y según las carpetas de investigación</h3>
+  <p class="obs-sub">Personas por año · INEGI (defunciones por homicidio) y SESNSP (víctimas de homicidio doloso y feminicidio)</p>
+  ${charts.lineasSeries(fue, { tokens, width, unidad: "personas",
+    series: [{ key: "inegi", label: "INEGI · defunciones", corto: "INEGI", color: "focus" },
+             { key: "sesnsp", label: "SESNSP · víctimas en carpetas", corto: "SESNSP", color: "compare" }] })}
+  ${charts.procedencia(fueProv, { csv: [["datos (CSV)", "../../data/d4/homicidios-fuentes/serie.csv"]] })}
+  ${charts.advertencias(fueProv)}
+</div>`
+```
+
+[ANÁLISIS]{.obs-tag} Los dos registros los producen instituciones distintas, con reglas distintas y
+en momentos distintos. INEGI registra más homicidios que el SESNSP todos los años. Sin embargo,
+ambos coinciden en la dirección del cambio en casi todos los años, incluida la caída de 2025. La
+diferencia entre ambos está documentada en `catalog/discrepancies/DIS-003.yaml`.
+
+```{ojs}
+//| echo: false
+html`<div class="obs-chart">
+  <h3>Víctimas de delitos contra la vida en carpetas de investigación, por tipo de delito</h3>
+  <p class="obs-sub">Víctimas por año · SESNSP · fuero común · metodología 2015–2025</p>
+  ${charts.lineasSeries(cv, { tokens, width, unidad: "víctimas",
+    series: [{ key: "doloso", label: "Homicidio doloso", corto: "Hom. doloso", color: "focus" },
+             { key: "otros", label: "Otros delitos contra la vida", corto: "Otros", color: "compare" },
+             { key: "feminicidio", label: "Feminicidio", corto: "Feminicidio", color: "ink2" }] })}
+  ${charts.procedencia(cvProv, { csv: [["datos (CSV)", "../../data/d4/sesnsp-contra-la-vida/serie.csv"]] })}
+  ${charts.advertencias(cvProv)}
+</div>`
+```
+
+## Mujeres asesinadas y feminicidio
+
+[DATO]{.obs-tag} El *feminicidio* es un delito: la fiscalía lo registra así cuando acredita razones
+de género, y cada código penal estatal lo define a su manera. Las *defunciones de mujeres por
+homicidio* (INEGI) cuentan a todas las mujeres asesinadas, sin calificar el motivo.
+
+```{ojs}
+//| echo: false
+html`<div class="obs-chart">
+  <h3>Mujeres asesinadas según cada registro, y casos investigados como feminicidio</h3>
+  <p class="obs-sub">Mujeres por año · INEGI (defunciones) y SESNSP (víctimas en carpetas de investigación)</p>
+  ${charts.lineasSeries(muj, { tokens, width, unidad: "mujeres",
+    series: [{ key: "inegi", label: "INEGI · defunciones de mujeres por homicidio", corto: "INEGI", color: "focus" },
+             { key: "sesnsp", label: "SESNSP · homicidio doloso + feminicidio", corto: "SESNSP", color: "compare" },
+             { key: "feminicidio", label: "SESNSP · feminicidio", corto: "Feminicidio", color: "ink2" }] })}
+  ${charts.procedencia(mujProv, { csv: [["datos (CSV)", "../../data/d4/mujeres/serie.csv"]] })}
+  ${charts.advertencias(mujProv)}
+</div>`
+```
 
 ## México dentro de América Latina
 
