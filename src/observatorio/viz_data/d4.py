@@ -44,6 +44,7 @@ def build(paths: Paths, catalog: Catalog) -> list[str]:
     built += _serie_mexico(paths, catalog, obs)
     built += _mexico_alc(paths, catalog, obs)
     built += _regiones(paths, catalog, obs)
+    built += _desaparecidas(paths, catalog, obs)
     return built
 
 
@@ -171,4 +172,79 @@ def _regiones(paths: Paths, catalog: Catalog, obs: pl.DataFrame) -> list[str]:
         groups={"regiones_banco_mundial": list(REGIONES)},
     )
     write_chart(paths, catalog, spec, {"filas": tabla}, extra={"foco": FOCO})
+    return [spec.chart_id]
+
+
+DESAP = "seg.desapariciones.registro.desaparecidas"
+DESAP_ESTATUS = {
+    "rnpdno:desaparecidas.total": "siguen_desaparecidas",
+    "rnpdno:localizadas_sin_vida.total": "localizadas_sin_vida",
+    "rnpdno:localizadas_con_vida.total": "localizadas_con_vida",
+}
+DESDE = "2000"
+
+
+def _desaparecidas(paths: Paths, catalog: Catalog, obs: pl.DataFrame) -> list[str]:
+    """4.4 · Personas reportadas como desaparecidas por año de desaparición y su estatus actual."""
+    rn = obs.filter(pl.col("series_id").str.starts_with("rnpdno:") & (pl.col("geo_id") == FOCO))
+    vintage = rn["vintage_id"].max()
+    est = (rn.filter(pl.col("series_id").is_in(list(DESAP_ESTATUS)))
+           .with_columns(pl.col("series_id").replace_strict(DESAP_ESTATUS).alias("estatus"))
+           .select("period", "estatus", "value", "obs_status"))
+    sexo = (rn.filter(pl.col("series_id").is_in(["rnpdno:desaparecidas.mujer",
+                                                 "rnpdno:desaparecidas.hombre"]))
+            .pivot(on="series_id", index="period", values="value")
+            .rename({"rnpdno:desaparecidas.mujer": "mujeres", "rnpdno:desaparecidas.hombre": "hombres"}))
+    anual = est.filter(pl.col("period") >= DESDE).sort("period", "estatus")
+    total = est.group_by("period").agg(pl.col("value").sum())
+    antes = int(total.filter(pl.col("period") < DESDE)["value"].sum())
+
+    def suma(sid: str) -> int:
+        return int(rn.filter(pl.col("series_id") == sid)["value"].sum())
+
+    sin_anio_desap, sin_anio_todas = suma("rnpdno:desaparecidas.sin_anio"), suma("rnpdno:todas.sin_anio")
+    desap_total, reportadas = suma("rnpdno:desaparecidas.total"), suma("rnpdno:todas.total")
+    # Coherencia interna: los tres estatus suman el total de reportes de cada año.
+    chk = total.join(rn.filter(pl.col("series_id") == "rnpdno:todas.total")
+                     .select("period", pl.col("value").alias("todas")), on="period")
+    if (chk["value"] != chk["todas"]).any():
+        raise ValueError("d4/desaparecidas: los estatus no suman el total de reportes")
+    prelim = sorted(anual.filter(pl.col("obs_status") == "P")["period"].unique().to_list())
+    corte = f"{vintage[:4]}-{vintage[5:7]}-{vintage[8:10]}"
+    spec = ChartSpec(
+        chart_id="d4/desaparecidas-anio",
+        question=("¿Cuántas personas reportadas como desaparecidas siguen sin ser localizadas, según el año "
+                  "en que desaparecieron?"),
+        indicators=[DESAP, "seg.desapariciones.registro.localizadas_con_vida",
+                    "seg.desapariciones.registro.localizadas_sin_vida",
+                    "seg.desapariciones.registro.reportadas"],
+        caveats=[
+            f"Instantánea del registro consultada el {corte}: el estatus de cada persona puede cambiar "
+            "después (localización, depuración de duplicados, registros tardíos).",
+            "Por año de desaparición: los años recientes han tenido menos tiempo para que las personas sean "
+            "localizadas, así que la proporción que sigue desaparecida no es comparable entre años lejanos y "
+            "recientes.",
+            (f"{corte[:4]}: año en curso (de enero a la fecha de consulta). "
+             + ", ".join(p for p in prelim if p != corte[:4])
+             + ": el registro de reportes tardíos sigue en curso.") if prelim else "",
+            "Antes de 2019 no existía un registro integrado; los años anteriores provienen del RNPED "
+            "(SESNSP) normalizado por la CNB y están subregistrados.",
+            "En 2023–2024 el gobierno federal revisó el registro con una metodología cuestionada por "
+            "colectivos de familias y organismos de derechos humanos: instantáneas anteriores y posteriores "
+            "pueden no ser comparables.",
+            f"No se muestran: {antes:,} personas reportadas con año de desaparición anterior a {DESDE} y "
+            f"{sin_anio_todas:,} sin año de desaparición ({sin_anio_desap:,} de ellas siguen desaparecidas). "
+            f"Total en el registro: {reportadas + sin_anio_todas:,} personas reportadas, de las cuales "
+            f"{desap_total + sin_anio_desap:,} siguen desaparecidas o no localizadas.",
+            "Es un registro administrativo: depende de que haya reporte o denuncia. No es una estimación "
+            "del total de personas desaparecidas.",
+        ],
+        series_usadas=[*DESAP_ESTATUS, "rnpdno:todas.total", "rnpdno:desaparecidas.mujer",
+                       "rnpdno:desaparecidas.hombre", "rnpdno:desaparecidas.sin_anio",
+                       "rnpdno:todas.sin_anio"],
+    )
+    spec.caveats = [c for c in spec.caveats if c]
+    write_chart(paths, catalog, spec,
+                {"estatus": anual, "sexo": sexo.filter(pl.col("period") >= DESDE).sort("period")},
+                extra={"corte": corte, "preliminares": prelim})
     return [spec.chart_id]

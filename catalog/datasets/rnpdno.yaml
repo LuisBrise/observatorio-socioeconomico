@@ -1,0 +1,78 @@
+id: rnpdno
+nombre: Registro Nacional de Personas Desaparecidas y No Localizadas (versión pública)
+fuente: cnb
+conector: rnpdno
+url: https://versionpublicarnpdno.segob.gob.mx/
+acceso:
+  metodo: api
+  endpoint: https://versionpublicarnpdno.segob.gob.mx/SocioDemografico/AreaChartSexoAnio
+  credenciales: ninguna
+  formato: json
+licencia:
+  nombre: Términos de uso del sitio de la versión pública del RNPDNO
+  url: https://versionpublicarnpdno.segob.gob.mx/
+  redistribucion: solo_agregados
+cobertura:
+  geografica: Nacional (el sitio permite filtrar por entidad y municipio)
+  temporal: Año de desaparición; registros desde 1952, con cobertura muy incompleta antes de ~2006
+  poblacion: Personas reportadas como desaparecidas o no localizadas ante autoridades o en el portal público
+frecuencia: continua (se consulta semanalmente)
+rezago_tipico_dias: 0
+calendario: Actualización continua; cada consulta es una instantánea con su fecha y hora.
+metodologia: https://versionpublicarnpdno.segob.gob.mx/
+revisiones: >
+  El estatus de cada registro cambia cuando la persona es localizada, se depuran duplicados y se
+  incorporan registros tardíos. Las cifras de cualquier año pueden cambiar entre consultas.
+limitaciones: >
+  Es un registro administrativo, no una estimación: depende de que haya reporte o denuncia y de que
+  las autoridades lo capturen. Los años recientes tienen menos tiempo para que las personas sean
+  localizadas, así que el número de personas que siguen desaparecidas por año de desaparición no es
+  comparable entre años lejanos y recientes. Antes de 2019 no existía un registro integrado (la CNB
+  normalizó el RNPED del SESNSP); los años anteriores están subregistrados. En 2023–2024 el gobierno
+  federal revisó el registro con una metodología cuestionada por colectivos de familias: las
+  instantáneas de distintas fechas pueden no ser comparables. Hay registros sin año de desaparición.
+archivos: ["0", "7", "2", "3"]
+series:
+  - codigo: desaparecidas.total
+    indicador: seg.desapariciones.registro.desaparecidas
+    unidad: personas
+    origen: cnb_rnpdno
+  - codigo: desaparecidas.hombre
+    indicador: seg.desapariciones.registro.desaparecidas_hombres
+    unidad: personas
+    origen: cnb_rnpdno
+  - codigo: desaparecidas.mujer
+    indicador: seg.desapariciones.registro.desaparecidas_mujeres
+    unidad: personas
+    origen: cnb_rnpdno
+  - codigo: desaparecidas.indeterminado
+    indicador: seg.desapariciones.registro.desaparecidas_sexo_ne
+    unidad: personas
+    origen: cnb_rnpdno
+  - codigo: desaparecidas.sin_anio
+    indicador: seg.desapariciones.registro.desaparecidas_sin_anio
+    unidad: personas
+    origen: cnb_rnpdno
+  - codigo: todas.total
+    indicador: seg.desapariciones.registro.reportadas
+    unidad: personas
+    origen: cnb_rnpdno
+  - codigo: todas.sin_anio
+    indicador: seg.desapariciones.registro.reportadas_sin_anio
+    unidad: personas
+    origen: cnb_rnpdno
+  - codigo: localizadas_con_vida.total
+    indicador: seg.desapariciones.registro.localizadas_con_vida
+    unidad: personas
+    origen: cnb_rnpdno
+  - codigo: localizadas_sin_vida.total
+    indicador: seg.desapariciones.registro.localizadas_sin_vida
+    unidad: personas
+    origen: cnb_rnpdno
+umbrales:
+  # Instantáneas de un registro vivo: los cambios entre consultas son esperables (localizaciones,
+  # registros tardíos). Se advierte solo ante cambios grandes y generalizados (p. ej., depuraciones).
+  revision_advertencia_pct: 10.0
+  revision_advertencia_share: 0.5
+  caida_cobertura_pct: 2.0
+fecha_alta: 2026-10-06

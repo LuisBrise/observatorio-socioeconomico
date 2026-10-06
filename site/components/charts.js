@@ -550,8 +550,54 @@ export function createCharts({ Plot, document: doc = globalThis.document }) {
     ]);
   }
 
+  // Barras apiladas por año con el estatus actual de cada registro (foco: lo que sigue sin resolverse,
+  // en la base). Años preliminares con menor opacidad.
+  function barrasEstatus(data, { tokens: t = DEFAULT_TOKENS, width = 720, unidad = "personas",
+                                 categorias = [] } = {}) {
+    const colors = [t.focus, t.ink2, t.context];
+    const color = Object.fromEntries(categorias.map((c, i) => [c.key, colors[i] ?? t.muted]));
+    const label = Object.fromEntries(categorias.map((c) => [c.key, c.label]));
+    const orden = categorias.map((c) => c.key);
+    const prelim = new Set(data.preliminares ?? []);
+    const rows = data.estatus.map((d) => ({ ...d, year: year(d) }));
+    const totales = d3group(rows, (d) => d.period);
+    const sexo = Object.fromEntries((data.sexo ?? []).map((d) => [d.period, d]));
+    const yrs = rows.map((d) => d.year);
+    const fig = Plot.plot({
+      document: doc, width, height: Math.round(Math.min(420, Math.max(300, width * 0.52))),
+      marginLeft: 56, marginRight: 16, marginTop: 30, style: baseStyle(t),
+      x: { label: null, type: "band", tickFormat: (y) => (y % 5 === 0 ? String(y) : ""), padding: 0.15 },
+      y: { label: unidad, labelAnchor: "top", nice: true, tickFormat: (v) => fmtNum.format(v) },
+      color: { domain: orden, range: orden.map((k) => color[k]) },
+      marks: [
+        Plot.gridY({ stroke: t.grid, strokeOpacity: 1 }),
+        Plot.barY(rows, { x: "year", y: "value", fill: "estatus", order: orden,
+          fillOpacity: (d) => (prelim.has(d.period) ? 0.55 : 1) }),
+        Plot.ruleY([0], { stroke: t.axis }),
+        Plot.tip(rows, Plot.pointerX({ x: "year", y: "value", fill: t.surface, stroke: t.axis,
+          channels: { estatus: "estatus" },
+          title: (d) => {
+            const g = totales.get(d.period) ?? [];
+            const tot = g.reduce((a, r) => a + r.value, 0);
+            const sx = sexo[d.period];
+            return `${d.period}${prelim.has(d.period) ? " (preliminar)" : ""} · ${fmtNum.format(tot)} reportadas\n` +
+              orden.map((k) => { const r = g.find((x) => x.estatus === k);
+                return `${label[k]}: ${fmtNum.format(r?.value ?? 0)}`; }).join("\n") +
+              (sx ? `\nSiguen desaparecidas: ${fmtNum.format(sx.mujeres)} mujeres, ${fmtNum.format(sx.hombres)} hombres` : "");
+          } })),
+      ],
+    });
+    fig.setAttribute("role", "img");
+    fig.setAttribute("aria-label", `Personas reportadas como desaparecidas por año de desaparición, ` +
+      `${Math.min(...yrs)}–${Math.max(...yrs)}, según su estatus en la fecha de consulta (${data.corte}).`);
+    return el("div", {}, [
+      legend(categorias.map((c) => ({ label: c.label, color: color[c.key], kind: "band" }))),
+      fig,
+    ]);
+  }
+
   return { legend, serieDistribucion, multiplesReferencia, abanico, lineasTramos, pesas,
-    panelesDefiniciones, dosFuentes, seriePreliminar, procedencia, advertencias };
+    panelesDefiniciones, dosFuentes, seriePreliminar, barrasEstatus, procedencia, advertencias };
 }
 
 function d3group(rows, key) {

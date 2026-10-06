@@ -41,6 +41,7 @@ STATUS_MAP: dict[str, dict[str, str]] = {
     "wid": {"": "A", "I": "I"},  # I = imputado/extrapolado (data_quality <= 1)
     "cepal_pobreza": {"": "A", "B": "B"},
     "inegi_homicidios": {"": "A", "P": "P"},  # P = cifra preliminar (nota del cuadro)
+    "rnpdno": {"": "A", "P": "P"},  # P = año de la consulta y el anterior (registro incompleto)
 }
 
 _ANNUAL = re.compile(r"^\d{4}$")

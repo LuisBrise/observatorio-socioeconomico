@@ -12,6 +12,7 @@ from observatorio.staging.fmi_weo import parse_fmi_weo
 from observatorio.staging.inegi_pm import parse_inegi_pm
 from observatorio.staging.inegi_tabulados import parse_inegi_tabulados
 from observatorio.staging.onu_wpp import parse_onu_wpp
+from observatorio.staging.rnpdno import parse_rnpdno
 from observatorio.staging.wb_pip import parse_wb_pip
 from observatorio.staging.wb_wdi import parse_wb_wdi
 from observatorio.staging.wid import parse_wid
@@ -23,7 +24,8 @@ PARSERS: dict[str, Parser] = {"wb_wdi": parse_wb_wdi, "fmi_weo": parse_fmi_weo,
                               "onu_wpp_prob": parse_onu_wpp, "wb_pip": parse_wb_pip,
                               "inegi_pm": parse_inegi_pm, "wid": parse_wid,
                               "cepal_pobreza": parse_cepal,
-                              "inegi_homicidios": parse_inegi_tabulados}
+                              "inegi_homicidios": parse_inegi_tabulados,
+                              "rnpdno": parse_rnpdno}
 
 STAGING_SCHEMA = {
     "dataset_id": pl.String,

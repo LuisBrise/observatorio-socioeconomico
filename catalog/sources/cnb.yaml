@@ -1,0 +1,27 @@
+id: cnb
+nombre: Comisión Nacional de Búsqueda de Personas (CNB)
+tipo: registro_administrativo
+url: https://versionpublicarnpdno.segob.gob.mx/
+evaluacion:
+  mandato: >
+    Órgano desconcentrado de la Secretaría de Gobernación que administra el Registro Nacional de
+    Personas Desaparecidas y No Localizadas (RNPDNO), previsto en la Ley General en Materia de
+    Desaparición (2017).
+  metodologia: >
+    Registro administrativo alimentado por fiscalías, comisiones de búsqueda y reportes ciudadanos;
+    incluye los registros históricos del RNPED (SESNSP, corte a abril de 2018) normalizados por la CNB.
+    La versión pública muestra agregados; no publica una nota metodológica de los cambios de estatus.
+  revisiones: >
+    Se actualiza de forma continua (desfase declarado de minutos): cada consulta es una instantánea.
+    Los registros cambian de estatus cuando una persona es localizada, y se depuran duplicados.
+  continuidad: >
+    En 2023–2024 el gobierno federal realizó una revisión del registro ("búsqueda generalizada") que
+    cambió el estatus de registros; su metodología fue cuestionada por colectivos de familias y
+    organismos de derechos humanos, y la titular de la CNB renunció en 2023. Las instantáneas de
+    distintas fechas pueden no ser comparables.
+  independencia: >
+    Depende del Ejecutivo federal (Secretaría de Gobernación). La cifra es objeto de disputa
+    política; conviene contrastarla con otras fuentes (fosas, cuerpos sin identificar, carpetas de
+    investigación) cuando sea posible.
+  primaria_o_compiladora: Compiladora (registros de autoridades federales y estatales).
+fecha_alta: '2026-10-06'

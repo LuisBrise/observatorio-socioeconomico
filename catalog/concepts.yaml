@@ -68,7 +68,10 @@
       nombre: Violencia letal
       conceptos:
         - {id: seg.violencia_letal.homicidio, nombre: Homicidio}
-    - {id: seg.desapariciones, nombre: Desapariciones}
+    - id: seg.desapariciones
+      nombre: Desapariciones
+      conceptos:
+        - {id: seg.desapariciones.registro, nombre: Personas desaparecidas y no localizadas registradas}
     - {id: seg.victimizacion, nombre: Delitos y victimización}
     - {id: seg.percepcion, nombre: Percepción de inseguridad}
     - {id: seg.justicia, nombre: Justicia}

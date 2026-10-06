@@ -1,0 +1,145 @@
+# Desapariciones (RNPDNO). Las cifras representan personas: solo agregados, lenguaje sobrio.
+
+- id: seg.desapariciones.registro.desaparecidas
+  nombre: "Personas desaparecidas y no localizadas (RNPDNO)"
+  concepto: seg.desapariciones.registro
+  definicion: >
+    Personas cuyo registro sigue con estatus de desaparecida o no localizada en la fecha de consulta, por año de desaparición.
+  unidad: personas
+  facetas: {tipo_medicion: administrativo, cadena: resultado, ritmo: coyuntural,
+            direccion_normativa: menos_es_mejor, cobertura: [mexico]}
+  series: [rnpdno:desaparecidas.total]
+  rangos_validos: {min: 0, max: 10000000}
+  atipicos: {z: 6.0, cambio_minimo: 0.5, piso: 500}
+  notas_interpretacion: >
+    Instantánea de un registro administrativo vivo, por año de desaparición: los años recientes tienen menos tiempo para que las personas sean localizadas y los anteriores a 2019 están subregistrados. Compárense instantáneas de distintas fechas con cautela.
+  preguntas: [D4]
+  fecha_alta: 2026-10-06
+
+- id: seg.desapariciones.registro.desaparecidas_hombres
+  nombre: "Personas desaparecidas y no localizadas: hombres (RNPDNO)"
+  concepto: seg.desapariciones.registro
+  definicion: >
+    Hombres con estatus de desaparecido o no localizado en la fecha de consulta, por año de desaparición.
+  unidad: personas
+  facetas: {tipo_medicion: administrativo, cadena: resultado, ritmo: coyuntural,
+            direccion_normativa: menos_es_mejor, cobertura: [mexico]}
+  series: [rnpdno:desaparecidas.hombre]
+  rangos_validos: {min: 0, max: 10000000}
+  atipicos: {z: 6.0, cambio_minimo: 0.5, piso: 500}
+  notas_interpretacion: >
+    Instantánea de un registro administrativo vivo, por año de desaparición: los años recientes tienen menos tiempo para que las personas sean localizadas y los anteriores a 2019 están subregistrados. Compárense instantáneas de distintas fechas con cautela.
+  preguntas: [D4]
+  fecha_alta: 2026-10-06
+
+- id: seg.desapariciones.registro.desaparecidas_mujeres
+  nombre: "Personas desaparecidas y no localizadas: mujeres (RNPDNO)"
+  concepto: seg.desapariciones.registro
+  definicion: >
+    Mujeres con estatus de desaparecida o no localizada en la fecha de consulta, por año de desaparición.
+  unidad: personas
+  facetas: {tipo_medicion: administrativo, cadena: resultado, ritmo: coyuntural,
+            direccion_normativa: menos_es_mejor, cobertura: [mexico]}
+  series: [rnpdno:desaparecidas.mujer]
+  rangos_validos: {min: 0, max: 10000000}
+  atipicos: {z: 6.0, cambio_minimo: 0.5, piso: 500}
+  notas_interpretacion: >
+    Instantánea de un registro administrativo vivo, por año de desaparición: los años recientes tienen menos tiempo para que las personas sean localizadas y los anteriores a 2019 están subregistrados. Compárense instantáneas de distintas fechas con cautela.
+  preguntas: [D4]
+  fecha_alta: 2026-10-06
+
+- id: seg.desapariciones.registro.desaparecidas_sexo_ne
+  nombre: "Personas desaparecidas y no localizadas: sexo indeterminado (RNPDNO)"
+  concepto: seg.desapariciones.registro
+  definicion: >
+    Personas desaparecidas o no localizadas cuyo registro no indica el sexo, por año de desaparición.
+  unidad: personas
+  facetas: {tipo_medicion: administrativo, cadena: resultado, ritmo: coyuntural,
+            direccion_normativa: neutral, cobertura: [mexico]}
+  series: [rnpdno:desaparecidas.indeterminado]
+  rangos_validos: {min: 0, max: 10000000}
+  atipicos: {z: 6.0, cambio_minimo: 0.5, piso: 500}
+  notas_interpretacion: >
+    Instantánea de un registro administrativo vivo, por año de desaparición: los años recientes tienen menos tiempo para que las personas sean localizadas y los anteriores a 2019 están subregistrados. Compárense instantáneas de distintas fechas con cautela.
+  preguntas: [D4]
+  fecha_alta: 2026-10-06
+
+- id: seg.desapariciones.registro.desaparecidas_sin_anio
+  nombre: "Personas desaparecidas y no localizadas sin año de desaparición (RNPDNO)"
+  concepto: seg.desapariciones.registro
+  definicion: >
+    Personas desaparecidas o no localizadas cuyo registro no indica el año de desaparición; el periodo es el año de la consulta (acervo, no flujo).
+  unidad: personas
+  facetas: {tipo_medicion: administrativo, cadena: resultado, ritmo: coyuntural,
+            direccion_normativa: neutral, cobertura: [mexico]}
+  series: [rnpdno:desaparecidas.sin_anio]
+  rangos_validos: {min: 0, max: 10000000}
+  atipicos: {z: 6.0, cambio_minimo: 0.5, piso: 500}
+  notas_interpretacion: >
+    Indicador de calidad del registro.
+  preguntas: [D4]
+  fecha_alta: 2026-10-06
+
+- id: seg.desapariciones.registro.reportadas
+  nombre: "Personas reportadas como desaparecidas o no localizadas, con cualquier estatus (RNPDNO)"
+  concepto: seg.desapariciones.registro
+  definicion: >
+    Todas las personas reportadas, hayan sido localizadas o no, por año de desaparición.
+  unidad: personas
+  facetas: {tipo_medicion: administrativo, cadena: resultado, ritmo: coyuntural,
+            direccion_normativa: neutral, cobertura: [mexico]}
+  series: [rnpdno:todas.total]
+  rangos_validos: {min: 0, max: 10000000}
+  atipicos: {z: 6.0, cambio_minimo: 0.5, piso: 500}
+  notas_interpretacion: >
+    Mezcla personas localizadas y no localizadas; útil como denominador del estatus. Instantánea de un registro administrativo vivo, por año de desaparición: los años recientes tienen menos tiempo para que las personas sean localizadas y los anteriores a 2019 están subregistrados. Compárense instantáneas de distintas fechas con cautela.
+  preguntas: [D4]
+  fecha_alta: 2026-10-06
+
+- id: seg.desapariciones.registro.reportadas_sin_anio
+  nombre: "Personas reportadas sin año de desaparición (RNPDNO)"
+  concepto: seg.desapariciones.registro
+  definicion: >
+    Personas reportadas, con cualquier estatus, cuyo registro no indica el año de desaparición; el periodo es el año de la consulta.
+  unidad: personas
+  facetas: {tipo_medicion: administrativo, cadena: resultado, ritmo: coyuntural,
+            direccion_normativa: neutral, cobertura: [mexico]}
+  series: [rnpdno:todas.sin_anio]
+  rangos_validos: {min: 0, max: 10000000}
+  atipicos: {z: 6.0, cambio_minimo: 0.5, piso: 500}
+  notas_interpretacion: >
+    Indicador de calidad del registro.
+  preguntas: [D4]
+  fecha_alta: 2026-10-06
+
+- id: seg.desapariciones.registro.localizadas_con_vida
+  nombre: "Personas localizadas con vida (RNPDNO)"
+  concepto: seg.desapariciones.registro
+  definicion: >
+    Personas reportadas como desaparecidas que fueron localizadas con vida, por año de desaparición.
+  unidad: personas
+  facetas: {tipo_medicion: administrativo, cadena: resultado, ritmo: coyuntural,
+            direccion_normativa: neutral, cobertura: [mexico]}
+  series: [rnpdno:localizadas_con_vida.total]
+  rangos_validos: {min: 0, max: 10000000}
+  atipicos: {z: 6.0, cambio_minimo: 0.5, piso: 500}
+  notas_interpretacion: >
+    Instantánea de un registro administrativo vivo, por año de desaparición: los años recientes tienen menos tiempo para que las personas sean localizadas y los anteriores a 2019 están subregistrados. Compárense instantáneas de distintas fechas con cautela.
+  preguntas: [D4]
+  fecha_alta: 2026-10-06
+
+- id: seg.desapariciones.registro.localizadas_sin_vida
+  nombre: "Personas localizadas sin vida (RNPDNO)"
+  concepto: seg.desapariciones.registro
+  definicion: >
+    Personas reportadas como desaparecidas que fueron localizadas sin vida, por año de desaparición.
+  unidad: personas
+  facetas: {tipo_medicion: administrativo, cadena: resultado, ritmo: coyuntural,
+            direccion_normativa: menos_es_mejor, cobertura: [mexico]}
+  series: [rnpdno:localizadas_sin_vida.total]
+  rangos_validos: {min: 0, max: 10000000}
+  atipicos: {z: 6.0, cambio_minimo: 0.5, piso: 500}
+  notas_interpretacion: >
+    Instantánea de un registro administrativo vivo, por año de desaparición: los años recientes tienen menos tiempo para que las personas sean localizadas y los anteriores a 2019 están subregistrados. Compárense instantáneas de distintas fechas con cautela.
+  preguntas: [D4]
+  fecha_alta: 2026-10-06
