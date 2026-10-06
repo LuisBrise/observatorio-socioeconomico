@@ -108,7 +108,7 @@ def harmonize(
 
     # Geografía
     aggregates = set(source_geos.filter(pl.col("is_aggregate"))["source_geo"].to_list())
-    countries = {g for g, geo in catalog.geographies.items() if geo.tipo == "pais"}
+    countries = {g for g, geo in catalog.geographies.items() if geo.tipo in ("pais", "entidad_federativa")}
     xwalk = catalog.geo_crosswalk.get(dataset.id, {})
     geo_codes = df["source_geo"].unique().to_list()
     mapping, unknown = {}, []

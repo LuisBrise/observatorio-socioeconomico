@@ -47,6 +47,7 @@ def build(paths: Paths, catalog: Catalog) -> list[str]:
     built += _desaparecidas(paths, catalog, obs)
     built += _fuentes_homicidio(paths, catalog, obs)
     built += _mujeres(paths, catalog, obs)
+    built += _entidades(paths, catalog, obs)
     return built
 
 
@@ -371,4 +372,75 @@ def _mujeres(paths: Paths, catalog: Catalog, obs: pl.DataFrame) -> list[str]:
     spec.caveats = [c for c in spec.caveats if c]
     write_chart(paths, catalog, spec, {"serie": _largo(inegi, sesnsp, fem)},
                 extra={"proporcion_feminicidio": prop.select("period", "pct").to_dicts()})
+    return [spec.chart_id]
+
+
+ENT_DESDE, ENT_HASTA = "2021", "2024"  # años definitivos de INEGI más recientes
+
+
+def _entidades(paths: Paths, catalog: Catalog, obs: pl.DataFrame) -> list[str]:
+    """4.8 · Por entidad: diferencia INEGI–SESNSP y peso de "otros delitos contra la vida"."""
+    import math
+
+    ent = obs.filter(pl.col("geo_id").str.starts_with("MX-")
+                     & pl.col("period").is_between(pl.lit(ENT_DESDE), pl.lit(ENT_HASTA)))
+
+    def total(sid: str, name: str) -> pl.DataFrame:
+        return (ent.filter(pl.col("series_id") == sid).group_by("geo_id")
+                .agg(pl.col("value").sum().alias(name), pl.len().alias(f"n_{name}")))
+
+    t = (total("inegi_homicidios:Mortalidad_08.total", "inegi")
+         .join(total("sesnsp_victimas:homicidio_doloso.total", "doloso"), on="geo_id")
+         .join(total("sesnsp_victimas:feminicidio.total", "feminicidio"), on="geo_id")
+         .join(total("sesnsp_victimas:otros_contra_la_vida.total", "otros"), on="geo_id"))
+    anios = int(ENT_HASTA) - int(ENT_DESDE) + 1
+    completos = t.select(pl.all_horizontal(pl.col("^n_.*$") == anios)).to_series().all()
+    if not completos or t.height != 32:
+        raise ValueError("d4/entidades: faltan años o entidades")
+    t = (t.select("geo_id", "inegi", "doloso", "feminicidio", "otros")
+         .with_columns((pl.col("doloso") + pl.col("feminicidio")).alias("sesnsp"))
+         .with_columns(((pl.col("inegi") - pl.col("sesnsp")) / pl.col("inegi") * 100).alias("brecha"),
+                       (pl.col("otros") / pl.col("sesnsp") * 100).alias("otros_pct"))
+         .with_columns(pl.col("geo_id").map_elements(catalog.geo_name, return_dtype=pl.String)
+                       .alias("nombre"))
+         .sort("brecha"))
+    # Asociación entre entidades (Spearman) con intervalo aproximado de Fisher.
+    r = float(t.select(pl.corr("brecha", "otros_pct", method="spearman")).item())
+    z, se = math.atanh(r), 1 / math.sqrt(t.height - 3)
+    lo, hi = math.tanh(z - 1.96 * se), math.tanh(z + 1.96 * se)
+    periodo = f"{ENT_DESDE}–{ENT_HASTA}"
+    neg = t.filter(pl.col("brecha") < 0)["nombre"].to_list()
+    spec = ChartSpec(
+        chart_id="d4/entidades-brecha",
+        question=("¿En qué entidades difieren más las defunciones por homicidio (INEGI) y las víctimas en "
+                  "carpetas de investigación (SESNSP), y se relaciona esa diferencia con el uso de la "
+                  "categoría 'otros delitos contra la vida'?"),
+        indicators=[HOM, "seg.violencia_letal.homicidio.victimas_doloso",
+                    "seg.violencia_letal.feminicidio.victimas",
+                    "seg.violencia_letal.otros_contra_vida.victimas"],
+        caveats=[
+            f"Suma de {periodo} (últimos años definitivos de INEGI). Diferencia = (INEGI − SESNSP) / INEGI; "
+            "SESNSP = homicidio doloso + feminicidio.",
+            "INEGI asigna la defunción a la entidad donde se registró; el SESNSP, a la fiscalía que abrió la "
+            "carpeta. Una muerte puede registrarse en una entidad e investigarse en otra.",
+            ("Diferencia negativa (el SESNSP registra más víctimas que defunciones INEGI): " + ", ".join(neg)
+             + ". Puede deberse a carpetas sin cuerpo localizado o a diferencias de entidad y de año.")
+            if neg else "",
+            f"Asociación entre entidades (correlación de Spearman): {r:.2f}, intervalo de 95 % aproximado "
+            f"{lo:.2f} a {hi:.2f} (n = {t.height}). Es débil y compatible con ausencia de asociación: estos "
+            "datos agregados no permiten afirmar ni descartar reclasificaciones. Además, una correlación "
+            "entre entidades no muestra causalidad.",
+            "El peso de 'otros delitos contra la vida' varía enormemente entre fiscalías (de 0 % a más de "
+            "600 % de las víctimas de homicidio doloso y feminicidio): refleja prácticas de registro "
+            "distintas, no solo incidencia.",
+        ],
+        transformations=[LineageStep("suma@1", {"periodo": periodo},
+                                     ["sesnsp_victimas:homicidio_doloso.total",
+                                      "sesnsp_victimas:feminicidio.total"]).to_dict()],
+        groups={"entidades_federativas": t["geo_id"].to_list()},
+        periodos=[str(a) for a in range(int(ENT_DESDE), int(ENT_HASTA) + 1)],
+    )
+    spec.caveats = [c for c in spec.caveats if c]
+    write_chart(paths, catalog, spec, {"entidades": t},
+                extra={"periodo": periodo, "spearman": r, "ic95": [lo, hi]})
     return [spec.chart_id]

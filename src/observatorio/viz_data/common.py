@@ -31,6 +31,8 @@ class ChartSpec:
     # Si se indica, solo estas series aparecen en la procedencia y en las advertencias de fuente
     # (p. ej., la gráfica usa la población de WDI pero no la del FMI).
     series_usadas: list[str] | None = None
+    # Años que cubre la gráfica cuando sus tablas no tienen columna de periodo (p. ej., sumas).
+    periodos: list[str] | None = None
 
 
 def _series_provenance(paths: Paths, catalog: Catalog, indicator_ids: list[str]) -> list[dict]:
@@ -122,8 +124,8 @@ def write_chart(paths: Paths, catalog: Catalog, spec: ChartSpec,
     geos = {g for df in tables.values() if "geo_id" in df.columns for g in df["geo_id"].to_list()}
     geos |= {g for members in spec.groups.values() for g in members}
     # Solo los años que la gráfica muestra: columnas `period` o `anio_*` de sus tablas.
-    periods: set[str] = set()
-    for df in tables.values():
+    periods: set[str] = set(spec.periodos or [])
+    for df in ([] if spec.periodos else tables.values()):
         for col in df.columns:
             if col == "period" or col.startswith("anio"):
                 periods |= {str(v) for v in df[col].drop_nulls().to_list()}

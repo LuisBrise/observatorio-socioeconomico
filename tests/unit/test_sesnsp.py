@@ -47,7 +47,11 @@ def test_parse_sesnsp(tmp_path):
              fila(2024, 1, "Feminicidio", "Mujer", ["2"] * 12), fila(2024, 1, "Robo", "Hombre", doce),
              fila(2025, 1, "Homicidio doloso", "Hombre", ["3"] * 8 + [""] * 4)]
     (tmp_path / "sesnsp_0.zip").write_bytes(zip_csv("\n".join(filas), "latin-1"))
-    obs, _ = parse_sesnsp(tmp_path, "sesnsp_victimas", "v1")
+    obs, geos = parse_sesnsp(tmp_path, "sesnsp_victimas", "v1")
+    assert set(geos["source_geo"]) == {"00", "01", "02"}
+    ent = obs.filter(obs["source_geo"] == "02")
+    assert ent.filter(ent["source_series"] == "homicidio_doloso.mujer")["value"].to_list() == [12.0]
+    obs = obs.filter(obs["source_geo"] == "00")
     v = {(r["source_series"], r["source_period"]): (r["value"], r["source_obs_status"]) for r in obs.to_dicts()}
     assert v[("homicidio_doloso.total", "2024")] == (24.0, "")
     assert v[("homicidio_doloso.mujer", "2024")] == (12.0, "")
@@ -60,7 +64,7 @@ def test_parse_sesnsp_utf8_con_bom(tmp_path):
     text = "\ufeff" + "\n".join([ENC, fila(2024, 1, "Feminicidio", "Mujer", ["1"] * 12)])
     (tmp_path / "sesnsp_0.zip").write_bytes(zip_csv(text, "utf-8"))
     obs, _ = parse_sesnsp(tmp_path, "d", "v1")
-    assert obs["value"].to_list() == [12.0]
+    assert obs.filter(obs["source_geo"] == "00")["value"].to_list() == [12.0]
 
 
 def test_conector_descarga_con_cookie_de_invitado():

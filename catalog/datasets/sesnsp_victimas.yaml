@@ -13,7 +13,7 @@ licencia:
   url: https://datos.gob.mx/libreusomx
   redistribucion: permitida_con_atribucion
 cobertura:
-  geografica: 32 entidades (se agrega a nacional)
+  geografica: Nacional y 32 entidades (entidad de la fiscalía)
   temporal: 2015–2025, mensual
   poblacion: Víctimas registradas en carpetas de investigación del fuero común
 frecuencia: mensual (se agrega a anual)

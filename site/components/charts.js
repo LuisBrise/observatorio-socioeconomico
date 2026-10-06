@@ -652,8 +652,59 @@ export function createCharts({ Plot, document: doc = globalThis.document }) {
     ]);
   }
 
+  // Un valor por unidad (p. ej., entidad), ordenado, con línea de cero. Valores negativos en
+  // color de comparación, positivos en foco: la dirección importa, no se valora.
+  function puntosOrdenados(rows, { tokens: t = DEFAULT_TOKENS, width = 720, x = "value", unidad = "",
+                                   etiqueta = "nombre", detalle = () => "" } = {}) {
+    const orden = [...rows].sort((a, b) => a[x] - b[x]);
+    const fig = Plot.plot({
+      document: doc, width, height: 18 * orden.length + 60, marginLeft: 210, marginRight: 30,
+      marginBottom: 44, style: baseStyle(t),
+      x: { label: unidad, labelAnchor: "right", nice: true, grid: true },
+      y: { label: null, domain: orden.map((d) => d[etiqueta]) },
+      marks: [
+        Plot.ruleX([0], { stroke: t.axis }),
+        Plot.link(orden, { x1: 0, x2: x, y1: etiqueta, y2: etiqueta, stroke: t.context }),
+        Plot.dot(orden, { x, y: etiqueta, r: 4, fill: (d) => (d[x] < 0 ? t.compare : t.focus),
+          stroke: t.surface, strokeWidth: 1.5 }),
+        Plot.tip(orden, Plot.pointerY({ x, y: etiqueta, fill: t.surface, stroke: t.axis,
+          title: (d) => `${d[etiqueta]}\n${fmt1.format(d[x])} ${unidad}` + detalle(d) })),
+      ],
+    });
+    fig.setAttribute("role", "img");
+    fig.setAttribute("aria-label", `${unidad} por entidad, ordenado de menor a mayor.`);
+    return fig;
+  }
+
+  // Dispersión entre dos variables por unidad, sin línea de ajuste (n pequeño; la asociación se
+  // reporta con su intervalo en el texto). Etiquetas solo en los extremos.
+  function dispersion(rows, { tokens: t = DEFAULT_TOKENS, width = 720, x, y, xLabel = "", yLabel = "",
+                              etiqueta = "nombre", xType = "linear", extremos = 4 } = {}) {
+    const ext = new Set([...[...rows].sort((a, b) => a[y] - b[y]).slice(0, 2),
+      ...[...rows].sort((a, b) => b[y] - a[y]).slice(0, 2),
+      ...[...rows].sort((a, b) => b[x] - a[x]).slice(0, extremos - 2)].map((d) => d[etiqueta]));
+    const fig = Plot.plot({
+      document: doc, width, height: Math.round(Math.min(420, Math.max(300, width * 0.55))),
+      marginLeft: 56, marginRight: 30, marginBottom: 44, style: baseStyle(t),
+      x: { label: xLabel, type: xType, labelAnchor: "right", nice: true, grid: true },
+      y: { label: yLabel, labelAnchor: "top", nice: true, grid: true },
+      marks: [
+        Plot.ruleY([0], { stroke: t.axis }),
+        Plot.dot(rows, { x, y, r: 5, fill: t.focus, fillOpacity: 0.8, stroke: t.surface, strokeWidth: 1.5 }),
+        Plot.text(rows.filter((d) => ext.has(d[etiqueta])), { x, y, text: etiqueta, dy: -10, fill: t.ink2,
+          fontSize: 10 }),
+        Plot.tip(rows, Plot.pointer({ x, y, fill: t.surface, stroke: t.axis,
+          title: (d) => `${d[etiqueta]}\n${xLabel}: ${fmt1.format(d[x])}\n${yLabel}: ${fmt1.format(d[y])}` })),
+      ],
+    });
+    fig.setAttribute("role", "img");
+    fig.setAttribute("aria-label", `Dispersión por entidad: ${xLabel} frente a ${yLabel}.`);
+    return fig;
+  }
+
   return { legend, serieDistribucion, multiplesReferencia, abanico, lineasTramos, pesas,
-    panelesDefiniciones, dosFuentes, seriePreliminar, barrasEstatus, lineasSeries, procedencia, advertencias };
+    panelesDefiniciones, dosFuentes, seriePreliminar, barrasEstatus, lineasSeries, puntosOrdenados, dispersion,
+    procedencia, advertencias };
 }
 
 function d3group(rows, key) {

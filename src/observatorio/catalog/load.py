@@ -33,7 +33,7 @@ class Geography:
     geo_id: str
     nombre_es: str
     nombre_en: str
-    tipo: str  # pais | agregado
+    tipo: str  # pais | entidad_federativa | agregado
     valido_desde: str = ""
     valido_hasta: str = ""
 

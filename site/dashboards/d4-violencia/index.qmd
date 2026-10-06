@@ -5,8 +5,8 @@ subtitle: "¿Cómo han evolucionado los homicidios en México y cómo se compara
 
 ::: {.callout-note appearance="minimal"}
 **Estado: en construcción.** Cubre homicidios (defunciones y carpetas de investigación), asesinatos
-de mujeres y feminicidios, y el registro de personas desaparecidas, a nivel nacional. Siguen: las
-entidades federativas y la serie del SESNSP con su metodología de 2026.
+de mujeres y feminicidios, y el registro de personas desaparecidas, con una primera comparación por
+entidad federativa. Siguen: tasas por entidad y la serie del SESNSP con su metodología de 2026.
 :::
 
 ::: {.callout-important appearance="minimal"}
@@ -33,6 +33,8 @@ cv = FileAttachment("../../data/d4/sesnsp-contra-la-vida/data.json").json()
 cvProv = FileAttachment("../../data/d4/sesnsp-contra-la-vida/provenance.json").json()
 muj = FileAttachment("../../data/d4/mujeres/data.json").json()
 mujProv = FileAttachment("../../data/d4/mujeres/provenance.json").json()
+ent = FileAttachment("../../data/d4/entidades-brecha/data.json").json()
+entProv = FileAttachment("../../data/d4/entidades-brecha/provenance.json").json()
 ```
 
 ## ¿Qué se mide?
@@ -102,6 +104,32 @@ html`<div class="obs-chart">
   ${charts.advertencias(cvProv)}
 </div>`
 ```
+
+### ¿Dónde difieren más los dos registros?
+
+```{ojs}
+//| echo: false
+html`<div class="obs-chart">
+  <h3>Diferencia entre defunciones (INEGI) y víctimas en carpetas (SESNSP), por entidad</h3>
+  <p class="obs-sub">% de las defunciones INEGI · suma ${ent.periodo} · a la izquierda de cero, el SESNSP registra más</p>
+  ${charts.puntosOrdenados(ent.entidades, { tokens, width, x: "brecha", unidad: "% de diferencia",
+    detalle: (d) => `\nINEGI: ${d.inegi.toLocaleString("es-MX")} · SESNSP: ${d.sesnsp.toLocaleString("es-MX")}` })}
+  <h3 style="margin-top:1.5rem">¿Se relaciona la diferencia con el uso de "otros delitos contra la vida"?</h3>
+  <p class="obs-sub">Cada punto es una entidad · eje horizontal en escala de raíz cuadrada · correlación de Spearman ${ent.spearman.toFixed(2)} (IC 95 %: ${ent.ic95[0].toFixed(2)} a ${ent.ic95[1].toFixed(2)})</p>
+  ${charts.dispersion(ent.entidades, { tokens, width, x: "otros_pct", y: "brecha", xType: "sqrt",
+    xLabel: "Otros delitos contra la vida (% de homicidio doloso + feminicidio)",
+    yLabel: "Diferencia INEGI − SESNSP (%)" })}
+  ${charts.procedencia(entProv, { csv: [["datos (CSV)", "../../data/d4/entidades-brecha/entidades.csv"]] })}
+  ${charts.advertencias(entProv)}
+</div>`
+```
+
+[ANÁLISIS]{.obs-tag} La diferencia entre los dos registros cambia mucho de una entidad a otra, y en
+ocho entidades el SESNSP registra más víctimas que defunciones INEGI. El uso de la categoría «otros
+delitos contra la vida» también varía enormemente entre fiscalías. La asociación entre ambas cosas
+es débil y compatible con cero. Con estos datos agregados no se puede afirmar ni descartar que haya
+homicidios registrados en otras categorías; responderlo requiere revisar expedientes o criterios de
+clasificación de cada fiscalía.
 
 ## Mujeres asesinadas y feminicidio
 

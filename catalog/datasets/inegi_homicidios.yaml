@@ -13,7 +13,7 @@ licencia:
   url: https://www.inegi.org.mx/inegi/terminos.html
   redistribucion: permitida_con_atribucion
 cobertura:
-  geografica: Nacional (las entidades federativas de registro se guardan en el archivo crudo)
+  geografica: Nacional y 32 entidades federativas (entidad de registro)
   temporal: 2010 en adelante en este cuadro (la estadística existe desde 1990)
   poblacion: Defunciones registradas en el registro civil con causa básica de homicidio
 frecuencia: anual

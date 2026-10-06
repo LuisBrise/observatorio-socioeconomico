@@ -1,0 +1,65 @@
+# Revisión humana de atípicos (docs/diseno/06-pipeline-y-validacion.md §7).
+# resolucion: valor_real | error_fuente | pendiente. Nunca se borran datos.
+- serie: sesnsp_victimas:homicidio_doloso.hombre
+  geo: MX-COL
+  periodo: '2016'
+  resolucion: valor_real
+  nota: 'Colima: 169 → 543 (+221.3 %, z=6). Aumento confirmado por INEGI (227 → 613 defunciones por homicidio en 2015–2016).'
+  revisado_por: claude (propuesta; requiere confirmación humana)
+  fecha: 2026-10-06
+- serie: sesnsp_victimas:homicidio_doloso.hombre
+  geo: MX-OAX
+  periodo: '2016'
+  resolucion: ruptura_metodologica
+  nota: 'Oaxaca: 208 → 802 (+285.6 %, z=9). El valor de 2015 está incompleto: el SESNSP registra 225 víctimas frente a 808 defunciones de INEGI; año de transición a la metodología de víctimas.'
+  revisado_por: claude (propuesta; requiere confirmación humana)
+  fecha: 2026-10-06
+- serie: sesnsp_victimas:homicidio_doloso.hombre
+  geo: MX-VER
+  periodo: '2016'
+  resolucion: ruptura_metodologica
+  nota: 'Veracruz de Ignacio de la Llave: 481 → 1,247 (+159.3 %, z=7). El valor de 2015 está incompleto: 574 víctimas (SESNSP) frente a 1,006 defunciones (INEGI); año de transición a la metodología de víctimas.'
+  revisado_por: claude (propuesta; requiere confirmación humana)
+  fecha: 2026-10-06
+- serie: sesnsp_victimas:homicidio_doloso.total
+  geo: MX-OAX
+  periodo: '2016'
+  resolucion: ruptura_metodologica
+  nota: 'Oaxaca: 225 → 847 (+276.4 %, z=6). El valor de 2015 está incompleto (225 víctimas frente a 808 defunciones de INEGI).'
+  revisado_por: claude (propuesta; requiere confirmación humana)
+  fecha: 2026-10-06
+- serie: sesnsp_victimas:homicidio_doloso.total
+  geo: MX-VER
+  periodo: '2016'
+  resolucion: ruptura_metodologica
+  nota: 'Veracruz de Ignacio de la Llave: 574 → 1,462 (+154.7 %, z=6). El valor de 2015 está incompleto (574 víctimas frente a 1,006 defunciones de INEGI).'
+  revisado_por: claude (propuesta; requiere confirmación humana)
+  fecha: 2026-10-06
+- serie: sesnsp_victimas:otros_contra_la_vida.total
+  geo: MX-PUE
+  periodo: '2019'
+  resolucion: dudoso
+  nota: 'Puebla: 55 → 256 (+365.5 %, z=8). Salto de la categoría residual sin cambio comparable en homicidio doloso; posible cambio de criterio de registro de la fiscalía. Sin explicación documentada.'
+  revisado_por: claude (propuesta; requiere confirmación humana)
+  fecha: 2026-10-06
+- serie: sesnsp_victimas:otros_contra_la_vida.total
+  geo: MX-TAB
+  periodo: '2017'
+  resolucion: dudoso
+  nota: 'Tabasco: 106 → 399 (+276.4 %, z=7). Salto de la categoría residual; posible cambio de criterio de registro. Sin explicación documentada.'
+  revisado_por: claude (propuesta; requiere confirmación humana)
+  fecha: 2026-10-06
+- serie: sesnsp_victimas:otros_contra_la_vida.total
+  geo: MX-TAM
+  periodo: '2017'
+  resolucion: ruptura_metodologica
+  nota: 'Tamaulipas: 1 → 210 (+20900.0 %, z=31). La fiscalía empieza a usar la categoría (1 víctima en 2015–2016, 210 en 2017): cambio de registro, no de incidencia.'
+  revisado_por: claude (propuesta; requiere confirmación humana)
+  fecha: 2026-10-06
+- serie: sesnsp_victimas:otros_contra_la_vida.total
+  geo: MX-TAM
+  periodo: '2020'
+  resolucion: dudoso
+  nota: 'Tamaulipas: 667 → 250 (-62.5 %, z=-7). Caída de ~60 % en la categoría residual sin cambio comparable en homicidio doloso. Sin explicación documentada.'
+  revisado_por: claude (propuesta; requiere confirmación humana)
+  fecha: 2026-10-06

@@ -16,14 +16,18 @@ DATOS = {
     "data": ["33,550||", "29,448||", "3,739||", "363||", "27,989||", "24,506||", "3,154||", "329||",
              "114||", "98||", "14||", "2||", "151||", "132||", "15||", "4||"],
 }
+TABULADO = {"variables": [{"code": "Entidad", "values": ["0", "1"],
+                           "valueTexts": ["Total", "Aguascalientes"]}]}
 INFO = {"note": "Notas: ... Los datos de 2025 son preliminares, debido a que ..."}
 
 
 def test_parse_inegi_tabulados(tmp_path):
     (tmp_path / "Mortalidad__Mortalidad_08.datos.json").write_text(json.dumps(DATOS))
     (tmp_path / "Mortalidad__Mortalidad_08.info.json").write_text(json.dumps(INFO))
+    (tmp_path / "Mortalidad__Mortalidad_08.tabulado.json").write_text(json.dumps(TABULADO))
     obs, geos = parse_inegi_tabulados(tmp_path, "inegi_homicidios", "v1")
-    assert set(obs["source_geo"]) == {"MEX"}  # solo el total nacional
+    assert set(obs["source_geo"]) == {"00", "01"}  # clave INEGI: nacional y Aguascalientes
+    obs = obs.filter(obs["source_geo"] == "00")
     v = {(r["source_series"], r["source_period"]): (r["value"], r["source_obs_status"])
          for r in obs.to_dicts()}
     assert v[("Mortalidad_08.total", "2024")] == (33550.0, "")
@@ -36,6 +40,7 @@ def test_parse_inegi_tabulados_dimensiones_incongruentes(tmp_path):
     bad = {**DATOS, "data": DATOS["data"][:-1]}
     (tmp_path / "X__Y.datos.json").write_text(json.dumps(bad))
     (tmp_path / "X__Y.info.json").write_text(json.dumps(INFO))
+    (tmp_path / "X__Y.tabulado.json").write_text(json.dumps(TABULADO))
     with pytest.raises(ValueError, match="no coincide"):
         parse_inegi_tabulados(tmp_path, "d", "v1")
 
