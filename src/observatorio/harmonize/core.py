@@ -37,6 +37,7 @@ STATUS_MAP: dict[str, dict[str, str]] = {
     "onu_wpp_prob": {"F": "F"},  # todo es proyección
     # PIP: B = inicio de un nuevo periodo de comparabilidad; E = sin microdatos (group/imputed/synthetic)
     "wb_pip": {"": "A", "E": "E", "B": "B"},
+    "inegi_pm": {"": "A"},
 }
 
 _ANNUAL = re.compile(r"^\d{4}$")

@@ -383,8 +383,53 @@ export function createCharts({ Plot, document: doc = globalThis.document }) {
     ]);
   }
 
-  return { legend, serieDistribucion, multiplesReferencia, abanico, lineasTramos, pesas, procedencia,
-    advertencias };
+
+  // Paneles por definición: misma escala vertical, una medida por panel, intervalo de confianza
+  // como barra vertical cuando existe. Para mostrar que una cifra depende de su definición.
+  function panelesDefiniciones(data, { tokens: t = DEFAULT_TOKENS, width = 720, unidad = "" } = {}) {
+    const rows = data.medidas.map((d) => ({ ...d, year: year(d) }));
+    const yMax = Math.max(...rows.map((d) => d.hi ?? d.value));
+    const cols = width >= 640 ? data.orden.length : 1;
+    const panelW = Math.floor((width - (cols - 1) * 20) / cols);
+    const panels = data.orden.map((key) => {
+      const r = rows.filter((d) => d.medida === key);
+      const last = r.at(-1);
+      const p = Plot.plot({
+        document: doc, width: panelW, height: 220, marginLeft: 36, marginRight: 46, marginTop: 12,
+        marginBottom: 24, style: baseStyle(t),
+        x: { label: null, tickFormat: "d", domain: [r[0].year - 0.5, last.year + 0.5],
+          ticks: r.map((d) => d.year).filter((_, i, a) => i % 2 === 0 || i === a.length - 1) },
+        y: { label: null, domain: [0, Math.ceil(yMax / 10) * 10], ticks: 4 },
+        marks: [
+          Plot.gridY({ stroke: t.grid, strokeOpacity: 1, ticks: 4 }),
+          Plot.ruleY([0], { stroke: t.axis }),
+          Plot.ruleX(r.filter((d) => d.lo != null), { x: "year", y1: "lo", y2: "hi", stroke: t.focus,
+            strokeWidth: 3, strokeOpacity: 0.45 }),
+          Plot.lineY(r, { x: "year", y: "value", stroke: t.focus, strokeWidth: 2 }),
+          Plot.dot(r, { x: "year", y: "value", r: 4, fill: t.focus, stroke: t.surface, strokeWidth: 2 }),
+          Plot.text([last], { x: "year", y: "value", dx: 8, textAnchor: "start", fill: t.ink, fontWeight: 600,
+            text: (d) => `${fmt1.format(d.value)} %` }),
+          Plot.tip(r, Plot.pointerX({ x: "year", y: "value", fill: t.surface, stroke: t.axis,
+            title: (d) => `${d.titulo} · ${d.period}\n${fmt1.format(d.value)} % de la población` +
+              (d.lo != null ? `\nIntervalo de confianza 95 %: ${fmt1.format(d.lo)}–${fmt1.format(d.hi)}` : "") })),
+        ],
+      });
+      p.setAttribute("role", "img");
+      p.setAttribute("aria-label", `${r[0].titulo}: ${fmt1.format(last.value)} % en ${last.period}.`);
+      return el("div", {}, [
+        el("p", { class: "obs-panel-title", text: r[0].titulo }),
+        el("p", { class: "obs-sub", style: "margin:0 0 .3rem;font-size:.8rem", text: r[0].definicion }),
+        p,
+      ]);
+    });
+    return el("div", {}, [
+      el("p", { class: "obs-sub", style: "font-size:.85rem", text: `${unidad} · misma escala en los tres paneles` }),
+      el("div", { class: "obs-grid-multiples", style: `grid-template-columns:repeat(${cols}, 1fr)` }, panels),
+    ]);
+  }
+
+  return { legend, serieDistribucion, multiplesReferencia, abanico, lineasTramos, pesas,
+    panelesDefiniciones, procedencia, advertencias };
 }
 
 function d3group(rows, key) {

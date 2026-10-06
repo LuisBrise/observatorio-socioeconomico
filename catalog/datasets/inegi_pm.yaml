@@ -1,0 +1,166 @@
+id: inegi_pm
+nombre: Pobreza multidimensional (medición oficial, serie 2016–2024)
+fuente: inegi
+conector: descarga_archivos
+url: https://www.inegi.org.mx/desarrollosocial/pm/
+acceso:
+  metodo: descarga_masiva
+  credenciales: ninguna
+  formato: xlsx
+licencia:
+  nombre: Términos de libre uso de la información del INEGI
+  url: https://www.inegi.org.mx/inegi/terminos.html
+  redistribucion: permitida_con_atribucion
+cobertura:
+  geografica: Nacional (y entidades federativas en otras hojas)
+  temporal: 2016–2024 (bienal)
+  poblacion: Población residente en viviendas particulares (ENIGH)
+frecuencia: bienal
+rezago_tipico_dias: 225
+calendario: Agosto del año siguiente al levantamiento de la ENIGH (2024 publicado el 13/08/2025).
+metodologia: https://www.inegi.org.mx/contenidos/desarrollosocial/pm/doc/pm_nota_tecnica_2024.pdf
+revisiones: La serie 2016–2022 proviene de CONEVAL; 2024 de INEGI con la misma metodología. La serie 2008–2014 (MCS-ENIGH)
+  es un tramo comparable distinto y no está incluida.
+limitaciones: 'Solo tiene intervalos de confianza para el último año en este archivo; para 2016–2022 las pruebas
+  de hipótesis están en los anexos del CONEVAL. La medición depende de la ENIGH (subdeclaración de ingresos altos;
+  cambios de cuestionario). El aumento de la carencia por acceso a servicios de salud entre 2018 y 2022 coincide
+  con el cambio de esquema de afiliación (fin del Seguro Popular en 2020): refleja el criterio de medición de la
+  adscripción, que conviene leer con su nota metodológica.'
+rupturas_conocidas:
+- serie: inegi_pm:pobreza
+  fecha: '2016'
+  descripcion: Inicio de la serie comparable vigente (ENIGH Nueva Serie); no es comparable directamente con 2008–2014.
+archivos:
+- https://www.inegi.org.mx/contenidos/desarrollosocial/pm/tabulados/pm_ip_2024.xlsx
+series:
+- codigo: pobreza
+  indicador: bie.pobreza.oficial.multidimensional
+  unidad: '% de la población'
+  origen: coneval_inegi_pm
+- codigo: pobreza.L95
+  indicador: bie.pobreza.oficial.multidimensional
+  unidad: '% de la población'
+  origen: coneval_inegi_pm
+  variante: inferior_95
+- codigo: pobreza.U95
+  indicador: bie.pobreza.oficial.multidimensional
+  unidad: '% de la población'
+  origen: coneval_inegi_pm
+  variante: superior_95
+- codigo: pobreza_extrema
+  indicador: bie.pobreza.oficial.extrema
+  unidad: '% de la población'
+  origen: coneval_inegi_pm
+- codigo: pobreza_extrema.L95
+  indicador: bie.pobreza.oficial.extrema
+  unidad: '% de la población'
+  origen: coneval_inegi_pm
+  variante: inferior_95
+- codigo: pobreza_extrema.U95
+  indicador: bie.pobreza.oficial.extrema
+  unidad: '% de la población'
+  origen: coneval_inegi_pm
+  variante: superior_95
+- codigo: ingreso_bajo_lpi
+  indicador: bie.pobreza.oficial.ingreso_bajo_lpi
+  unidad: '% de la población'
+  origen: coneval_inegi_pm
+- codigo: ingreso_bajo_lpi.L95
+  indicador: bie.pobreza.oficial.ingreso_bajo_lpi
+  unidad: '% de la población'
+  origen: coneval_inegi_pm
+  variante: inferior_95
+- codigo: ingreso_bajo_lpi.U95
+  indicador: bie.pobreza.oficial.ingreso_bajo_lpi
+  unidad: '% de la población'
+  origen: coneval_inegi_pm
+  variante: superior_95
+- codigo: carencia_educacion
+  indicador: bie.carencias.educacion
+  unidad: '% de la población'
+  origen: coneval_inegi_pm
+- codigo: carencia_educacion.L95
+  indicador: bie.carencias.educacion
+  unidad: '% de la población'
+  origen: coneval_inegi_pm
+  variante: inferior_95
+- codigo: carencia_educacion.U95
+  indicador: bie.carencias.educacion
+  unidad: '% de la población'
+  origen: coneval_inegi_pm
+  variante: superior_95
+- codigo: carencia_salud
+  indicador: bie.carencias.salud
+  unidad: '% de la población'
+  origen: coneval_inegi_pm
+- codigo: carencia_salud.L95
+  indicador: bie.carencias.salud
+  unidad: '% de la población'
+  origen: coneval_inegi_pm
+  variante: inferior_95
+- codigo: carencia_salud.U95
+  indicador: bie.carencias.salud
+  unidad: '% de la población'
+  origen: coneval_inegi_pm
+  variante: superior_95
+- codigo: carencia_seguridad_social
+  indicador: bie.carencias.seguridad_social
+  unidad: '% de la población'
+  origen: coneval_inegi_pm
+- codigo: carencia_seguridad_social.L95
+  indicador: bie.carencias.seguridad_social
+  unidad: '% de la población'
+  origen: coneval_inegi_pm
+  variante: inferior_95
+- codigo: carencia_seguridad_social.U95
+  indicador: bie.carencias.seguridad_social
+  unidad: '% de la población'
+  origen: coneval_inegi_pm
+  variante: superior_95
+- codigo: carencia_vivienda
+  indicador: bie.carencias.vivienda
+  unidad: '% de la población'
+  origen: coneval_inegi_pm
+- codigo: carencia_vivienda.L95
+  indicador: bie.carencias.vivienda
+  unidad: '% de la población'
+  origen: coneval_inegi_pm
+  variante: inferior_95
+- codigo: carencia_vivienda.U95
+  indicador: bie.carencias.vivienda
+  unidad: '% de la población'
+  origen: coneval_inegi_pm
+  variante: superior_95
+- codigo: carencia_servicios_basicos
+  indicador: bie.carencias.servicios_basicos
+  unidad: '% de la población'
+  origen: coneval_inegi_pm
+- codigo: carencia_servicios_basicos.L95
+  indicador: bie.carencias.servicios_basicos
+  unidad: '% de la población'
+  origen: coneval_inegi_pm
+  variante: inferior_95
+- codigo: carencia_servicios_basicos.U95
+  indicador: bie.carencias.servicios_basicos
+  unidad: '% de la población'
+  origen: coneval_inegi_pm
+  variante: superior_95
+- codigo: carencia_alimentacion
+  indicador: bie.carencias.alimentacion
+  unidad: '% de la población'
+  origen: coneval_inegi_pm
+- codigo: carencia_alimentacion.L95
+  indicador: bie.carencias.alimentacion
+  unidad: '% de la población'
+  origen: coneval_inegi_pm
+  variante: inferior_95
+- codigo: carencia_alimentacion.U95
+  indicador: bie.carencias.alimentacion
+  unidad: '% de la población'
+  origen: coneval_inegi_pm
+  variante: superior_95
+umbrales:
+  revision_advertencia_pct: 2.0
+  revision_advertencia_share: 0.1
+  caida_cobertura_pct: 0.0
+fecha_alta: '2026-10-06'

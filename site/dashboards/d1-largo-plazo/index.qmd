@@ -25,6 +25,8 @@ pob = FileAttachment("../../data/d1/pobreza-mex/data.json").json()
 pobProv = FileAttachment("../../data/d1/pobreza-mex/provenance.json").json()
 gini = FileAttachment("../../data/d1/gini-alc/data.json").json()
 giniProv = FileAttachment("../../data/d1/gini-alc/provenance.json").json()
+defs = FileAttachment("../../data/d1/pobreza-definiciones/data.json").json()
+defsProv = FileAttachment("../../data/d1/pobreza-definiciones/provenance.json").json()
 ```
 
 ## Contexto
@@ -90,11 +92,25 @@ html`<div class="obs-chart">
 
 ## Pobreza y desigualdad
 
-[DATO]{.obs-tag} No existe una sola medida de pobreza. El Banco Mundial usa líneas monetarias
-internacionales (dólares por persona al día, comparables entre países); México mide oficialmente la
-pobreza de forma **multidimensional** (ingreso y carencias sociales), con otra definición. Las cifras
-no deben compararse entre sí como si midieran lo mismo. Esta sección empieza por las líneas
-internacionales; la medición oficial de México se incorporará como serie propia.
+[DATO]{.obs-tag} No existe una sola medida de pobreza. México la mide oficialmente de forma
+**multidimensional** (ingreso y carencias sociales); el Banco Mundial usa líneas monetarias
+internacionales (dólares por persona al día, comparables entre países). Cada cifra es correcta según
+su definición; ninguna es "la verdadera".
+
+```{ojs}
+//| echo: false
+html`<div class="obs-chart">
+  <h3>¿Cuánta pobreza hay en México? Depende de cómo se defina</h3>
+  <p class="obs-sub">Tres definiciones, mismo periodo y misma encuesta (ENIGH Nueva Serie)</p>
+  ${charts.panelesDefiniciones(defs, { tokens, width, unidad: "% de la población" })}
+  ${charts.procedencia(defsProv, { csv: [["datos (CSV)", "../../data/d1/pobreza-definiciones/medidas.csv"]] })}
+  ${charts.advertencias(defsProv)}
+</div>`
+```
+
+[ANÁLISIS]{.obs-tag} Los niveles difieren según la definición, pero en 2016–2024 las tres medidas
+se mueven en la misma dirección. Una tendencia común a definiciones distintas es más robusta que
+una cifra aislada.
 
 ```{ojs}
 //| echo: false

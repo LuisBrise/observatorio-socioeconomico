@@ -251,4 +251,65 @@ def _bienestar(paths: Paths, catalog: Catalog, obs: pl.DataFrame, alc: list[str]
     )
     write_chart(paths, catalog, spec2, {"gini": gini}, extra={"foco": FOCO})
     built.append(spec2.chart_id)
+    built += _definiciones_pobreza(paths, catalog, obs)
     return built
+
+
+DEFINICIONES = [
+    ("oficial", "inegi_pm:pobreza", "bie.pobreza.oficial.multidimensional",
+     "Pobreza multidimensional (oficial)",
+     "Ingreso menor a la línea de pobreza por ingresos y al menos una de seis carencias sociales"),
+    ("ingreso_oficial", "inegi_pm:ingreso_bajo_lpi", "bie.pobreza.oficial.ingreso_bajo_lpi",
+     "Pobreza por ingresos (línea oficial)",
+     "Ingreso menor al valor de las canastas alimentaria y no alimentaria de México"),
+    ("internacional", "wb_pip:pobreza_8.30.ingreso.nacional", "bie.pobreza.internacional.linea_830",
+     "Línea internacional US$8.30 (Banco Mundial)",
+     "Ingreso menor a US$8.30 diarios en PPA 2021, línea para países de ingreso medio-alto"),
+]
+
+
+def _definiciones_pobreza(paths: Paths, catalog: Catalog, obs: pl.DataFrame) -> list[str]:
+    """1.7 · Tres definiciones de pobreza para México en el periodo común (2016–2024)."""
+    present = set(obs["series_id"].unique().to_list())
+    defs = [d for d in DEFINICIONES if d[1] in present]
+    if len(defs) < 2:
+        return []
+    periodos = None
+    paneles = []
+    for key, sid, ind, titulo, definicion in defs:
+        v = obs.filter((pl.col("series_id") == sid) & (pl.col("geo_id") == FOCO)).select(
+            "period", "value", "obs_status")
+        periodos = set(v["period"]) if periodos is None else periodos & set(v["period"])
+        lo = obs.filter((pl.col("series_id") == f"{sid}.L95") & (pl.col("geo_id") == FOCO)).select(
+            "period", pl.col("value").alias("lo"))
+        hi = obs.filter((pl.col("series_id") == f"{sid}.U95") & (pl.col("geo_id") == FOCO)).select(
+            "period", pl.col("value").alias("hi"))
+        paneles.append((key, ind, titulo, definicion,
+                        v.join(lo, on="period", how="left").join(hi, on="period", how="left")))
+    comun = sorted(periodos or [])
+    filas = pl.concat([
+        p.filter(pl.col("period").is_in(comun)).with_columns(
+            pl.lit(key).alias("medida"), pl.lit(titulo).alias("titulo"),
+            pl.lit(definicion).alias("definicion"))
+        for key, _, titulo, definicion, p in paneles]).sort("medida", "period")
+    spec = ChartSpec(
+        chart_id="d1/pobreza-definiciones",
+        question="¿Cuánta pobreza hay en México? La respuesta depende de cómo se define.",
+        indicators=[ind for _, ind, *_ in paneles],
+        caveats=[
+            "Las tres cifras son correctas según su propia definición: no miden lo mismo y no deben "
+            "promediarse ni elegirse una como 'la verdadera'.",
+            f"Periodo común a las tres medidas ({comun[0]}–{comun[-1]}), todas con la ENIGH Nueva Serie.",
+            "Las líneas oficiales de México son distintas para zonas urbanas y rurales y se actualizan con "
+            "el valor de las canastas; la línea internacional es una sola cifra en dólares PPA.",
+            "Solo el último año de la medición oficial trae intervalo de confianza al 95 % en el archivo de "
+            "INEGI (barra vertical); los demás años también tienen error muestral.",
+            "La medición oficial 2016–2022 es del CONEVAL y la de 2024 de INEGI, con la misma metodología "
+            "según INEGI; la transferencia institucional se documenta en el catálogo de fuentes.",
+        ],
+        transformations=[LineageStep("periodo_comun@1", {"periodos": comun},
+                                     [ind for _, ind, *_ in paneles]).to_dict()],
+    )
+    write_chart(paths, catalog, spec, {"medidas": filas},
+                extra={"foco": FOCO, "orden": [k for k, *_ in paneles]})
+    return [spec.chart_id]

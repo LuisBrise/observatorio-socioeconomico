@@ -118,3 +118,267 @@
   preguntas:
   - D1
   fecha_alta: '2026-10-05'
+- id: bie.pobreza.oficial.multidimensional
+  nombre: Pobreza multidimensional (medición oficial de México)
+  concepto: bie.pobreza.multidimensional_oficial
+  definicion: Población con ingreso inferior a la línea de pobreza por ingresos y al menos una carencia social (de
+    seis), según la metodología del CONEVAL.
+  unidad: '% de la población'
+  facetas:
+    tipo_medicion: encuesta
+    cadena: resultado
+    ritmo: intermedio
+    direccion_normativa: menos_es_mejor
+    cobertura:
+    - nacional
+    - estatal
+  series:
+  - inegi_pm:pobreza
+  - inegi_pm:pobreza.L95
+  - inegi_pm:pobreza.U95
+  rangos_validos:
+    min: 0
+    max: 100
+  atipicos:
+    z: 6.0
+    cambio_minimo: 0.3
+    piso: 5.0
+  notas_interpretacion: 'Medición oficial de México: combina ingreso y derechos sociales. No es comparable con las
+    líneas internacionales del Banco Mundial ni con la medición de CEPAL, que definen la pobreza de otra manera.'
+  preguntas:
+  - D1
+  fecha_alta: '2026-10-06'
+- id: bie.pobreza.oficial.extrema
+  nombre: Pobreza multidimensional extrema (medición oficial)
+  concepto: bie.pobreza.multidimensional_oficial
+  definicion: Población con ingreso inferior a la línea de pobreza extrema por ingresos y tres o más carencias sociales.
+  unidad: '% de la población'
+  facetas:
+    tipo_medicion: encuesta
+    cadena: resultado
+    ritmo: intermedio
+    direccion_normativa: menos_es_mejor
+    cobertura:
+    - nacional
+    - estatal
+  series:
+  - inegi_pm:pobreza_extrema
+  - inegi_pm:pobreza_extrema.L95
+  - inegi_pm:pobreza_extrema.U95
+  rangos_validos:
+    min: 0
+    max: 100
+  atipicos:
+    z: 6.0
+    cambio_minimo: 0.3
+    piso: 5.0
+  notas_interpretacion: 'Medición oficial de México: combina ingreso y derechos sociales. No es comparable con las
+    líneas internacionales del Banco Mundial ni con la medición de CEPAL, que definen la pobreza de otra manera.'
+  preguntas:
+  - D1
+  fecha_alta: '2026-10-06'
+- id: bie.pobreza.oficial.ingreso_bajo_lpi
+  nombre: Población con ingreso inferior a la línea de pobreza por ingresos
+  concepto: bie.pobreza.monetaria_oficial
+  definicion: Población cuyo ingreso corriente per cápita es menor al valor de la canasta alimentaria más la no
+    alimentaria (líneas urbana y rural del CONEVAL/INEGI).
+  unidad: '% de la población'
+  facetas:
+    tipo_medicion: encuesta
+    cadena: resultado
+    ritmo: intermedio
+    direccion_normativa: menos_es_mejor
+    cobertura:
+    - nacional
+    - estatal
+  series:
+  - inegi_pm:ingreso_bajo_lpi
+  - inegi_pm:ingreso_bajo_lpi.L95
+  - inegi_pm:ingreso_bajo_lpi.U95
+  rangos_validos:
+    min: 0
+    max: 100
+  atipicos:
+    z: 6.0
+    cambio_minimo: 0.3
+    piso: 5.0
+  notas_interpretacion: 'Medición oficial de México: combina ingreso y derechos sociales. No es comparable con las
+    líneas internacionales del Banco Mundial ni con la medición de CEPAL, que definen la pobreza de otra manera.'
+  preguntas:
+  - D1
+  fecha_alta: '2026-10-06'
+- id: bie.carencias.educacion
+  nombre: Rezago educativo
+  concepto: bie.carencias_sociales
+  definicion: Población con rezago educativo según la norma de escolaridad obligatoria correspondiente a su edad.
+  unidad: '% de la población'
+  facetas:
+    tipo_medicion: encuesta
+    cadena: resultado
+    ritmo: intermedio
+    direccion_normativa: menos_es_mejor
+    cobertura:
+    - nacional
+    - estatal
+  series:
+  - inegi_pm:carencia_educacion
+  - inegi_pm:carencia_educacion.L95
+  - inegi_pm:carencia_educacion.U95
+  rangos_validos:
+    min: 0
+    max: 100
+  atipicos:
+    z: 6.0
+    cambio_minimo: 0.3
+    piso: 5.0
+  notas_interpretacion: Componente de la medición multidimensional; los cambios pueden reflejar tanto condiciones
+    reales como cambios en los programas o en los criterios de registro.
+  preguntas:
+  - D1
+  fecha_alta: '2026-10-06'
+- id: bie.carencias.salud
+  nombre: Carencia por acceso a los servicios de salud
+  concepto: bie.carencias_sociales
+  definicion: Población sin adscripción ni derecho a recibir servicios médicos de alguna institución pública o privada.
+  unidad: '% de la población'
+  facetas:
+    tipo_medicion: encuesta
+    cadena: resultado
+    ritmo: intermedio
+    direccion_normativa: menos_es_mejor
+    cobertura:
+    - nacional
+    - estatal
+  series:
+  - inegi_pm:carencia_salud
+  - inegi_pm:carencia_salud.L95
+  - inegi_pm:carencia_salud.U95
+  rangos_validos:
+    min: 0
+    max: 100
+  atipicos:
+    z: 6.0
+    cambio_minimo: 0.3
+    piso: 5.0
+  notas_interpretacion: Componente de la medición multidimensional; los cambios pueden reflejar tanto condiciones
+    reales como cambios en los programas o en los criterios de registro.
+  preguntas:
+  - D1
+  fecha_alta: '2026-10-06'
+- id: bie.carencias.seguridad_social
+  nombre: Carencia por acceso a la seguridad social
+  concepto: bie.carencias_sociales
+  definicion: Población sin acceso a la seguridad social según los criterios del CONEVAL.
+  unidad: '% de la población'
+  facetas:
+    tipo_medicion: encuesta
+    cadena: resultado
+    ritmo: intermedio
+    direccion_normativa: menos_es_mejor
+    cobertura:
+    - nacional
+    - estatal
+  series:
+  - inegi_pm:carencia_seguridad_social
+  - inegi_pm:carencia_seguridad_social.L95
+  - inegi_pm:carencia_seguridad_social.U95
+  rangos_validos:
+    min: 0
+    max: 100
+  atipicos:
+    z: 6.0
+    cambio_minimo: 0.3
+    piso: 5.0
+  notas_interpretacion: Componente de la medición multidimensional; los cambios pueden reflejar tanto condiciones
+    reales como cambios en los programas o en los criterios de registro.
+  preguntas:
+  - D1
+  fecha_alta: '2026-10-06'
+- id: bie.carencias.vivienda
+  nombre: Carencia por calidad y espacios de la vivienda
+  concepto: bie.carencias_sociales
+  definicion: Población en viviendas con materiales precarios o hacinamiento.
+  unidad: '% de la población'
+  facetas:
+    tipo_medicion: encuesta
+    cadena: resultado
+    ritmo: intermedio
+    direccion_normativa: menos_es_mejor
+    cobertura:
+    - nacional
+    - estatal
+  series:
+  - inegi_pm:carencia_vivienda
+  - inegi_pm:carencia_vivienda.L95
+  - inegi_pm:carencia_vivienda.U95
+  rangos_validos:
+    min: 0
+    max: 100
+  atipicos:
+    z: 6.0
+    cambio_minimo: 0.3
+    piso: 5.0
+  notas_interpretacion: Componente de la medición multidimensional; los cambios pueden reflejar tanto condiciones
+    reales como cambios en los programas o en los criterios de registro.
+  preguntas:
+  - D1
+  fecha_alta: '2026-10-06'
+- id: bie.carencias.servicios_basicos
+  nombre: Carencia por acceso a los servicios básicos en la vivienda
+  concepto: bie.carencias_sociales
+  definicion: Población en viviendas sin agua entubada, drenaje, electricidad o con combustible para cocinar inadecuado.
+  unidad: '% de la población'
+  facetas:
+    tipo_medicion: encuesta
+    cadena: resultado
+    ritmo: intermedio
+    direccion_normativa: menos_es_mejor
+    cobertura:
+    - nacional
+    - estatal
+  series:
+  - inegi_pm:carencia_servicios_basicos
+  - inegi_pm:carencia_servicios_basicos.L95
+  - inegi_pm:carencia_servicios_basicos.U95
+  rangos_validos:
+    min: 0
+    max: 100
+  atipicos:
+    z: 6.0
+    cambio_minimo: 0.3
+    piso: 5.0
+  notas_interpretacion: Componente de la medición multidimensional; los cambios pueden reflejar tanto condiciones
+    reales como cambios en los programas o en los criterios de registro.
+  preguntas:
+  - D1
+  fecha_alta: '2026-10-06'
+- id: bie.carencias.alimentacion
+  nombre: Carencia por acceso a la alimentación nutritiva y de calidad
+  concepto: bie.carencias_sociales
+  definicion: Población en hogares con inseguridad alimentaria moderada o severa o con dieta poco variada (definición
+    vigente desde 2018).
+  unidad: '% de la población'
+  facetas:
+    tipo_medicion: encuesta
+    cadena: resultado
+    ritmo: intermedio
+    direccion_normativa: menos_es_mejor
+    cobertura:
+    - nacional
+    - estatal
+  series:
+  - inegi_pm:carencia_alimentacion
+  - inegi_pm:carencia_alimentacion.L95
+  - inegi_pm:carencia_alimentacion.U95
+  rangos_validos:
+    min: 0
+    max: 100
+  atipicos:
+    z: 6.0
+    cambio_minimo: 0.3
+    piso: 5.0
+  notas_interpretacion: Componente de la medición multidimensional; los cambios pueden reflejar tanto condiciones
+    reales como cambios en los programas o en los criterios de registro.
+  preguntas:
+  - D1
+  fecha_alta: '2026-10-06'

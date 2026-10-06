@@ -26,6 +26,12 @@ jobs:
         run: uv run obs run wb_wdi | tee run.log
       - name: Descargar y validar Banco Mundial PIP (pobreza y desigualdad)
         run: uv run obs run wb_pip | tee -a run.log
+      - name: Descargar y validar pobreza oficial de México (INEGI, bienal; se publica en agosto)
+        run: |
+          case "$(date -u +%m)" in
+            08|09) uv run obs run inegi_pm | tee -a run.log ;;
+            *) echo "inegi_pm: fuera de los meses de publicación, no se consulta" | tee -a run.log ;;
+          esac
       - name: Descargar y validar FMI WEO (solo en meses de publicación)
         # Los términos del FMI prohíben descargas masivas automatizadas: solo se consulta
         # cuando puede haber una edición nueva (abril y octubre, con un mes de margen).

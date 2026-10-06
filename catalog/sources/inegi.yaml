@@ -1,0 +1,17 @@
+id: inegi
+nombre: Instituto Nacional de Estadística y Geografía (INEGI)
+tipo: oficina_nacional_estadistica
+url: https://www.inegi.org.mx/
+evaluacion:
+  mandato: Organismo constitucional autónomo responsable del Sistema Nacional de Información Estadística y Geográfica
+    de México.
+  metodologia: Notas técnicas y documentos metodológicos por programa; la medición de pobreza usa la metodología
+    del CONEVAL.
+  revisiones: Revisiones documentadas; cambios de año base y de encuesta anunciados.
+  continuidad: Desde 2025 (reforma publicada el 20/12/2024; leyes secundarias vigentes desde el 17/07/2025) INEGI
+    asumió la medición de la pobreza que hacía CONEVAL. La medición 2024 fue la primera publicada por INEGI; afirmó
+    preservar la metodología.
+  independencia: Autonomía constitucional. La transferencia de la medición de pobreza es un cambio institucional
+    que conviene vigilar (continuidad metodológica y de publicación).
+  primaria_o_compiladora: Primaria (encuestas y censos propios).
+fecha_alta: '2026-10-06'

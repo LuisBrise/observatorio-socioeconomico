@@ -7,6 +7,12 @@ datasets:
     retrieved_at: '2026-10-03T04:19:58Z'
     source_declared_version: '2026-04-14T13:00:00Z'
     validation_status: ok
+  inegi_pm:
+    vintage: 2026-10-06T045635Z
+    content_sha256: 5091169f92019c33860cf1df5cfcf1a5dffb969569b5575e37ca4c0f7dd5f763
+    retrieved_at: '2026-10-06T04:56:35Z'
+    source_declared_version: null
+    validation_status: ok
   onu_wpp_prob:
     vintage: 2026-10-03T043413Z
     content_sha256: 3a55d9e2498f26040c8a50f35f7bc8dd1ad5f1f168906bbb0bc2f3a27a8a1196
