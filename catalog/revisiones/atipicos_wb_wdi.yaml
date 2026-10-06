@@ -1287,75 +1287,75 @@
   periodo: '2021'
   resolucion: dudoso
   nota: 'Bélgica: 3.087 → 1.08 (-65.0 %, z=-7). Caída de dos tercios sin suceso conocido: posible cambio de fuente (justicia penal vs salud pública) o de definición. Verificar con UNODC.'
-  revisado_por: claude (propuesta; requiere confirmación humana)
+  revisado_por: Jorge Luis Briseño Gómez
   fecha: 2026-10-06
 - serie: wb_wdi:VC.IHR.PSRC.P5
   geo: GEO
   periodo: '2016'
   resolucion: dudoso
   nota: 'Georgia: 4.8 → 1.028 (-78.6 %, z=-7). Caída de ~80 % sin suceso conocido: probable cambio de fuente o de definición. Verificar con UNODC.'
-  revisado_por: claude (propuesta; requiere confirmación humana)
+  revisado_por: Jorge Luis Briseño Gómez
   fecha: 2026-10-06
 - serie: wb_wdi:VC.IHR.PSRC.P5
   geo: JOR
   periodo: '1995'
   resolucion: dudoso
   nota: 'Jordania: 4.319 → 0.7365 (-82.9 %, z=-9). Caída de ~83 % sin suceso conocido: probable cambio de fuente. Verificar con UNODC.'
-  revisado_por: claude (propuesta; requiere confirmación humana)
+  revisado_por: Jorge Luis Briseño Gómez
   fecha: 2026-10-06
 - serie: wb_wdi:VC.IHR.PSRC.P5
   geo: KGZ
   periodo: '2010'
   resolucion: valor_real
   nota: 'Kirguistán: 7.854 → 16.76 (+113.4 %, z=7). Violencia interétnica en Osh y Jalal-Abad (junio de 2010, cientos de muertes).'
-  revisado_por: claude (propuesta; requiere confirmación humana)
+  revisado_por: Jorge Luis Briseño Gómez
   fecha: 2026-10-06
 - serie: wb_wdi:VC.IHR.PSRC.P5
   geo: LVA
   periodo: '2012'
   resolucion: dudoso
   nota: 'Letonia: 9.259 → 3.44 (-62.8 %, z=-6). Caída de ~63 %: posible cambio de fuente o de criterio de conteo. Verificar con UNODC.'
-  revisado_por: claude (propuesta; requiere confirmación humana)
+  revisado_por: Jorge Luis Briseño Gómez
   fecha: 2026-10-06
 - serie: wb_wdi:VC.IHR.PSRC.P5
   geo: MMR
   periodo: '2021'
   resolucion: dudoso
   nota: 'Myanmar: 2.963 → 28.66 (+867.1 %, z=18). Año del golpe militar y del conflicto armado; el salto de ~3 a ~29 y la caída a ~4 en 2022 sugieren cambio de fuente o de inclusión de muertes en conflicto, no una serie comparable. Verificar con UNODC.'
-  revisado_por: claude (propuesta; requiere confirmación humana)
+  revisado_por: Jorge Luis Briseño Gómez
   fecha: 2026-10-06
 - serie: wb_wdi:VC.IHR.PSRC.P5
   geo: MMR
   periodo: '2022'
   resolucion: dudoso
   nota: 'Myanmar: 28.66 → 3.903 (-86.4 %, z=-15). Caída a ~4 en pleno conflicto armado: probable cambio de fuente o cobertura respecto a 2021. Verificar con UNODC.'
-  revisado_por: claude (propuesta; requiere confirmación humana)
+  revisado_por: Jorge Luis Briseño Gómez
   fecha: 2026-10-06
 - serie: wb_wdi:VC.IHR.PSRC.P5
   geo: NOR
   periodo: '2011'
   resolucion: valor_real
   nota: 'Noruega: 0.5931 → 2.241 (+277.8 %, z=7). Atentados de Oslo y Utøya (22 de julio de 2011, 77 muertes) en un país de tasa muy baja.'
-  revisado_por: claude (propuesta; requiere confirmación humana)
+  revisado_por: Jorge Luis Briseño Gómez
   fecha: 2026-10-06
 - serie: wb_wdi:VC.IHR.PSRC.P5
   geo: NOR
   periodo: '2012'
   resolucion: valor_real
   nota: 'Noruega: 2.241 → 0.538 (-76.0 %, z=-8). Regreso al nivel habitual tras los atentados de 2011.'
-  revisado_por: claude (propuesta; requiere confirmación humana)
+  revisado_por: Jorge Luis Briseño Gómez
   fecha: 2026-10-06
 - serie: wb_wdi:VC.IHR.PSRC.P5
   geo: TKM
   periodo: '2010'
   resolucion: dudoso
   nota: 'Turkmenistán: 3.944 → 1.887 (-52.2 %, z=-8). Caída a la mitad en un país con baja transparencia estadística: sin explicación documentada.'
-  revisado_por: claude (propuesta; requiere confirmación humana)
+  revisado_por: Jorge Luis Briseño Gómez
   fecha: 2026-10-06
 - serie: wb_wdi:VC.IHR.PSRC.P5
   geo: UZB
   periodo: '2015'
   resolucion: dudoso
   nota: 'Uzbekistán: 3.022 → 1.646 (-45.6 %, z=-8). Caída de ~46 % en un país con baja transparencia estadística: sin explicación documentada.'
-  revisado_por: claude (propuesta; requiere confirmación humana)
+  revisado_por: Jorge Luis Briseño Gómez
   fecha: 2026-10-06

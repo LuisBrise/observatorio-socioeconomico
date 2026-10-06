@@ -8,28 +8,28 @@
   resolucion: dudoso
   nota: 'Perú: 43.3 → 63.5 (+46.7 %, z=6). Salto de unos 20 puntos sin nota de comparabilidad de la fuente; probable
     cambio de encuesta (ENAHO continua desde 2003). Verificar con la fuente.'
-  revisado_por: claude (propuesta; requiere confirmación humana)
+  revisado_por: Jorge Luis Briseño Gómez
   fecha: 2026-10-06
 - serie: cepal_pobreza:pobreza.nacional
   geo: PER
   periodo: '2020'
   resolucion: valor_real
   nota: 'Perú: 15.4 → 28.4 (+84.4 %, z=9). Coincide con la pandemia de COVID-19 y los confinamientos de 2020.'
-  revisado_por: claude (propuesta; requiere confirmación humana)
+  revisado_por: Jorge Luis Briseño Gómez
   fecha: 2026-10-06
 - serie: cepal_pobreza:pobreza.rural
   geo: URY
   periodo: '2020'
   resolucion: valor_real
   nota: 'Uruguay: 2.4 → 8.8 (+266.7 %, z=8). Coincide con la pandemia de COVID-19 y los confinamientos de 2020.'
-  revisado_por: claude (propuesta; requiere confirmación humana)
+  revisado_por: Jorge Luis Briseño Gómez
   fecha: 2026-10-06
 - serie: cepal_pobreza:pobreza.urbana
   geo: COL
   periodo: '2020'
   resolucion: valor_real
   nota: 'Colombia: 27.5 → 37.9 (+37.8 %, z=7). Coincide con la pandemia de COVID-19 y los confinamientos de 2020.'
-  revisado_por: claude (propuesta; requiere confirmación humana)
+  revisado_por: Jorge Luis Briseño Gómez
   fecha: 2026-10-06
 - serie: cepal_pobreza:pobreza.urbana
   geo: PER
@@ -37,28 +37,28 @@
   resolucion: dudoso
   nota: 'Perú: 31.9 → 54 (+69.3 %, z=6). Salto de unos 20 puntos sin nota de comparabilidad de la fuente; probable
     cambio de encuesta (ENAHO continua desde 2003). Verificar con la fuente.'
-  revisado_por: claude (propuesta; requiere confirmación humana)
+  revisado_por: Jorge Luis Briseño Gómez
   fecha: 2026-10-06
 - serie: cepal_pobreza:pobreza.urbana
   geo: PER
   periodo: '2020'
   resolucion: valor_real
   nota: 'Perú: 11 → 25.8 (+134.5 %, z=10). Coincide con la pandemia de COVID-19 y los confinamientos de 2020.'
-  revisado_por: claude (propuesta; requiere confirmación humana)
+  revisado_por: Jorge Luis Briseño Gómez
   fecha: 2026-10-06
 - serie: cepal_pobreza:pobreza_extrema.nacional
   geo: COL
   periodo: '2020'
   resolucion: valor_real
   nota: 'Colombia: 12.8 → 19.2 (+50.0 %, z=6). Coincide con la pandemia de COVID-19 y los confinamientos de 2020.'
-  revisado_por: claude (propuesta; requiere confirmación humana)
+  revisado_por: Jorge Luis Briseño Gómez
   fecha: 2026-10-06
 - serie: cepal_pobreza:pobreza_extrema.nacional
   geo: PER
   periodo: '2020'
   resolucion: valor_real
   nota: 'Perú: 3 → 8.6 (+186.7 %, z=9). Coincide con la pandemia de COVID-19 y los confinamientos de 2020.'
-  revisado_por: claude (propuesta; requiere confirmación humana)
+  revisado_por: Jorge Luis Briseño Gómez
   fecha: 2026-10-06
 - serie: cepal_pobreza:pobreza_extrema.rural
   geo: DOM
@@ -66,19 +66,19 @@
   resolucion: valor_real
   nota: 'República Dominicana: 17.2 → 29.5 (+71.5 %, z=7). Coincide con la crisis bancaria y cambiaria de 2003–2004
     en República Dominicana.'
-  revisado_por: claude (propuesta; requiere confirmación humana)
+  revisado_por: Jorge Luis Briseño Gómez
   fecha: 2026-10-06
 - serie: cepal_pobreza:pobreza_extrema.urbana
   geo: COL
   periodo: '2020'
   resolucion: valor_real
   nota: 'Colombia: 8.7 → 17.2 (+97.7 %, z=9). Coincide con la pandemia de COVID-19 y los confinamientos de 2020.'
-  revisado_por: claude (propuesta; requiere confirmación humana)
+  revisado_por: Jorge Luis Briseño Gómez
   fecha: 2026-10-06
 - serie: cepal_pobreza:pobreza_extrema.urbana
   geo: PER
   periodo: '2020'
   resolucion: valor_real
   nota: 'Perú: 1.2 → 7.8 (+550.0 %, z=10). Coincide con la pandemia de COVID-19 y los confinamientos de 2020.'
-  revisado_por: claude (propuesta; requiere confirmación humana)
+  revisado_por: Jorge Luis Briseño Gómez
   fecha: 2026-10-06

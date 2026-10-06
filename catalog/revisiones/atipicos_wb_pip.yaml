@@ -200,7 +200,7 @@
   nota: 'Kazajistán: 29.72 → 24.91 (-16.2 %, z=-9). Misma revisión que el Gini de ese país y año (misma distribución):
     Subida y bajada abruptas sin evento documentado ni ruptura marcada por la fuente; posible problema de comparabilidad
     de la encuesta. Verificar con la fuente.'
-  revisado_por: claude (propuesta; requiere confirmación humana)
+  revisado_por: Jorge Luis Briseño Gómez
   fecha: 2026-10-06
 - serie: wb_pip:decil10.consumo.nacional
   geo: POL
@@ -209,7 +209,7 @@
   nota: 'Polonia: 21 → 26.47 (+26.0 %, z=15). Misma revisión que el Gini de ese país y año (misma distribución):
     Coincide con la transición poscomunista (aumento de la desigualdad y caída del ingreso a inicios de los años
     noventa); las encuestas de esos años tienen limitaciones.'
-  revisado_por: claude (propuesta; requiere confirmación humana)
+  revisado_por: Jorge Luis Briseño Gómez
   fecha: 2026-10-06
 - serie: wb_pip:decil10.ingreso.nacional
   geo: BRA
@@ -217,7 +217,7 @@
   resolucion: dudoso
   nota: 'Brasil: 48.07 → 39.67 (-17.5 %, z=-11). Oscilación de ida y vuelta en dos años sin evento documentado ni
     ruptura marcada por la fuente. Verificar con la fuente.'
-  revisado_por: claude (propuesta; requiere confirmación humana)
+  revisado_por: Jorge Luis Briseño Gómez
   fecha: 2026-10-06
 - serie: wb_pip:decil10.ingreso.nacional
   geo: BRA
@@ -225,7 +225,7 @@
   resolucion: dudoso
   nota: 'Brasil: 39.67 → 48.44 (+22.1 %, z=12). Oscilación de ida y vuelta en dos años sin evento documentado ni
     ruptura marcada por la fuente. Verificar con la fuente.'
-  revisado_por: claude (propuesta; requiere confirmación humana)
+  revisado_por: Jorge Luis Briseño Gómez
   fecha: 2026-10-06
 - serie: wb_pip:decil10.ingreso.nacional
   geo: CRI
@@ -234,7 +234,7 @@
   nota: 'Costa Rica: 33.73 → 23.05 (-31.7 %, z=-17). Misma revisión que el Gini de ese país y año (misma distribución):
     Subida y bajada abruptas sin evento documentado ni ruptura marcada por la fuente; posible problema de comparabilidad
     de la encuesta. Verificar con la fuente.'
-  revisado_por: claude (propuesta; requiere confirmación humana)
+  revisado_por: Jorge Luis Briseño Gómez
   fecha: 2026-10-06
 - serie: wb_pip:decil10.ingreso.nacional
   geo: CZE
@@ -243,7 +243,7 @@
   nota: 'Chequia: 19.59 → 23.7 (+21.0 %, z=13). Misma revisión que el Gini de ese país y año (misma distribución):
     Coincide con la transición poscomunista (aumento de la desigualdad y caída del ingreso a inicios de los años
     noventa); las encuestas de esos años tienen limitaciones.'
-  revisado_por: claude (propuesta; requiere confirmación humana)
+  revisado_por: Jorge Luis Briseño Gómez
   fecha: 2026-10-06
 - serie: wb_pip:decil10.ingreso.nacional
   geo: HUN
@@ -252,7 +252,7 @@
   nota: 'Hungría: 28.07 → 22.8 (-18.8 %, z=-7). Misma revisión que el Gini de ese país y año (misma distribución):
     Subida y bajada abruptas sin evento documentado ni ruptura marcada por la fuente; posible problema de comparabilidad
     de la encuesta. Verificar con la fuente.'
-  revisado_por: claude (propuesta; requiere confirmación humana)
+  revisado_por: Jorge Luis Briseño Gómez
   fecha: 2026-10-06
 - serie: wb_pip:decil10.ingreso.nacional
   geo: SVN
@@ -261,5 +261,5 @@
   nota: 'Eslovenia: 20.4 → 24.73 (+21.2 %, z=11). Misma revisión que el Gini de ese país y año (misma distribución):
     Coincide con la transición poscomunista (aumento de la desigualdad y caída del ingreso a inicios de los años
     noventa); las encuestas de esos años tienen limitaciones.'
-  revisado_por: claude (propuesta; requiere confirmación humana)
+  revisado_por: Jorge Luis Briseño Gómez
   fecha: 2026-10-06

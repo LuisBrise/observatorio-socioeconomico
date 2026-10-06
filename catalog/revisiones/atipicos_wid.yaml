@@ -7,21 +7,21 @@
   periodo: '2000'
   resolucion: valor_real
   nota: 'Argentina: 14.54 → 8.17 (-43.8 %, z=-47). Coincide con la crisis económica y financiera de 2001–2002.'
-  revisado_por: claude (propuesta; requiere confirmación humana)
+  revisado_por: Jorge Luis Briseño Gómez
   fecha: 2026-10-06
 - serie: wid:bottom50
   geo: ARG
   periodo: '2001'
   resolucion: valor_real
   nota: 'Argentina: 8.17 → 7.03 (-14.0 %, z=-13). Coincide con la crisis económica y financiera de 2001–2002.'
-  revisado_por: claude (propuesta; requiere confirmación humana)
+  revisado_por: Jorge Luis Briseño Gómez
   fecha: 2026-10-06
 - serie: wid:bottom50
   geo: ARG
   periodo: '2003'
   resolucion: valor_real
   nota: 'Argentina: 7 → 9.65 (+37.9 %, z=26). Coincide con la crisis económica y financiera de 2001–2002.'
-  revisado_por: claude (propuesta; requiere confirmación humana)
+  revisado_por: Jorge Luis Briseño Gómez
   fecha: 2026-10-06
 - serie: wid:bottom50
   geo: ARG
@@ -29,7 +29,7 @@
   resolucion: valor_real
   nota: 'Argentina: 12.66 → 10.63 (-16.0 %, z=-15). Coincide con la pandemia de COVID-19 (caída en 2020 y recuperación
     en 2021).'
-  revisado_por: claude (propuesta; requiere confirmación humana)
+  revisado_por: Jorge Luis Briseño Gómez
   fecha: 2026-10-06
 - serie: wid:bottom50
   geo: ARG
@@ -37,7 +37,7 @@
   resolucion: valor_real
   nota: 'Argentina: 10.63 → 13.22 (+24.4 %, z=18). Coincide con la pandemia de COVID-19 (caída en 2020 y recuperación
     en 2021).'
-  revisado_por: claude (propuesta; requiere confirmación humana)
+  revisado_por: Jorge Luis Briseño Gómez
   fecha: 2026-10-06
 - serie: wid:bottom50
   geo: BRA
@@ -45,21 +45,21 @@
   resolucion: valor_real
   nota: 'Brasil: 10.03 → 8.19 (-18.3 %, z=-8). Coincide con la pandemia de COVID-19 (caída en 2020 y recuperación
     en 2021).'
-  revisado_por: claude (propuesta; requiere confirmación humana)
+  revisado_por: Jorge Luis Briseño Gómez
   fecha: 2026-10-06
 - serie: wid:bottom50
   geo: CAN
   periodo: '1921'
   resolucion: valor_real
   nota: 'Canadá: 19.85 → 16.34 (-17.7 %, z=-15). Coincide con la recesión de posguerra de 1920–1921.'
-  revisado_por: claude (propuesta; requiere confirmación humana)
+  revisado_por: Jorge Luis Briseño Gómez
   fecha: 2026-10-06
 - serie: wid:bottom50
   geo: CAN
   periodo: '1922'
   resolucion: valor_real
   nota: 'Canadá: 16.34 → 19.11 (+17.0 %, z=13). Coincide con la recesión de posguerra de 1920–1921.'
-  revisado_por: claude (propuesta; requiere confirmación humana)
+  revisado_por: Jorge Luis Briseño Gómez
   fecha: 2026-10-06
 - serie: wid:bottom50
   geo: CRI
@@ -67,7 +67,7 @@
   resolucion: valor_real
   nota: 'Costa Rica: 7.47 → 5.07 (-32.1 %, z=-22). Coincide con la pandemia de COVID-19 (caída en 2020 y recuperación
     en 2021).'
-  revisado_por: claude (propuesta; requiere confirmación humana)
+  revisado_por: Jorge Luis Briseño Gómez
   fecha: 2026-10-06
 - serie: wid:bottom50
   geo: CRI
@@ -75,7 +75,7 @@
   resolucion: valor_real
   nota: 'Costa Rica: 5.07 → 6.76 (+33.3 %, z=16). Coincide con la pandemia de COVID-19 (caída en 2020 y recuperación
     en 2021).'
-  revisado_por: claude (propuesta; requiere confirmación humana)
+  revisado_por: Jorge Luis Briseño Gómez
   fecha: 2026-10-06
 - serie: wid:bottom50
   geo: CRI
@@ -83,7 +83,7 @@
   resolucion: dudoso
   nota: 'Costa Rica: 6.76 → 8.62 (+27.5 %, z=14). Cambio abrupto sin evento documentado; posible efecto de cambio
     de fuentes o de método en la estimación. Verificar con la fuente.'
-  revisado_por: claude (propuesta; requiere confirmación humana)
+  revisado_por: Jorge Luis Briseño Gómez
   fecha: 2026-10-06
 - serie: wid:bottom50
   geo: PER
@@ -91,7 +91,7 @@
   resolucion: valor_real
   nota: 'Perú: 9.94 → 5.45 (-45.2 %, z=-9). Coincide con la pandemia de COVID-19 (caída en 2020 y recuperación en
     2021).'
-  revisado_por: claude (propuesta; requiere confirmación humana)
+  revisado_por: Jorge Luis Briseño Gómez
   fecha: 2026-10-06
 - serie: wid:bottom50
   geo: RUS
@@ -99,7 +99,7 @@
   resolucion: valor_real
   nota: 'Rusia: 16.74 → 29.36 (+75.4 %, z=12). Coincide con la revolución, la guerra civil y la expropiación de
     grandes fortunas (1917–1921).'
-  revisado_por: claude (propuesta; requiere confirmación humana)
+  revisado_por: Jorge Luis Briseño Gómez
   fecha: 2026-10-06
 - serie: wid:bottom50
   geo: RUS
@@ -107,7 +107,7 @@
   resolucion: valor_real
   nota: 'Rusia: 14.17 → 9.9 (-30.1 %, z=-8). Coincide con la transición poscomunista y las privatizaciones de los
     años noventa.'
-  revisado_por: claude (propuesta; requiere confirmación humana)
+  revisado_por: Jorge Luis Briseño Gómez
   fecha: 2026-10-06
 - serie: wid:bottom50
   geo: USA
@@ -115,7 +115,7 @@
   resolucion: dudoso
   nota: 'Estados Unidos: 16.51 → 13 (-21.3 %, z=-8). Estimación histórica muy antigua con fuentes escasas; no interpretar
     el cambio como medición.'
-  revisado_por: claude (propuesta; requiere confirmación humana)
+  revisado_por: Jorge Luis Briseño Gómez
   fecha: 2026-10-06
 - serie: wid:bottom50
   geo: USA
@@ -123,14 +123,14 @@
   resolucion: dudoso
   nota: 'Estados Unidos: 13 → 17 (+30.8 %, z=10). Estimación histórica muy antigua con fuentes escasas; no interpretar
     el cambio como medición.'
-  revisado_por: claude (propuesta; requiere confirmación humana)
+  revisado_por: Jorge Luis Briseño Gómez
   fecha: 2026-10-06
 - serie: wid:bottom50
   geo: USA
   periodo: '1921'
   resolucion: valor_real
   nota: 'Estados Unidos: 16.42 → 13.83 (-15.8 %, z=-6). Coincide con la recesión de posguerra de 1920–1921.'
-  revisado_por: claude (propuesta; requiere confirmación humana)
+  revisado_por: Jorge Luis Briseño Gómez
   fecha: 2026-10-06
 - serie: wid:bottom50
   geo: USA
@@ -138,7 +138,7 @@
   resolucion: valor_real
   nota: 'Estados Unidos: 14.51 → 17.68 (+21.8 %, z=7). Coincide con la compresión salarial y los controles de la
     Segunda Guerra Mundial.'
-  revisado_por: claude (propuesta; requiere confirmación humana)
+  revisado_por: Jorge Luis Briseño Gómez
   fecha: 2026-10-06
 - serie: wid:bottom50
   geo: USA
@@ -146,21 +146,21 @@
   resolucion: valor_real
   nota: 'Estados Unidos: 19.67 → 15.82 (-19.6 %, z=-8). Coincide con la compresión salarial y los controles de la
     Segunda Guerra Mundial.'
-  revisado_por: claude (propuesta; requiere confirmación humana)
+  revisado_por: Jorge Luis Briseño Gómez
   fecha: 2026-10-06
 - serie: wid:gini
   geo: ARG
   periodo: '2000'
   resolucion: valor_real
   nota: 'Argentina: 56.5 → 65.96 (+16.7 %, z=20). Coincide con la crisis económica y financiera de 2001–2002.'
-  revisado_por: claude (propuesta; requiere confirmación humana)
+  revisado_por: Jorge Luis Briseño Gómez
   fecha: 2026-10-06
 - serie: wid:gini
   geo: CAN
   periodo: '1921'
   resolucion: valor_real
   nota: 'Canadá: 47.9 → 57.28 (+19.6 %, z=13). Coincide con la recesión de posguerra de 1920–1921.'
-  revisado_por: claude (propuesta; requiere confirmación humana)
+  revisado_por: Jorge Luis Briseño Gómez
   fecha: 2026-10-06
 - serie: wid:gini
   geo: RUS
@@ -168,7 +168,7 @@
   resolucion: valor_real
   nota: 'Rusia: 55.05 → 30.72 (-44.2 %, z=-14). Coincide con la revolución, la guerra civil y la expropiación de
     grandes fortunas (1917–1921).'
-  revisado_por: claude (propuesta; requiere confirmación humana)
+  revisado_por: Jorge Luis Briseño Gómez
   fecha: 2026-10-06
 - serie: wid:gini
   geo: RUS
@@ -176,7 +176,7 @@
   resolucion: valor_real
   nota: 'Rusia: 33.55 → 43.54 (+29.8 %, z=6). Coincide con la transición poscomunista y las privatizaciones de los
     años noventa.'
-  revisado_por: claude (propuesta; requiere confirmación humana)
+  revisado_por: Jorge Luis Briseño Gómez
   fecha: 2026-10-06
 - serie: wid:top1
   geo: ARG
@@ -184,7 +184,7 @@
   resolucion: dudoso
   nota: 'Argentina: 11.33 → 16.68 (+47.2 %, z=8). Cambio abrupto sin evento documentado; posible efecto de cambio
     de fuentes o de método en la estimación. Verificar con la fuente.'
-  revisado_por: claude (propuesta; requiere confirmación humana)
+  revisado_por: Jorge Luis Briseño Gómez
   fecha: 2026-10-06
 - serie: wid:top1
   geo: ARG
@@ -192,7 +192,7 @@
   resolucion: dudoso
   nota: 'Argentina: 12.52 → 9.16 (-26.8 %, z=-6). Cambio abrupto sin evento documentado; posible efecto de cambio
     de fuentes o de método en la estimación. Verificar con la fuente.'
-  revisado_por: claude (propuesta; requiere confirmación humana)
+  revisado_por: Jorge Luis Briseño Gómez
   fecha: 2026-10-06
 - serie: wid:top1
   geo: ARG
@@ -200,14 +200,14 @@
   resolucion: dudoso
   nota: 'Argentina: 12.52 → 18.1 (+44.6 %, z=8). Cambio abrupto sin evento documentado; posible efecto de cambio
     de fuentes o de método en la estimación. Verificar con la fuente.'
-  revisado_por: claude (propuesta; requiere confirmación humana)
+  revisado_por: Jorge Luis Briseño Gómez
   fecha: 2026-10-06
 - serie: wid:top1
   geo: CAN
   periodo: '1921'
   resolucion: valor_real
   nota: 'Canadá: 10.41 → 13.75 (+32.1 %, z=6). Coincide con la recesión de posguerra de 1920–1921.'
-  revisado_por: claude (propuesta; requiere confirmación humana)
+  revisado_por: Jorge Luis Briseño Gómez
   fecha: 2026-10-06
 - serie: wid:top1
   geo: COL
@@ -215,7 +215,7 @@
   resolucion: dudoso
   nota: 'Colombia: 20.91 → 26.96 (+28.9 %, z=6). Cambio abrupto sin evento documentado; posible efecto de cambio
     de fuentes o de método en la estimación. Verificar con la fuente.'
-  revisado_por: claude (propuesta; requiere confirmación humana)
+  revisado_por: Jorge Luis Briseño Gómez
   fecha: 2026-10-06
 - serie: wid:top1
   geo: CRI
@@ -223,7 +223,7 @@
   resolucion: valor_real
   nota: 'Costa Rica: 21.51 → 26.15 (+21.6 %, z=18). Coincide con la pandemia de COVID-19 (caída en 2020 y recuperación
     en 2021).'
-  revisado_por: claude (propuesta; requiere confirmación humana)
+  revisado_por: Jorge Luis Briseño Gómez
   fecha: 2026-10-06
 - serie: wid:top1
   geo: CRI
@@ -231,7 +231,7 @@
   resolucion: dudoso
   nota: 'Costa Rica: 26.15 → 20.32 (-22.3 %, z=-23). Cambio abrupto sin evento documentado; posible efecto de cambio
     de fuentes o de método en la estimación. Verificar con la fuente.'
-  revisado_por: claude (propuesta; requiere confirmación humana)
+  revisado_por: Jorge Luis Briseño Gómez
   fecha: 2026-10-06
 - serie: wid:top1
   geo: FIN
@@ -239,7 +239,7 @@
   resolucion: dudoso
   nota: 'Finlandia: 5.32 → 6.56 (+23.3 %, z=6). Cambio abrupto sin evento documentado; posible efecto de cambio
     de fuentes o de método en la estimación. Verificar con la fuente.'
-  revisado_por: claude (propuesta; requiere confirmación humana)
+  revisado_por: Jorge Luis Briseño Gómez
   fecha: 2026-10-06
 - serie: wid:top1
   geo: FIN
@@ -247,7 +247,7 @@
   resolucion: dudoso
   nota: 'Finlandia: 5.74 → 4.49 (-21.8 %, z=-6). Cambio abrupto sin evento documentado; posible efecto de cambio
     de fuentes o de método en la estimación. Verificar con la fuente.'
-  revisado_por: claude (propuesta; requiere confirmación humana)
+  revisado_por: Jorge Luis Briseño Gómez
   fecha: 2026-10-06
 - serie: wid:top1
   geo: FIN
@@ -255,7 +255,7 @@
   resolucion: valor_real
   nota: 'Finlandia: 3.69 → 4.84 (+31.2 %, z=8). Coincide con la depresión de inicios de los noventa y la reforma
     al impuesto sobre la renta dual de 1993.'
-  revisado_por: claude (propuesta; requiere confirmación humana)
+  revisado_por: Jorge Luis Briseño Gómez
   fecha: 2026-10-06
 - serie: wid:top1
   geo: FIN
@@ -263,7 +263,7 @@
   resolucion: valor_real
   nota: 'Finlandia: 4.84 → 7.17 (+48.1 %, z=11). Coincide con la depresión de inicios de los noventa y la reforma
     al impuesto sobre la renta dual de 1993.'
-  revisado_por: claude (propuesta; requiere confirmación humana)
+  revisado_por: Jorge Luis Briseño Gómez
   fecha: 2026-10-06
 - serie: wid:top1
   geo: FIN
@@ -271,28 +271,28 @@
   resolucion: valor_real
   nota: 'Finlandia: 7.17 → 8.96 (+25.0 %, z=7). Coincide con la depresión de inicios de los noventa y la reforma
     al impuesto sobre la renta dual de 1993.'
-  revisado_por: claude (propuesta; requiere confirmación humana)
+  revisado_por: Jorge Luis Briseño Gómez
   fecha: 2026-10-06
 - serie: wid:top1
   geo: GRC
   periodo: '2011'
   resolucion: valor_real
   nota: 'Grecia: 8.81 → 7.28 (-17.4 %, z=-6). Coincide con la crisis de deuda y los programas de ajuste (2010–2015).'
-  revisado_por: claude (propuesta; requiere confirmación humana)
+  revisado_por: Jorge Luis Briseño Gómez
   fecha: 2026-10-06
 - serie: wid:top1
   geo: GRC
   periodo: '2013'
   resolucion: valor_real
   nota: 'Grecia: 7.85 → 9.96 (+26.9 %, z=8). Coincide con la crisis de deuda y los programas de ajuste (2010–2015).'
-  revisado_por: claude (propuesta; requiere confirmación humana)
+  revisado_por: Jorge Luis Briseño Gómez
   fecha: 2026-10-06
 - serie: wid:top1
   geo: GRC
   periodo: '2014'
   resolucion: valor_real
   nota: 'Grecia: 9.96 → 12.5 (+25.5 %, z=8). Coincide con la crisis de deuda y los programas de ajuste (2010–2015).'
-  revisado_por: claude (propuesta; requiere confirmación humana)
+  revisado_por: Jorge Luis Briseño Gómez
   fecha: 2026-10-06
 - serie: wid:top1
   geo: PRT
@@ -300,7 +300,7 @@
   resolucion: dudoso
   nota: 'Portugal: 8.32 → 12.83 (+54.2 %, z=7). Cambio abrupto sin evento documentado; posible efecto de cambio
     de fuentes o de método en la estimación. Verificar con la fuente.'
-  revisado_por: claude (propuesta; requiere confirmación humana)
+  revisado_por: Jorge Luis Briseño Gómez
   fecha: 2026-10-06
 - serie: wid:top1
   geo: RUS
@@ -308,7 +308,7 @@
   resolucion: valor_real
   nota: 'Rusia: 17.99 → 4.1 (-77.2 %, z=-16). Coincide con la revolución, la guerra civil y la expropiación de grandes
     fortunas (1917–1921).'
-  revisado_por: claude (propuesta; requiere confirmación humana)
+  revisado_por: Jorge Luis Briseño Gómez
   fecha: 2026-10-06
 - serie: wid:top1
   geo: VNM
@@ -316,7 +316,7 @@
   resolucion: dudoso
   nota: 'Vietnam: 20.57 → 16.16 (-21.4 %, z=-9). Cambio abrupto sin evento documentado; posible efecto de cambio
     de fuentes o de método en la estimación. Verificar con la fuente.'
-  revisado_por: claude (propuesta; requiere confirmación humana)
+  revisado_por: Jorge Luis Briseño Gómez
   fecha: 2026-10-06
 - serie: wid:top1
   geo: VNM
@@ -324,28 +324,28 @@
   resolucion: dudoso
   nota: 'Vietnam: 20.7 → 16.42 (-20.7 %, z=-9). Cambio abrupto sin evento documentado; posible efecto de cambio
     de fuentes o de método en la estimación. Verificar con la fuente.'
-  revisado_por: claude (propuesta; requiere confirmación humana)
+  revisado_por: Jorge Luis Briseño Gómez
   fecha: 2026-10-06
 - serie: wid:top10
   geo: CAN
   periodo: '1921'
   resolucion: valor_real
   nota: 'Canadá: 37.42 → 49.46 (+32.2 %, z=15). Coincide con la recesión de posguerra de 1920–1921.'
-  revisado_por: claude (propuesta; requiere confirmación humana)
+  revisado_por: Jorge Luis Briseño Gómez
   fecha: 2026-10-06
 - serie: wid:top10
   geo: CAN
   periodo: '1922'
   resolucion: valor_real
   nota: 'Canadá: 49.46 → 40.04 (-19.0 %, z=-12). Coincide con la recesión de posguerra de 1920–1921.'
-  revisado_por: claude (propuesta; requiere confirmación humana)
+  revisado_por: Jorge Luis Briseño Gómez
   fecha: 2026-10-06
 - serie: wid:top10
   geo: CAN
   periodo: '1923'
   resolucion: valor_real
   nota: 'Canadá: 40.04 → 34.1 (-14.8 %, z=-9). Coincide con la recesión de posguerra de 1920–1921.'
-  revisado_por: claude (propuesta; requiere confirmación humana)
+  revisado_por: Jorge Luis Briseño Gómez
   fecha: 2026-10-06
 - serie: wid:top10
   geo: CAN
@@ -353,7 +353,7 @@
   resolucion: valor_real
   nota: 'Canadá: 35.03 → 29.86 (-14.8 %, z=-9). Coincide con la compresión salarial y los controles de la Segunda
     Guerra Mundial.'
-  revisado_por: claude (propuesta; requiere confirmación humana)
+  revisado_por: Jorge Luis Briseño Gómez
   fecha: 2026-10-06
 - serie: wid:top10
   geo: CRI
@@ -361,7 +361,7 @@
   resolucion: dudoso
   nota: 'Costa Rica: 57.66 → 49.53 (-14.1 %, z=-24). Cambio abrupto sin evento documentado; posible efecto de cambio
     de fuentes o de método en la estimación. Verificar con la fuente.'
-  revisado_por: claude (propuesta; requiere confirmación humana)
+  revisado_por: Jorge Luis Briseño Gómez
   fecha: 2026-10-06
 - serie: wid:top10
   geo: RUS
@@ -369,7 +369,7 @@
   resolucion: valor_real
   nota: 'Rusia: 46.88 → 23.5 (-49.9 %, z=-12). Coincide con la revolución, la guerra civil y la expropiación de
     grandes fortunas (1917–1921).'
-  revisado_por: claude (propuesta; requiere confirmación humana)
+  revisado_por: Jorge Luis Briseño Gómez
   fecha: 2026-10-06
 - serie: wid:top10
   geo: VNM
@@ -377,5 +377,5 @@
   resolucion: dudoso
   nota: 'Vietnam: 47.29 → 40.18 (-15.0 %, z=-20). Cambio abrupto sin evento documentado; posible efecto de cambio
     de fuentes o de método en la estimación. Verificar con la fuente.'
-  revisado_por: claude (propuesta; requiere confirmación humana)
+  revisado_por: Jorge Luis Briseño Gómez
   fecha: 2026-10-06
