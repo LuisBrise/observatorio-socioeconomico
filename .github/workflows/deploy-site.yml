@@ -2,7 +2,8 @@
 name: Publicar sitio
 on:
   push:
-    branches: [main]
+    # La rama principal del repositorio (hoy claude/brave-goldberg-gapsii) y main si se crea.
+    branches: [main, claude/brave-goldberg-gapsii]
   workflow_dispatch:
 permissions:
   contents: read
@@ -22,7 +23,7 @@ jobs:
       - run: uv sync
       - run: scripts/raw_archive.sh restore
       - run: uv run obs rebuild
-      - run: uv run obs build-viz d1
+      - run: make viz
       - uses: quarto-dev/quarto-actions/setup@v2
         with:
           version: release   # fijar una versión concreta tras la primera compilación exitosa

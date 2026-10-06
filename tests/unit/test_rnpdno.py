@@ -1,3 +1,4 @@
+# ruff: noqa: E501
 """RNPDNO: año de desaparición, categoría sin año, años preliminares y sesión del conector."""
 
 import json
@@ -42,7 +43,42 @@ def test_conector_abre_sesion_y_pide_cada_estatus():
     class DS:
         archivos = ["7", "3"]
 
-    res = RNPDNO(client=httpx.Client(transport=httpx.MockTransport(handler))).fetch(DS())
+    res = RNPDNO(client=httpx.Client(transport=httpx.MockTransport(handler)), pausa=0).fetch(DS())
     assert llamadas[0] == ("GET", "/")
     assert [f.name for f in res.files] == ["totales.json", "anio_sexo_7.json", "anio_sexo_3.json"]
     assert json.loads(next(f for f in res.files if f.name == "anio_sexo_3.json").content)["Series"]
+
+
+def test_entidades(tmp_path):
+    (tmp_path / "anio_sexo_7.json").write_text(json.dumps(resp([3, 2, 2, 1], [1, 1, 1, 0], [0, 0, 0, 0])))
+    (tmp_path / "anio_sexo_7_e09.json").write_text(json.dumps(resp([2, 1, 1, 1], [1, 0, 1, 0], [0, 0, 0, 0])))
+    (tmp_path / "anio_sexo_7_e33.json").write_text(json.dumps(resp([1, 1, 1, 0], [0, 1, 0, 0], [0, 0, 0, 0])))
+    obs, geos = parse_rnpdno(tmp_path, "rnpdno", "2026-10-06T163417Z")
+    assert set(geos["source_geo"]) == {"00", "09", "33"}
+    tot = obs.filter(obs["source_series"] == "desaparecidas.total")
+    nac = tot.filter(tot["source_geo"] == "00")["value"].sum()
+    assert nac == tot.filter(tot["source_geo"] != "00")["value"].sum()  # entidades suman el nacional
+
+
+def test_conector_consulta_cada_entidad():
+    estados = [{"Value": 0, "Text": "--TODOS--"}, {"Value": 9, "Text": "CDMX"}, {"Value": 33, "Text": "SE DESCONOCE"}]
+    pedidos = []
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        if request.method == "GET":
+            return httpx.Response(200, text="<html></html>")
+        body = json.loads(request.content or b"{}")
+        pedidos.append((request.url.path, body.get("idEstado")))
+        if request.url.path.endswith("/Estados"):
+            return httpx.Response(200, json=estados)
+        if request.url.path.endswith("/Totales"):
+            return httpx.Response(200, json={})
+        return httpx.Response(200, json=resp([1, 1, 1, 1], [0, 0, 0, 0], [0, 0, 0, 0]))
+
+    class DS:
+        archivos = ["7", "7@entidades"]
+
+    res = RNPDNO(client=httpx.Client(transport=httpx.MockTransport(handler)), pausa=0).fetch(DS())
+    nombres = [f.name for f in res.files]
+    assert {"anio_sexo_7.json", "anio_sexo_7_e09.json", "anio_sexo_7_e33.json", "catalogo_estados.json"} <= set(nombres)
+    assert ("/SocioDemografico/AreaChartSexoAnio", "9") in pedidos

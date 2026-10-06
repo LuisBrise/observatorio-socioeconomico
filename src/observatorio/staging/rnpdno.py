@@ -6,6 +6,8 @@
   archivo crudo).
 - La categoría "CIFRA SIN AÑO DE REFERENCIA" se guarda como serie `{estatus}.sin_anio` con
   periodo = año de la consulta (es un acervo sin fecha, no un flujo anual).
+- Archivos por entidad (`anio_sexo_{estatus}_e{clave}.json`): mismas series con la clave INEGI
+  como geografía; los nacionales usan "00".
 - Toda la tabla es una instantánea; el año de la consulta y el anterior quedan marcados como
   preliminares (P): el registro de desapariciones recientes se completa con retraso.
 """
@@ -32,11 +34,12 @@ def parse_rnpdno(raw_dir: Path, dataset_id: str, vintage: str) -> tuple[pl.DataF
 
     def add(series: str, period: str, value: float) -> None:
         rows.append({"dataset_id": dataset_id, "vintage_id": vintage, "source_series": series,
-                     "source_geo": "MEX", "source_geo_name": "México", "source_period": period,
+                     "source_geo": geo, "source_geo_name": geo, "source_period": period,
                      "value": value, "source_obs_status": "P" if period in prelim else ""})
 
     for path in sorted(raw_dir.glob("anio_sexo_*.json")):
-        estatus = ESTATUS[path.stem.removeprefix("anio_sexo_")]
+        codigo, _, ent = path.stem.removeprefix("anio_sexo_").partition("_e")
+        estatus, geo = ESTATUS[codigo], (ent or "00")
         d = json.loads(path.read_text(encoding="utf-8"))
         cats = d["XAxisCategories"]
         series = {SEXO[s["name"]]: s["data"] for s in d["Series"]}
@@ -49,8 +52,8 @@ def parse_rnpdno(raw_dir: Path, dataset_id: str, vintage: str) -> tuple[pl.DataF
                     if estatus not in CON_SIN_ANIO:
                         continue
                     rows.append({"dataset_id": dataset_id, "vintage_id": vintage,
-                                 "source_series": f"{estatus}.sin_anio", "source_geo": "MEX",
-                                 "source_geo_name": "México", "source_period": anio_consulta,
+                                 "source_series": f"{estatus}.sin_anio", "source_geo": geo,
+                                 "source_geo_name": geo, "source_period": anio_consulta,
                                  "value": total, "source_obs_status": ""})
                     continue
                 raise ValueError(f"{path.name}: categoría inesperada {cat!r}")
@@ -58,6 +61,6 @@ def parse_rnpdno(raw_dir: Path, dataset_id: str, vintage: str) -> tuple[pl.DataF
             for sexo, data in (series.items() if estatus in CON_SEXO else ()):
                 add(f"{estatus}.{sexo}", cat, float(data[i]))
     obs = pl.DataFrame(rows, schema=STAGING_SCHEMA)
-    geos = pl.DataFrame([{"source_geo": "MEX", "name": "México", "is_aggregate": False}],
-                        schema=GEO_SCHEMA)
+    geos = pl.DataFrame([{"source_geo": g, "name": g, "is_aggregate": False}
+                         for g in sorted(set(obs["source_geo"]))], schema=GEO_SCHEMA)
     return obs, geos

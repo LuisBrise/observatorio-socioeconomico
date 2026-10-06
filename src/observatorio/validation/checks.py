@@ -210,14 +210,19 @@ def compare_vintages(
 
     warn_pct = thresholds.get("revision_advertencia_pct", 5.0)
     warn_share = thresholds.get("revision_advertencia_share", 0.25)
+    # Conteos pequeños: cambios relativos grandes con pocos casos no son señal de revisión anómala.
+    piso = thresholds.get("revision_piso", 0.0)
+    # La proporción de revisados solo se evalúa en series con suficientes observaciones comunes.
+    min_obs = thresholds.get("revision_minimo_observaciones", 1)
     for sid in new["series_id"].unique().sort().to_list():
         n_common = joined.filter(pl.col("series_id") == sid).height
         rev = revisions.filter(pl.col("series_id") == sid)
         if not n_common or not rev.height:
             continue
-        big = rev.filter(pl.col("delta_pct").abs() > warn_pct)
+        big = rev.filter((pl.col("delta_pct").abs() > warn_pct)
+                         & ((pl.col("value").abs() >= piso) | (pl.col("value_old").abs() >= piso)))
         share = rev.height / n_common
-        sev = WARN if (share > warn_share or big.height) else INFO
+        sev = WARN if ((share > warn_share and n_common >= min_obs) or big.height) else INFO
         results.append(CheckResult(
             "revisiones", sev,
             f"{sid}: {rev.height} de {n_common} observaciones revisadas ({share:.0%}); "

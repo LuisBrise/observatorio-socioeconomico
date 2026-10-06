@@ -105,7 +105,8 @@ def process(paths: Paths, catalog: Catalog, dataset_id: str, vintage: str | None
             vr, revisions = checks.compare_vintages(obs, old, dataset.umbrales)
             results += vr
         prev_raw = store.dataset_dir(dataset.fuente, dataset_id) / locked["vintage"]
-        results += checks.compare_metadata(_read_meta(raw_dir), _read_meta(prev_raw))
+        if prev_raw.exists():  # el vintage fijado puede no estar disponible (p. ej., archivo vacío)
+            results += checks.compare_metadata(_read_meta(raw_dir), _read_meta(prev_raw))
 
     report_dir = paths.validation / dataset_id / vintage
     summary = write_report(results, report_dir, {

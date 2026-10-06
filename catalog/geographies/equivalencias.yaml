@@ -39,3 +39,6 @@ inegi_homicidios: &claves_inegi
   "31": MX-YUC
   "32": MX-ZAC
 sesnsp_victimas: *claves_inegi
+rnpdno:
+  <<: *claves_inegi
+  "33": MX-ND   # "SE DESCONOCE" en el catálogo de estados del RNPDNO

@@ -27,6 +27,8 @@ reg = FileAttachment("../../data/d4/homicidios-regiones/data.json").json()
 regProv = FileAttachment("../../data/d4/homicidios-regiones/provenance.json").json()
 des = FileAttachment("../../data/d4/desaparecidas-anio/data.json").json()
 desProv = FileAttachment("../../data/d4/desaparecidas-anio/provenance.json").json()
+desEnt = FileAttachment("../../data/d4/desaparecidas-entidades/data.json").json()
+desEntProv = FileAttachment("../../data/d4/desaparecidas-entidades/provenance.json").json()
 fue = FileAttachment("../../data/d4/homicidios-fuentes/data.json").json()
 fueProv = FileAttachment("../../data/d4/homicidios-fuentes/provenance.json").json()
 cv = FileAttachment("../../data/d4/sesnsp-contra-la-vida/data.json").json()
@@ -200,6 +202,17 @@ html`<div class="obs-chart">
   ${charts.procedencia(desProv, { csv: [["estatus por año (CSV)", "../../data/d4/desaparecidas-anio/estatus.csv"],
                                          ["por sexo (CSV)", "../../data/d4/desaparecidas-anio/sexo.csv"]] })}
   ${charts.advertencias(desProv)}
+</div>`
+```
+
+```{ojs}
+//| echo: false
+html`<div class="obs-chart">
+  <h3>Personas que siguen desaparecidas o no localizadas, por entidad de desaparición</h3>
+  <p class="obs-sub">Personas · todos los años de desaparición · RNPDNO, consulta del ${desEnt.corte}</p>
+  ${charts.puntosOrdenados(desEnt.entidades, { tokens, width, x: "personas", unidad: "personas" })}
+  ${charts.procedencia(desEntProv, { csv: [["datos (CSV)", "../../data/d4/desaparecidas-entidades/entidades.csv"]] })}
+  ${charts.advertencias(desEntProv)}
 </div>`
 ```
 

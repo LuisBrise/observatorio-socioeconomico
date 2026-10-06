@@ -13,7 +13,7 @@ licencia:
   url: https://versionpublicarnpdno.segob.gob.mx/
   redistribucion: solo_agregados
 cobertura:
-  geografica: Nacional (el sitio permite filtrar por entidad y municipio)
+  geografica: Nacional; personas desaparecidas también por entidad (entidad de desaparición)
   temporal: Año de desaparición; registros desde 1952, con cobertura muy incompleta antes de ~2006
   poblacion: Personas reportadas como desaparecidas o no localizadas ante autoridades o en el portal público
 frecuencia: continua (se consulta semanalmente)
@@ -31,7 +31,7 @@ limitaciones: >
   normalizó el RNPED del SESNSP); los años anteriores están subregistrados. En 2023–2024 el gobierno
   federal revisó el registro con una metodología cuestionada por colectivos de familias: las
   instantáneas de distintas fechas pueden no ser comparables. Hay registros sin año de desaparición.
-archivos: ["0", "7", "2", "3"]
+archivos: ["0", "7", "2", "3", "7@entidades"]   # 7@entidades: desaparecidas por entidad
 series:
   - codigo: desaparecidas.total
     indicador: seg.desapariciones.registro.desaparecidas
@@ -74,5 +74,7 @@ umbrales:
   # registros tardíos). Se advierte solo ante cambios grandes y generalizados (p. ej., depuraciones).
   revision_advertencia_pct: 10.0
   revision_advertencia_share: 0.5
+  revision_piso: 100                    # cambios en conteos menores a 100 personas no se advierten
+  revision_minimo_observaciones: 5      # series de una sola cifra (sin año) cambian en cada consulta
   caida_cobertura_pct: 2.0
 fecha_alta: 2026-10-06

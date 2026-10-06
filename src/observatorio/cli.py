@@ -185,10 +185,18 @@ def comparar(indicador: str = typer.Argument(None, help="Por defecto, todos los 
 
 
 @app.command("rebuild")
-def rebuild() -> None:
+def rebuild(omitir_faltantes: bool = typer.Option(
+        False, help="Omitir (con aviso) los datasets cuyo vintage fijado no está en data/raw")) -> None:
     """Regenera processed/ a partir de los vintages crudos fijados en el lockfile."""
+    from observatorio.ingestion.base import RawStore
+
     paths, cat = _ctx()
+    store = RawStore(paths.raw, paths.root)
     for dataset, entry in read_lock(paths).items():
+        raw_dir = store.dataset_dir(cat.datasets[dataset].fuente, dataset) / entry["vintage"]
+        if omitir_faltantes and not raw_dir.exists():
+            typer.secho(f"{dataset}@{entry['vintage']}: falta el vintage crudo; se omite", fg="yellow")
+            continue
         res = process(paths, cat, dataset, entry["vintage"])
         typer.echo(f"{dataset}@{entry['vintage']}: {res.status}")
         if res.status == "error":

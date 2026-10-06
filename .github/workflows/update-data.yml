@@ -4,6 +4,11 @@ on:
   schedule:
     - cron: "17 9 * * 1"   # lunes 09:17 UTC
   workflow_dispatch:
+    inputs:
+      completo:
+        description: "Descargar TODAS las fuentes aunque no sea su mes de publicación (arranque del archivo crudo)"
+        type: boolean
+        default: false
 permissions:
   contents: write
   pull-requests: write
@@ -14,6 +19,7 @@ jobs:
       GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       INEGI_TOKEN: ${{ secrets.INEGI_TOKEN }}
       BANXICO_TOKEN: ${{ secrets.BANXICO_TOKEN }}
+      COMPLETO: ${{ inputs.completo || false }}
     steps:
       - uses: actions/checkout@v4
       - uses: astral-sh/setup-uv@v6
@@ -21,21 +27,22 @@ jobs:
       - name: Restaurar archivo crudo
         run: scripts/raw_archive.sh restore
       - name: Reconstruir datos fijados
-        run: uv run obs rebuild
+        # Si el archivo crudo aún no tiene algún vintage fijado (arranque), se omite y se descarga de nuevo.
+        run: uv run obs rebuild --omitir-faltantes
       - name: Descargar y validar WDI
         run: uv run obs run wb_wdi | tee run.log
       - name: Descargar y validar Banco Mundial PIP (pobreza y desigualdad)
         run: uv run obs run wb_pip | tee -a run.log
       - name: Descargar y validar pobreza oficial de México (INEGI, bienal; se publica en agosto)
         run: |
-          case "$(date -u +%m)" in
-            08|09) uv run obs run inegi_pm | tee -a run.log ;;
+          case "$COMPLETO-$(date -u +%m)" in
+            true-*|*-08|*-09) uv run obs run inegi_pm | tee -a run.log ;;
             *) echo "inegi_pm: fuera de los meses de publicación, no se consulta" | tee -a run.log ;;
           esac
       - name: Descargar y validar WID (actualización anual; se consulta la primera semana de cada mes)
         # Cada consulta extrae ~130 MB del ZIP remoto: no se repite cada semana.
         run: |
-          if [ "$(date -u +%d)" -le 7 ]; then uv run obs run wid | tee -a run.log
+          if [ "$COMPLETO" = "true" ] || [ "$(date -u +%d)" -le 7 ]; then uv run obs run wid | tee -a run.log
           else echo "wid: se consulta solo la primera semana del mes" | tee -a run.log; fi
       - name: Descargar y validar CEPAL (pobreza)
         run: uv run obs run cepal_pobreza | tee -a run.log
@@ -49,14 +56,14 @@ jobs:
         # Los términos del FMI prohíben descargas masivas automatizadas: solo se consulta
         # cuando puede haber una edición nueva (abril y octubre, con un mes de margen).
         run: |
-          case "$(date -u +%m)" in
-            04|05|10|11) uv run obs run fmi_weo | tee -a run.log ;;
+          case "$COMPLETO-$(date -u +%m)" in
+            true-*|*-04|*-05|*-10|*-11) uv run obs run fmi_weo | tee -a run.log ;;
             *) echo "fmi_weo: fuera de los meses de publicación, no se consulta" | tee -a run.log ;;
           esac
       - name: Descargar y validar ONU WPP (revisiones bienales, publicadas en julio)
         run: |
-          case "$(date -u +%m)" in
-            07|08) uv run obs run onu_wpp_prob | tee -a run.log ;;
+          case "$COMPLETO-$(date -u +%m)" in
+            true-*|*-07|*-08) uv run obs run onu_wpp_prob | tee -a run.log ;;
             *) echo "onu_wpp_prob: fuera de los meses de publicación, no se consulta" | tee -a run.log ;;
           esac
       - name: Comparar fuentes

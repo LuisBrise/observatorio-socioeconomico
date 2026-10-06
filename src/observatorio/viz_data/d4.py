@@ -214,6 +214,20 @@ def _desaparecidas(paths: Paths, catalog: Catalog, obs: pl.DataFrame) -> list[st
         raise ValueError("d4/desaparecidas: los estatus no suman el total de reportes")
     prelim = sorted(anual.filter(pl.col("obs_status") == "P")["period"].unique().to_list())
     corte = f"{vintage[:4]}-{vintage[5:7]}-{vintage[8:10]}"
+    # Posible rezago de carga: entidades cuyo año en curso tiene muy pocos registros frente al anterior.
+    actual, anterior = corte[:4], str(int(corte[:4]) - 1)
+    por_ent = (obs.filter((pl.col("series_id") == "rnpdno:desaparecidas.total")
+                          & pl.col("geo_id").str.starts_with("MX-") & (pl.col("geo_id") != "MX-ND")
+                          & pl.col("period").is_in([actual, anterior]))
+               .pivot(on="period", index="geo_id", values="value").fill_null(0))
+    rezago = []
+    if {actual, anterior} <= set(por_ent.columns):
+        ratios = por_ent.filter(pl.col(anterior) >= 100).with_columns(
+            (pl.col(actual) / pl.col(anterior)).alias("r"))
+        mediana = float(ratios["r"].median())
+        rezago = [f"{catalog.geo_name(g)} ({int(a):,} en {actual} frente a {int(b):,} en {anterior})"
+                  for g, a, b, r in ratios.select("geo_id", actual, anterior, "r").iter_rows()
+                  if r < mediana / 4]
     spec = ChartSpec(
         chart_id="d4/desaparecidas-anio",
         question=("¿Cuántas personas reportadas como desaparecidas siguen sin ser localizadas, según el año "
@@ -239,6 +253,9 @@ def _desaparecidas(paths: Paths, catalog: Catalog, obs: pl.DataFrame) -> list[st
             f"{sin_anio_todas:,} sin año de desaparición ({sin_anio_desap:,} de ellas siguen desaparecidas). "
             f"Total en el registro: {reportadas + sin_anio_todas:,} personas reportadas, de las cuales "
             f"{desap_total + sin_anio_desap:,} siguen desaparecidas o no localizadas.",
+            ("Posible rezago en la carga de registros del año en curso (menos de una cuarta parte de la "
+             f"proporción típica entre entidades): {'; '.join(rezago)}. El total nacional de {actual} está "
+             "subestimado en esa medida.") if rezago else "",
             "Es un registro administrativo: depende de que haya reporte o denuncia. No es una estimación "
             "del total de personas desaparecidas.",
         ],
@@ -250,7 +267,38 @@ def _desaparecidas(paths: Paths, catalog: Catalog, obs: pl.DataFrame) -> list[st
     write_chart(paths, catalog, spec,
                 {"estatus": anual, "sexo": sexo.filter(pl.col("period") >= DESDE).sort("period")},
                 extra={"corte": corte, "preliminares": prelim})
-    return [spec.chart_id]
+
+    # 4.4b · Acervo de personas desaparecidas por entidad (todos los años y sin año).
+    sids = ["rnpdno:desaparecidas.total", "rnpdno:desaparecidas.sin_anio"]
+    acervo = (obs.filter(pl.col("series_id").is_in(sids)
+                         & pl.col("geo_id").str.starts_with("MX-"))
+              .group_by("geo_id").agg(pl.col("value").sum().alias("personas"))
+              .with_columns(pl.col("geo_id").map_elements(catalog.geo_name, return_dtype=pl.String)
+                            .alias("nombre"))
+              .sort("personas"))
+    total_ent = int(acervo["personas"].sum())
+    if total_ent != desap_total + sin_anio_desap:
+        raise ValueError("d4/desaparecidas-entidades: la suma de entidades no coincide con el total nacional")
+    spec2 = ChartSpec(
+        chart_id="d4/desaparecidas-entidades",
+        question=("¿En qué entidades se registró la desaparición de las personas que siguen sin ser "
+                  "localizadas?"),
+        indicators=[DESAP, "seg.desapariciones.registro.desaparecidas_sin_anio"],
+        caveats=[
+            f"Instantánea del registro consultada el {corte}; incluye todos los años de desaparición y los "
+            "registros sin año.",
+            "Conteos, no tasas: las entidades más pobladas tienden a tener más registros. Las tasas por "
+            "habitante requieren la población por entidad de CONAPO (pendiente).",
+            "La cifra depende también de la capacidad y disposición de cada fiscalía y comisión de búsqueda "
+            "para registrar y actualizar casos; las diferencias entre entidades no miden solo la incidencia.",
+            f"Suma de entidades = total nacional ({total_ent:,} personas), incluida 'entidad no "
+            "especificada'.",
+        ],
+        series_usadas=["rnpdno:desaparecidas.total", "rnpdno:desaparecidas.sin_anio"],
+        groups={"entidades_federativas": acervo["geo_id"].to_list()},
+    )
+    write_chart(paths, catalog, spec2, {"entidades": acervo}, extra={"corte": corte})
+    return [spec.chart_id, spec2.chart_id]
 
 
 def _serie(obs: pl.DataFrame, sid: str, nombre: str) -> pl.DataFrame:

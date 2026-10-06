@@ -8,7 +8,8 @@ Sistema reproducible para analizar la evolución política, económica y social 
 > fuentes y dashboard D1 en Quarto (ingreso, contraste internacional, transición demográfica, pobreza
 > y desigualdad) y primera parte de D4 (homicidios en México, ALC y regiones del mundo; INEGI vs SESNSP; mujeres asesinadas y feminicidio;
 > personas desaparecidas).
-> Aún no se ha publicado el sitio.
+> Sitio: se publica con GitHub Actions en https://luisbrise.github.io/observatorio-socioeconomico/
+> (ver [guía](docs/guias/publicar-sitio.md)).
 
 ## Uso rápido (Ubuntu)
 
@@ -62,6 +63,7 @@ Ver [principios editoriales](docs/principios-editoriales.md).
 - [Principios editoriales](docs/principios-editoriales.md)
 - [Registro de decisiones](docs/decisiones/README.md)
 - [Guía de tokens de API](docs/guias/tokens-api.md)
+- [Publicar el sitio en GitHub Pages](docs/guias/publicar-sitio.md)
 
 ## Licencias
 

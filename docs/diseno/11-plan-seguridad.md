@@ -50,7 +50,9 @@ desapariciones** (México, con comparación con ALC y otras regiones del mundo).
 3. ✅ Feminicidios y homicidios de mujeres (INEGI vs SESNSP, proporción registrada como feminicidio).
 3b. ✅ Entidades federativas (INEGI y SESNSP, conteos): diferencia entre registros por entidad y su
    asociación con "otros delitos contra la vida" (Spearman 0.32, IC 95 % −0.03 a 0.60: no concluyente).
-   Pendiente: tasas por entidad (población de CONAPO; requiere permitir conapo.segob.gob.mx) y
-   desapariciones por entidad.
+   Pendiente: tasas por entidad (población de CONAPO: el archivo redirige a www.datos.gob.mx, que
+   hay que permitir).
+4b. ✅ Desapariciones por entidad (RNPDNO, una consulta por entidad, espaciadas). Detección automática
+   de rezago de carga en el año en curso (Estado de México 2026).
 4. ✅ Desapariciones (RNPDNO): instantánea semanal por año de desaparición y estatus (D-024). Se adelantó
    porque el SESNSP requiere permitir sspcgob-my.sharepoint.com. Pendiente: entidades federativas.
