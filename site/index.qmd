@@ -15,4 +15,6 @@ El observatorio no publica opiniones propias.
 
 - [México en el largo plazo](dashboards/d1-largo-plazo/index.qmd): trayectoria y posición frente a
   América Latina y países de contraste.
+- [Violencia letal y desapariciones](dashboards/d4-violencia/index.qmd): homicidios en México,
+  América Latina y el mundo (feminicidios y desapariciones, en construcción).
 - *Pulso de México* y *Democracia e instituciones en ALC*: en construcción.

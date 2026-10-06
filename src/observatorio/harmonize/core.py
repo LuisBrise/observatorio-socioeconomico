@@ -38,8 +38,9 @@ STATUS_MAP: dict[str, dict[str, str]] = {
     # PIP: B = inicio de un nuevo periodo de comparabilidad; E = sin microdatos (group/imputed/synthetic)
     "wb_pip": {"": "A", "E": "E", "B": "B"},
     "inegi_pm": {"": "A"},
-    "wid": {"": "A", "I": "I"},
-    "cepal_pobreza": {"": "A", "B": "B"},  # I = imputado/extrapolado (data_quality <= 1)
+    "wid": {"": "A", "I": "I"},  # I = imputado/extrapolado (data_quality <= 1)
+    "cepal_pobreza": {"": "A", "B": "B"},
+    "inegi_homicidios": {"": "A", "P": "P"},  # P = cifra preliminar (nota del cuadro)
 }
 
 _ANNUAL = re.compile(r"^\d{4}$")

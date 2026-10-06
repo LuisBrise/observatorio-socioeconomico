@@ -50,6 +50,12 @@ series:
     indicador: dem.mortalidad.longevidad.esperanza_vida
     unidad: años
     origen: onu_wpp   # WDI reproduce World Population Prospects (ONU)
+  - codigo: VC.IHR.PSRC.P5
+    indicador: seg.violencia_letal.homicidio.tasa
+    unidad: por 100 mil habitantes
+    # WDI reproduce la base de homicidio intencional de UNODC, que a su vez compila cifras
+    # nacionales (en México, las defunciones registradas de INEGI): no es independiente de INEGI.
+    origen: unodc
 umbrales:
   revision_advertencia_pct: 5.0      # cambio relativo de una observación entre vintages
   revision_advertencia_share: 0.25   # proporción de observaciones revisadas

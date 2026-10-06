@@ -28,6 +28,9 @@ class ChartSpec:
     caveats: list[str]
     transformations: list[dict] = field(default_factory=list)
     groups: dict[str, list[str]] = field(default_factory=dict)
+    # Si se indica, solo estas series aparecen en la procedencia y en las advertencias de fuente
+    # (p. ej., la gráfica usa la población de WDI pero no la del FMI).
+    series_usadas: list[str] | None = None
 
 
 def _series_provenance(paths: Paths, catalog: Catalog, indicator_ids: list[str]) -> list[dict]:
@@ -81,6 +84,8 @@ def write_chart(paths: Paths, catalog: Catalog, spec: ChartSpec,
     for name, df in tables.items():
         df.write_csv(out / f"{name}.csv")
     series = _series_provenance(paths, catalog, spec.indicators)
+    if spec.series_usadas is not None:
+        series = [s for s in series if s["series_id"] in spec.series_usadas]
     # Indicadores sin una segunda fuente independiente → advertencia explícita.
     from observatorio.validation.cross_source import series_origin
 
@@ -88,7 +93,8 @@ def write_chart(paths: Paths, catalog: Catalog, spec: ChartSpec,
         ind = catalog.indicators[ind_id]
         base = ind.series or catalog.indicators[str(ind.derivacion.parametros["indicador"])].series
         base = [b for b in base if b.split(":", 1)[0] in read_lock(paths)  # solo lo publicado
-                and catalog.series_spec(b).variante in ("estimacion", "mediana")]
+                and catalog.series_spec(b).variante in ("estimacion", "mediana")
+                and (spec.series_usadas is None or b in spec.series_usadas)]
         origins = {series_origin(catalog, s) for s in base}
         if len(origins) >= 2:
             dis = [d for d in catalog.discrepancies.values() if set(d.series) <= set(base)]

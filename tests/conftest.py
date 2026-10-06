@@ -39,6 +39,8 @@ def synthetic_value(code: str, geo: str, year: int) -> float | None:
         return 90 - 1.2 * t + (seed % 5)
     if code == "SP.DYN.LE00.IN":
         return 65 + (seed % 10) + 0.2 * t
+    if code == "VC.IHR.PSRC.P5":
+        return 5 + (seed % 20) + 0.1 * t
     # PIB per cápita
     if geo == "VEN" and year >= 2015:
         return None  # hueco realista

@@ -107,7 +107,8 @@ def test_outlier_is_flagged_not_removed(env):
     out = [r for r in rep2["results"] if r["check"] == "atipicos"]
     assert out and any(d["geo_id"] == "CHL" for d in out[0]["details"])
     obs = pl.read_parquet(next(paths2.processed.rglob(f"vintage={pr2.vintage}/part-0.parquet")))
-    assert obs.filter((pl.col("geo_id") == "CHL") & (pl.col("period") == "2010")).height == 4
+    # Una observación por cada serie de WDI del catálogo: el atípico se conserva.
+    assert obs.filter((pl.col("geo_id") == "CHL") & (pl.col("period") == "2010")).height == 5
 
 
 def test_group_rule_resolves_from_data(env):

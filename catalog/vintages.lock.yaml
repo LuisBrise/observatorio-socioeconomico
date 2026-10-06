@@ -13,6 +13,12 @@ datasets:
     retrieved_at: '2026-10-03T04:19:58Z'
     source_declared_version: '2026-04-14T13:00:00Z'
     validation_status: ok
+  inegi_homicidios:
+    vintage: 2026-10-06T065254Z
+    content_sha256: 7d0d206760fe2b7ca3a28758b9cf40c8264308318e0a875d8e0ed97b55787976
+    retrieved_at: '2026-10-06T06:52:54Z'
+    source_declared_version: null
+    validation_status: ok
   inegi_pm:
     vintage: 2026-10-06T045635Z
     content_sha256: 5091169f92019c33860cf1df5cfcf1a5dffb969569b5575e37ca4c0f7dd5f763
@@ -32,9 +38,9 @@ datasets:
     source_declared_version: null
     validation_status: ok
   wb_wdi:
-    vintage: 2026-10-03T043707Z
-    content_sha256: 01b3c10fa62f796dffdc607fefa3c5e0bfc64c90f7d7da2480c018327fcebd7d
-    retrieved_at: '2026-10-03T04:37:07Z'
+    vintage: 2026-10-06T065301Z
+    content_sha256: b0abbad71ed9601246dc3a4f21e11e312b6d9b37637761b9949721e418224d1e
+    retrieved_at: '2026-10-06T06:53:01Z'
     source_declared_version: '2026-07-13'
     validation_status: ok
   wid:

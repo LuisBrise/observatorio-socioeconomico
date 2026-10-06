@@ -1,0 +1,114 @@
+# Violencia letal. Las cifras representan personas: se publican solo agregados y con lenguaje sobrio.
+- id: seg.violencia_letal.homicidio.defunciones
+  nombre: Defunciones registradas por homicidio
+  concepto: seg.violencia_letal.homicidio
+  definicion: >
+    Defunciones registradas en el año cuya causa básica en el certificado de defunción es homicidio
+    (CIE-10 X85-Y09), según el año de registro.
+  unidad: defunciones
+  facetas:
+    tipo_medicion: administrativo
+    cadena: resultado
+    ritmo: coyuntural
+    direccion_normativa: menos_es_mejor
+    cobertura: [mexico]
+  series: [inegi_homicidios:Mortalidad_08.total]
+  rangos_validos: {min: 0, max: 1000000}
+  atipicos: {z: 6.0, cambio_minimo: 0.25}
+  notas_interpretacion: >
+    Es un registro de defunciones, no de delitos: no depende de que haya denuncia, pero sí de que
+    el cuerpo sea localizado y la muerte certificada. Por año de registro, no de ocurrencia.
+  preguntas: [D4]
+  fecha_alta: 2026-10-06
+
+- id: seg.violencia_letal.homicidio.defunciones_hombres
+  nombre: Defunciones registradas por homicidio (hombres)
+  concepto: seg.violencia_letal.homicidio
+  definicion: Defunciones de hombres con causa básica de homicidio (CIE-10 X85-Y09), por año de registro.
+  unidad: defunciones
+  facetas: {tipo_medicion: administrativo, cadena: resultado, ritmo: coyuntural,
+            direccion_normativa: menos_es_mejor, cobertura: [mexico]}
+  series: [inegi_homicidios:Mortalidad_08.hombres]
+  rangos_validos: {min: 0, max: 1000000}
+  atipicos: {z: 6.0, cambio_minimo: 0.25}
+  preguntas: [D4]
+  fecha_alta: 2026-10-06
+
+- id: seg.violencia_letal.homicidio.defunciones_mujeres
+  nombre: Defunciones registradas por homicidio (mujeres)
+  concepto: seg.violencia_letal.homicidio
+  definicion: Defunciones de mujeres con causa básica de homicidio (CIE-10 X85-Y09), por año de registro.
+  unidad: defunciones
+  facetas: {tipo_medicion: administrativo, cadena: resultado, ritmo: coyuntural,
+            direccion_normativa: menos_es_mejor, cobertura: [mexico]}
+  series: [inegi_homicidios:Mortalidad_08.mujeres]
+  rangos_validos: {min: 0, max: 1000000}
+  atipicos: {z: 6.0, cambio_minimo: 0.25}
+  notas_interpretacion: >
+    No equivale a feminicidio: el feminicidio es un tipo penal (carpetas de investigación) que exige
+    acreditar razones de género; aquí se cuentan todas las mujeres asesinadas según el certificado.
+  preguntas: [D4]
+  fecha_alta: 2026-10-06
+
+- id: seg.violencia_letal.homicidio.defunciones_sexo_ne
+  nombre: Defunciones registradas por homicidio (sexo no especificado)
+  concepto: seg.violencia_letal.homicidio
+  definicion: Defunciones por homicidio en las que el certificado no especifica el sexo.
+  unidad: defunciones
+  facetas: {tipo_medicion: administrativo, cadena: resultado, ritmo: coyuntural,
+            direccion_normativa: neutral, cobertura: [mexico]}
+  series: [inegi_homicidios:Mortalidad_08.no_especificado]
+  rangos_validos: {min: 0, max: 1000000}
+  atipicos: {z: 6.0, cambio_minimo: 1.0, piso: 1000}
+  notas_interpretacion: Indicador de calidad del registro (suele crecer cuando aumentan los restos sin identificar).
+  preguntas: [D4]
+  fecha_alta: 2026-10-06
+
+- id: seg.violencia_letal.homicidio.tasa
+  nombre: Tasa de homicidio intencional
+  concepto: seg.violencia_letal.homicidio
+  definicion: >
+    Víctimas de homicidio intencional por cada 100 mil habitantes (definición de UNODC: muerte
+    ilícita infligida con la intención de causar la muerte o lesiones graves).
+  unidad: por 100 mil habitantes
+  facetas:
+    tipo_medicion: administrativo
+    cadena: resultado
+    ritmo: coyuntural
+    direccion_normativa: menos_es_mejor
+    cobertura: [mundo]
+  series: [wb_wdi:VC.IHR.PSRC.P5]
+  rangos_validos: {min: 0, max: 500}
+  # Las tasas de países pequeños saltan mucho con pocos casos: se ignoran bases menores a 2.
+  atipicos: {z: 6.0, cambio_minimo: 0.5, piso: 2.0}
+  notas_interpretacion: >
+    UNODC compila cifras nacionales de salud pública (certificados de defunción) o de justicia
+    penal (denuncias), según disponibilidad y calidad en cada país: la fuente y la cobertura del
+    registro cambian entre países, lo que limita las comparaciones finas. Para México, la cifra
+    proviene de las defunciones registradas de INEGI.
+  preguntas: [D4]
+  fecha_alta: 2026-10-06
+
+- id: seg.violencia_letal.homicidio.tasa_inegi
+  nombre: Tasa de defunciones registradas por homicidio (INEGI, cálculo propio)
+  concepto: seg.violencia_letal.homicidio
+  definicion: >
+    Defunciones registradas por homicidio (INEGI) por cada 100 mil habitantes, con la población de
+    mitad de año de WDI (= ONU WPP).
+  unidad: por 100 mil habitantes
+  facetas:
+    tipo_medicion: administrativo
+    cadena: resultado
+    ritmo: coyuntural
+    direccion_normativa: menos_es_mejor
+    cobertura: [mexico]
+  derivacion:
+    receta: per_capita@1
+    parametros: {indicador: seg.violencia_letal.homicidio.defunciones,
+                 poblacion: dem.poblacion.tamano.total, escala: 100000}
+  rangos_validos: {min: 0, max: 500}
+  notas_interpretacion: >
+    INEGI publica sus tasas con la población de CONAPO; aquí se usa la de la ONU para comparar con
+    otros países con el mismo denominador. La diferencia entre ambas poblaciones es pequeña pero no nula.
+  preguntas: [D4]
+  fecha_alta: 2026-10-06

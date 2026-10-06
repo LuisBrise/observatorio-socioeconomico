@@ -14,13 +14,13 @@ desapariciones** (México, con comparación con ALC y otras regiones del mundo).
 
 | Concepto | Fuente | Qué mide | Acceso |
 |---|---|---|---|
-| Homicidio | INEGI, estadísticas de defunciones registradas | Defunciones por homicidio según el certificado de defunción (sector salud y registro civil), por año de ocurrencia o registro | ✅ inegi.org.mx (y API del Banco de Indicadores con token) |
-| Homicidio | SESNSP, incidencia delictiva | Víctimas de homicidio doloso en carpetas de investigación de las fiscalías | ⛔ www.gob.mx / datos.gob.mx |
+| Homicidio | INEGI, estadísticas de defunciones registradas | Defunciones por homicidio según el certificado de defunción (sector salud y registro civil), por año de registro | ✅ servicio de tabulados de inegi.org.mx (2010–); 1990–2009 solo en el sistema de consulta, no automatizable |
+| Homicidio | SESNSP, incidencia delictiva | Víctimas de homicidio doloso en carpetas de investigación de las fiscalías | ✅ www.gob.mx · ⛔ datos.gob.mx (403 desde el servidor) |
 | Homicidio (internacional) | UNODC (vía WDI `VC.IHR.PSRC.P5`) | Homicidio intencional por 100 mil, compilación internacional | ✅ api.worldbank.org (redistribución; origen UNODC) |
-| Homicidio (internacional) | UNODC directo | Ídem, con más detalle (sexo, mecanismo) | ⛔ dataunodc.un.org |
+| Homicidio (internacional) | UNODC directo | Ídem, con más detalle (sexo, mecanismo) | ⛔ dataunodc.un.org (sin respuesta) |
 | Feminicidio | SESNSP | Víctimas del delito de feminicidio (tipo penal; su definición varía por entidad) | ⛔ www.gob.mx |
 | Homicidios de mujeres | INEGI | Defunciones de mujeres por homicidio (no equivale a feminicidio) | ✅ inegi.org.mx |
-| Desaparición | RNPDNO (Comisión Nacional de Búsqueda) | Personas desaparecidas y no localizadas registradas | ⛔ versionpublicarnpdno.segob.gob.mx |
+| Desaparición | RNPDNO (Comisión Nacional de Búsqueda) | Personas desaparecidas y no localizadas registradas | ✅ versionpublicarnpdno.segob.gob.mx |
 
 ## Retos metodológicos ya identificados
 
@@ -40,7 +40,10 @@ desapariciones** (México, con comparación con ALC y otras regiones del mundo).
 
 ## Orden propuesto
 
-1. Homicidios: INEGI (México, 1990–) + UNODC vía WDI (comparación internacional). No requiere dominios nuevos.
+1. ✅ Homicidios: INEGI (México, 2010–) + UNODC vía WDI (México 1990–, ALC y regiones del mundo).
+   Hallazgo: para México, la tasa de UNODC es exactamente la de INEGI con la población de la ONU
+   (D-023); no son fuentes independientes. Pendiente: entidades federativas (requiere geografías
+   subnacionales en el catálogo).
 2. Homicidios: SESNSP y discrepancia INEGI–SESNSP.
 3. Feminicidios y homicidios de mujeres.
 4. Desapariciones (RNPDNO).

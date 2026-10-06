@@ -1,0 +1,98 @@
+---
+title: "Violencia letal y desapariciones"
+subtitle: "¿Cómo han evolucionado los homicidios en México y cómo se comparan con otras regiones? ¿Qué sabemos —y qué no— de los feminicidios y las desapariciones?"
+---
+
+::: {.callout-note appearance="minimal"}
+**Estado: en construcción.** Esta primera parte cubre los homicidios según los registros de
+defunción. Siguen: las carpetas de investigación del SESNSP y su diferencia con INEGI; los
+feminicidios y los homicidios de mujeres; y las personas desaparecidas.
+:::
+
+::: {.callout-important appearance="minimal"}
+Cada cifra de este tablero representa personas. Se muestran solo agregados nacionales y regionales.
+:::
+
+```{ojs}
+//| echo: false
+import { createCharts, themeTokens } from "../../components/charts.js"
+charts = createCharts({ Plot, document })
+tokens = themeTokens(Generators)
+// OJS exige rutas literales en FileAttachment: una celda por archivo.
+mex = FileAttachment("../../data/d4/homicidios-mex/data.json").json()
+mexProv = FileAttachment("../../data/d4/homicidios-mex/provenance.json").json()
+alc = FileAttachment("../../data/d4/homicidios-alc/data.json").json()
+alcProv = FileAttachment("../../data/d4/homicidios-alc/provenance.json").json()
+reg = FileAttachment("../../data/d4/homicidios-regiones/data.json").json()
+regProv = FileAttachment("../../data/d4/homicidios-regiones/provenance.json").json()
+```
+
+## ¿Qué se mide?
+
+[DATO]{.obs-tag} Hay dos formas principales de contar homicidios en México, y miden cosas distintas:
+
+- **Defunciones registradas (INEGI):** muertes cuya causa básica, según el certificado de defunción,
+  es una agresión (códigos X85–Y09 de la clasificación internacional de enfermedades). No dependen de
+  que alguien denuncie, pero sí de que el cuerpo sea localizado y la muerte se certifique. Se cuentan
+  por año de registro.
+- **Carpetas de investigación (SESNSP):** víctimas de homicidio doloso en las investigaciones abiertas
+  por las fiscalías. Dependen de la denuncia y de cómo cada fiscalía clasifica el delito. *Se
+  incorporarán en la siguiente etapa.*
+
+Ninguna de las dos incluye a las personas desaparecidas cuyo cuerpo no ha sido localizado.
+
+## México desde 1990
+
+```{ojs}
+//| echo: false
+html`<div class="obs-chart">
+  <h3>Tasa de homicidio en México</h3>
+  <p class="obs-sub">Defunciones registradas por homicidio por cada 100 mil habitantes · ${mex.serie[0].period}–${mex.serie.at(-1).period}</p>
+  ${charts.seriePreliminar(mex, { tokens, width, unidad: "por 100 mil hab.", nombre: "México",
+    fuentes: { unodc: "UNODC (con registros de INEGI), vía Banco Mundial",
+               inegi: "INEGI y población de la ONU (cálculo propio)" } })}
+  ${charts.procedencia(mexProv, { csv: [["datos (CSV)", "../../data/d4/homicidios-mex/serie.csv"]] })}
+  ${charts.advertencias(mexProv)}
+</div>`
+```
+
+[ANÁLISIS]{.obs-tag} La tasa de UNODC para México y la de INEGI no son dos mediciones independientes:
+UNODC usa los registros de INEGI, y entre 2010 y 2023 ambas coinciden exactamente cuando se divide
+entre la misma población. La verificación independiente vendrá de comparar con las carpetas de
+investigación del SESNSP, que miden algo distinto.
+
+## México dentro de América Latina
+
+```{ojs}
+//| echo: false
+html`<div class="obs-chart">
+  <h3>Tasa de homicidio de México y distribución de los países de ALC</h3>
+  <p class="obs-sub">Por cada 100 mil habitantes · UNODC · 33 países de CEPAL</p>
+  ${charts.serieDistribucion(alc, { tokens, width, unidad: "por 100 mil hab." })}
+  ${charts.procedencia(alcProv, { csv: [["distribución (CSV)", "../../data/d4/homicidios-alc/distribucion.csv"],
+                                         ["países (CSV)", "../../data/d4/homicidios-alc/paises.csv"]] })}
+  ${charts.advertencias(alcProv)}
+</div>`
+```
+
+## México y las regiones del mundo
+
+```{ojs}
+//| echo: false
+html`<div class="obs-chart">
+  <h3>Tasa de homicidio: México y regiones del mundo, ${reg.filas[0].anio_inicio} y ${reg.filas[0].anio_fin}</h3>
+  <p class="obs-sub">Por cada 100 mil habitantes · UNODC · regiones del Banco Mundial · ordenado por el último año</p>
+  ${charts.pesas(reg, { tokens, width, unidad: "por 100 mil hab.",
+    descripcion: "Tasa de homicidio de México y de las regiones del mundo en 2010 y en el último año común.",
+    etiquetas: { inicio: reg.filas[0].anio_inicio, fin: reg.filas[0].anio_fin } })}
+  ${charts.procedencia(regProv, { csv: [["datos (CSV)", "../../data/d4/homicidios-regiones/filas.csv"]] })}
+  ${charts.advertencias(regProv)}
+</div>`
+```
+
+## Advertencias generales
+
+- Una tasa de homicidio mide muertes, no el conjunto de la violencia ni la percepción de inseguridad.
+- La calidad del registro de defunciones varía mucho entre países y en el tiempo: las comparaciones
+  internacionales son de orden de magnitud, no de décimas.
+- Las cifras más recientes son preliminares y se revisan.

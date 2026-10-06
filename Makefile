@@ -24,6 +24,7 @@ comparar:  ## Compara fuentes que miden el mismo indicador
 
 viz:  ## Construye los datasets de visualización
 	uv run obs build-viz d1
+	uv run obs build-viz d4
 
 site: viz  ## Construye el sitio (requiere Quarto)
 	quarto render site

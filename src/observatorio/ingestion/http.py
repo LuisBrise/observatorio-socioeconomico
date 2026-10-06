@@ -44,3 +44,20 @@ def get(client: httpx.Client, url: str, params: dict | None = None,
         raise TransientHTTPError(f"HTTP {resp.status_code} en {url}")
     resp.raise_for_status()
     return resp
+
+
+@retry(
+    retry=retry_if_exception_type(TransientHTTPError),
+    wait=wait_exponential(multiplier=2, min=2, max=60),
+    stop=stop_after_attempt(5),
+    reraise=True,
+)
+def post_json(client: httpx.Client, url: str, payload: dict) -> httpx.Response:
+    try:
+        resp = client.post(url, json=payload)
+    except httpx.TransportError as exc:
+        raise TransientHTTPError(str(exc)) from exc
+    if resp.status_code == 429 or resp.status_code >= 500:
+        raise TransientHTTPError(f"HTTP {resp.status_code} en {url}")
+    resp.raise_for_status()
+    return resp

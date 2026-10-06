@@ -64,7 +64,10 @@
 - id: seg
   nombre: Seguridad y justicia
   subdimensiones:
-    - {id: seg.violencia_letal, nombre: Violencia letal}
+    - id: seg.violencia_letal
+      nombre: Violencia letal
+      conceptos:
+        - {id: seg.violencia_letal.homicidio, nombre: Homicidio}
     - {id: seg.desapariciones, nombre: Desapariciones}
     - {id: seg.victimizacion, nombre: Delitos y victimización}
     - {id: seg.percepcion, nombre: Percepción de inseguridad}

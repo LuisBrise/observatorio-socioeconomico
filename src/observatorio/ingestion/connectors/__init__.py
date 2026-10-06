@@ -6,6 +6,7 @@ from observatorio.ingestion.base import Connector
 from observatorio.ingestion.connectors.archivos import FileDownload
 from observatorio.ingestion.connectors.cepal import CEPALSTAT
 from observatorio.ingestion.connectors.fmi_weo import IMFWEO
+from observatorio.ingestion.connectors.inegi_tabulados import INEGITabulados
 from observatorio.ingestion.connectors.wb_pip import WorldBankPIP
 from observatorio.ingestion.connectors.wb_wdi import WorldBankWDI
 from observatorio.ingestion.connectors.wid import WID
@@ -17,6 +18,7 @@ CONNECTORS: dict[str, type] = {
     WorldBankPIP.name: WorldBankPIP,
     WID.name: WID,
     CEPALSTAT.name: CEPALSTAT,
+    INEGITabulados.name: INEGITabulados,
 }
 
 

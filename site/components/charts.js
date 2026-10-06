@@ -344,12 +344,16 @@ export function createCharts({ Plot, document: doc = globalThis.document }) {
   // Pesas (dumbbell): valor inicial y final por país, ordenado por el final; foco resaltado.
   // Punto final hueco = hubo cambio de encuesta o método entre ambos puntos.
   function pesas(data, { tokens: t = DEFAULT_TOKENS, width = 720, unidad = "",
+                         descripcion = "Índice de Gini por país alrededor de 2000 y en el dato más reciente.",
                          etiquetas = { inicio: "Alrededor de 2000", fin: "Dato más reciente",
                                        ruptura: "Dato más reciente, con cambio de encuesta en el periodo" } } = {}) {
-    const rows = data.gini;
+    const rows = data.filas ?? data.gini;
+    // Margen izquierdo según la etiqueta más larga (nombres de regiones o países con "(urbano)").
+    const maxLabel = Math.max(...rows.map((d) => d.nombre.length + (d.cobertura === "urbano" ? 10 : 0)));
     const fig = Plot.plot({
-      document: doc, width, height: 26 * rows.length + 60, marginLeft: 150, marginRight: 30,
-      marginTop: 30, style: baseStyle(t),
+      document: doc, width, height: 26 * rows.length + 60,
+      marginLeft: Math.min(width * 0.45, Math.max(150, maxLabel * 6.6 + 12)), marginRight: 30,
+      marginTop: 30, marginBottom: 44, style: baseStyle(t),
       x: { label: unidad, labelAnchor: "right", nice: true, grid: true },
       y: { label: null, domain: rows.map((d) => d.nombre + (d.cobertura === "urbano" ? " (urbano)" : "")) },
       marks: [
@@ -372,7 +376,7 @@ export function createCharts({ Plot, document: doc = globalThis.document }) {
       ],
     });
     fig.setAttribute("role", "img");
-    fig.setAttribute("aria-label", "Índice de Gini por país alrededor de 2000 y en el dato más reciente.");
+    fig.setAttribute("aria-label", descripcion);
     const key = (filled, label) => el("span", {}, [
       el("i", { style: `display:inline-block;width:10px;height:10px;border-radius:50%;border:2px solid ${t.ink};` +
         `background:${filled ? t.ink : "transparent"}` }), label]);
@@ -495,8 +499,59 @@ export function createCharts({ Plot, document: doc = globalThis.document }) {
     ]);
   }
 
+
+  // Serie nacional larga con cifras preliminares: línea sólida para datos definitivos, tramo
+  // punteado y punto hueco para el último dato preliminar (obs_status P). Eje desde cero.
+  function seriePreliminar(data, { tokens: t = DEFAULT_TOKENS, width = 720, unidad = "", nombre = "",
+                                   fuentes = {} } = {}) {
+    const rows = data.serie.map((d) => ({ ...d, year: year(d) }));
+    const firmes = rows.filter((d) => d.obs_status !== "P");
+    const prelim = rows.filter((d) => d.obs_status === "P");
+    const puente = prelim.length ? [firmes.at(-1), ...prelim].filter(Boolean) : [];
+    const lastFirme = firmes.at(-1);
+    const yMax = Math.max(...rows.map((d) => d.value));
+    const fmtConteo = (d) => (d.conteo != null ? `\n${fmtNum.format(d.conteo)} defunciones registradas` : "");
+    const fig = Plot.plot({
+      document: doc, width, height: Math.round(Math.min(400, Math.max(280, width * 0.5))),
+      marginLeft: 44, marginRight: 170, marginTop: 30, style: baseStyle(t),
+      x: { label: null, tickFormat: "d", ticks: Math.max(4, Math.floor(width / 110)) },
+      y: { label: unidad, labelAnchor: "top", domain: [0, yMax * 1.1], nice: true },
+      marks: [
+        Plot.gridY({ stroke: t.grid, strokeOpacity: 1 }),
+        Plot.ruleY([0], { stroke: t.axis }),
+        Plot.lineY(firmes, { x: "year", y: "value", stroke: t.focus, strokeWidth: 2 }),
+        Plot.lineY(puente, { x: "year", y: "value", stroke: t.focus, strokeWidth: 2, strokeDasharray: "3,3" }),
+        Plot.dot(lastFirme ? [lastFirme] : [], { x: "year", y: "value", r: 4, fill: t.focus,
+          stroke: t.surface, strokeWidth: 2 }),
+        Plot.dot(prelim, { x: "year", y: "value", r: 4, fill: t.surface, stroke: t.focus, strokeWidth: 2 }),
+        Plot.text(lastFirme ? [lastFirme] : [], { x: "year", y: "value", dx: 8, dy: -10, textAnchor: "start",
+          fill: t.ink, text: (d) => `${d.period}: ${fmt1.format(d.value)}` }),
+        Plot.text(prelim.slice(-1), { x: "year", y: "value", dx: 8, dy: 10, textAnchor: "start",
+          fill: t.ink2, text: (d) => `${d.period} (preliminar): ${fmt1.format(d.value)}` }),
+        Plot.ruleX(rows, Plot.pointerX({ x: "year", stroke: t.axis })),
+        Plot.tip(rows, Plot.pointerX({ x: "year", y: "value", fill: t.surface, stroke: t.axis,
+          title: (d) => `${nombre} · ${d.period}\n${fmt1.format(d.value)} ${unidad}` + fmtConteo(d) +
+            (fuentes[d.fuente] ? `\nFuente: ${fuentes[d.fuente]}` : "") +
+            (d.obs_status === "P" ? "\nCifra preliminar" : "") })),
+      ],
+    });
+    fig.setAttribute("role", "img");
+    fig.setAttribute("aria-label", `${nombre}: serie anual de ${unidad}.` +
+      (lastFirme ? ` Último dato definitivo: ${fmt1.format(lastFirme.value)} (${lastFirme.period}).` : "") +
+      (prelim.length ? ` Preliminar ${prelim.at(-1).period}: ${fmt1.format(prelim.at(-1).value)}.` : ""));
+    const hueco = el("i", { style: `display:inline-block;width:10px;height:10px;border-radius:50%;` +
+      `border:2px solid ${t.focus};background:transparent` });
+    return el("div", {}, [
+      el("div", { class: "obs-legend" }, [
+        el("span", {}, [el("i", { class: "obs-key-line", style: `border-color:${t.focus}` }), nombre]),
+        prelim.length ? el("span", {}, [hueco, "Cifra preliminar"]) : null,
+      ]),
+      fig,
+    ]);
+  }
+
   return { legend, serieDistribucion, multiplesReferencia, abanico, lineasTramos, pesas,
-    panelesDefiniciones, dosFuentes, procedencia, advertencias };
+    panelesDefiniciones, dosFuentes, seriePreliminar, procedencia, advertencias };
 }
 
 function d3group(rows, key) {

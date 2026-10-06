@@ -15,6 +15,8 @@ website:
         text: Inicio
       - href: dashboards/d1-largo-plazo/index.qmd
         text: México en el largo plazo
+      - href: dashboards/d4-violencia/index.qmd
+        text: Violencia letal
       - href: metodologia/index.qmd
         text: Metodología
   page-footer:

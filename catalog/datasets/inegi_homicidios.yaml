@@ -1,0 +1,59 @@
+id: inegi_homicidios
+nombre: Defunciones registradas por homicidio (Estadísticas de Defunciones Registradas)
+fuente: inegi
+conector: inegi_tabulados
+url: https://www.inegi.org.mx/programas/edr/
+acceso:
+  metodo: api
+  endpoint: https://www.inegi.org.mx/app/tabulados/pxwebapi/api
+  credenciales: ninguna
+  formato: json
+licencia:
+  nombre: Términos de libre uso de la información del INEGI
+  url: https://www.inegi.org.mx/inegi/terminos.html
+  redistribucion: permitida_con_atribucion
+cobertura:
+  geografica: Nacional (las entidades federativas de registro se guardan en el archivo crudo)
+  temporal: 2010 en adelante en este cuadro (la estadística existe desde 1990)
+  poblacion: Defunciones registradas en el registro civil con causa básica de homicidio
+frecuencia: anual
+rezago_tipico_dias: 215
+calendario: >
+  Cifras preliminares del año anterior a finales de julio o principios de agosto; definitivas
+  hacia octubre o noviembre. Avances semestrales en enero.
+metodologia: https://www.inegi.org.mx/contenidos/programas/edr/doc/defunciones_homicidio_2019_nota_tecnica.pdf
+revisiones: >
+  El último año es preliminar (la nota del cuadro lo indica) y se revisa al concluir la confronta
+  con la Secretaría de Salud. Los años anteriores son definitivos, pero el año de registro puede
+  incluir defunciones ocurridas en años previos.
+limitaciones: >
+  Cuenta defunciones por año de REGISTRO, no de ocurrencia: un año puede incluir muertes de años
+  anteriores registradas tarde. Homicidio = causa básica CIE-10 X85-Y09 asignada en el certificado de
+  defunción; no equivale a "homicidio doloso" en carpetas de investigación (SESNSP) ni a feminicidio
+  (tipo penal). No incluye personas desaparecidas cuyo cuerpo no ha sido localizado ni restos sin
+  certificar. Las cifras de 1990–2009 están en el sistema de consulta de INEGI, que no ofrece una
+  descarga automatizable; aquí se usan solo los cuadros con servicio de datos.
+archivos:
+  - Mortalidad/Mortalidad_08
+series:
+  - codigo: Mortalidad_08.total
+    indicador: seg.violencia_letal.homicidio.defunciones
+    unidad: defunciones
+    origen: inegi_edr
+  - codigo: Mortalidad_08.hombres
+    indicador: seg.violencia_letal.homicidio.defunciones_hombres
+    unidad: defunciones
+    origen: inegi_edr
+  - codigo: Mortalidad_08.mujeres
+    indicador: seg.violencia_letal.homicidio.defunciones_mujeres
+    unidad: defunciones
+    origen: inegi_edr
+  - codigo: Mortalidad_08.no_especificado
+    indicador: seg.violencia_letal.homicidio.defunciones_sexo_ne
+    unidad: defunciones
+    origen: inegi_edr
+umbrales:
+  revision_advertencia_pct: 2.0      # las definitivas cambian poco; el preliminar se revisa al alza
+  revision_advertencia_share: 0.1
+  caida_cobertura_pct: 0.0
+fecha_alta: 2026-10-06
