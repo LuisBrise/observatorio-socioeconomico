@@ -1202,7 +1202,7 @@
   resolucion: dudoso
   nota: 'Hong Kong: 108.2 → 86.61 (-20.0 %, z=-8). Oscilación grande sin evento documentado; posible artefacto de
     la estimación modelada (ONU WPP) en años antiguos. Verificar con la fuente.'
-  revisado_por: claude (propuesta; requiere confirmación humana)
+  revisado_por: Jorge Luis Briseño Gómez
   fecha: 2026-10-03
 - serie: wb_wdi:SP.POP.DPND
   geo: HKG
@@ -1210,7 +1210,7 @@
   resolucion: dudoso
   nota: 'Hong Kong: 86.61 → 69.22 (-20.1 %, z=-8). Oscilación grande sin evento documentado; posible artefacto de
     la estimación modelada (ONU WPP) en años antiguos. Verificar con la fuente.'
-  revisado_por: claude (propuesta; requiere confirmación humana)
+  revisado_por: Jorge Luis Briseño Gómez
   fecha: 2026-10-03
 - serie: wb_wdi:SP.POP.DPND
   geo: HKG
@@ -1218,7 +1218,7 @@
   resolucion: dudoso
   nota: 'Hong Kong: 69.76 → 87.26 (+25.1 %, z=8). Oscilación grande sin evento documentado; posible artefacto de
     la estimación modelada (ONU WPP) en años antiguos. Verificar con la fuente.'
-  revisado_por: claude (propuesta; requiere confirmación humana)
+  revisado_por: Jorge Luis Briseño Gómez
   fecha: 2026-10-03
 - serie: wb_wdi:SP.POP.DPND
   geo: HKG
@@ -1226,7 +1226,7 @@
   resolucion: dudoso
   nota: 'Hong Kong: 87.26 → 104.1 (+19.2 %, z=7). Oscilación grande sin evento documentado; posible artefacto de
     la estimación modelada (ONU WPP) en años antiguos. Verificar con la fuente.'
-  revisado_por: claude (propuesta; requiere confirmación humana)
+  revisado_por: Jorge Luis Briseño Gómez
   fecha: 2026-10-03
 - serie: wb_wdi:SP.POP.DPND
   geo: HKG
@@ -1234,7 +1234,7 @@
   resolucion: dudoso
   nota: 'Hong Kong: 104.1 → 86.52 (-16.8 %, z=-6). Oscilación grande sin evento documentado; posible artefacto de
     la estimación modelada (ONU WPP) en años antiguos. Verificar con la fuente.'
-  revisado_por: claude (propuesta; requiere confirmación humana)
+  revisado_por: Jorge Luis Briseño Gómez
   fecha: 2026-10-03
 - serie: wb_wdi:SP.POP.DPND
   geo: MAC
@@ -1242,7 +1242,7 @@
   resolucion: dudoso
   nota: 'Macao: 56.72 → 91.83 (+61.9 %, z=7). Oscilación grande sin evento documentado; posible artefacto de la
     estimación modelada (ONU WPP) en años antiguos. Verificar con la fuente.'
-  revisado_por: claude (propuesta; requiere confirmación humana)
+  revisado_por: Jorge Luis Briseño Gómez
   fecha: 2026-10-03
 - serie: wb_wdi:SP.POP.DPND
   geo: MAC
@@ -1250,7 +1250,7 @@
   resolucion: dudoso
   nota: 'Macao: 91.83 → 174.5 (+90.0 %, z=9). Oscilación grande sin evento documentado; posible artefacto de la
     estimación modelada (ONU WPP) en años antiguos. Verificar con la fuente.'
-  revisado_por: claude (propuesta; requiere confirmación humana)
+  revisado_por: Jorge Luis Briseño Gómez
   fecha: 2026-10-03
 - serie: wb_wdi:SP.POP.DPND
   geo: MAF
@@ -1258,14 +1258,14 @@
   resolucion: dudoso
   nota: 'San Martín (zona francesa): 61.57 → 53.56 (-13.0 %, z=-7). Igual que la población de ese año: posible ajuste
     censal en una población pequeña. Verificar con la fuente.'
-  revisado_por: claude (propuesta; requiere confirmación humana)
+  revisado_por: Jorge Luis Briseño Gómez
   fecha: 2026-10-03
 - serie: wb_wdi:SP.POP.DPND
   geo: QAT
   periodo: '2007'
   resolucion: valor_real
   nota: 'Catar: 27.08 → 21.12 (-22.0 %, z=-8). Coincide con la inmigración laboral masiva en edad de trabajar (2006–2008).'
-  revisado_por: claude (propuesta; requiere confirmación humana)
+  revisado_por: Jorge Luis Briseño Gómez
   fecha: 2026-10-03
 - serie: wb_wdi:SP.POP.DPND
   geo: STP
@@ -1273,12 +1273,12 @@
   resolucion: dudoso
   nota: 'Santo Tomé y Príncipe: 61.34 → 67.8 (+10.5 %, z=13). Oscilación grande sin evento documentado; posible
     artefacto de la estimación modelada (ONU WPP) en años antiguos. Verificar con la fuente.'
-  revisado_por: claude (propuesta; requiere confirmación humana)
+  revisado_por: Jorge Luis Briseño Gómez
   fecha: 2026-10-03
 - serie: wb_wdi:SP.POP.DPND
   geo: XKX
   periodo: '1999'
   resolucion: valor_real
   nota: 'Kosovo: 63.03 → 69.54 (+10.3 %, z=10). Coincide con el desplazamiento por la guerra de Kosovo (1998–1999).'
-  revisado_por: claude (propuesta; requiere confirmación humana)
+  revisado_por: Jorge Luis Briseño Gómez
   fecha: 2026-10-03

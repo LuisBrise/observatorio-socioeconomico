@@ -8,7 +8,7 @@
   resolucion: dudoso
   nota: 'Emiratos Árabes Unidos: 1.5e+06 → 1.79e+06 (+19.3 %, z=7). Aumento de 19 % en un año sin evento documentado;
     posible ajuste de nivel. Verificar con la fuente.'
-  revisado_por: claude (propuesta; requiere confirmación humana)
+  revisado_por: Jorge Luis Briseño Gómez
   fecha: 2026-10-03
 - serie: fmi_weo:LP
   geo: LBY
@@ -16,7 +16,7 @@
   resolucion: dudoso
   nota: 'Libia: 4e+06 → 4.513e+06 (+12.8 %, z=21). Aumento de 13 % en un año sin evento documentado; posible ajuste
     de nivel. Verificar con la fuente.'
-  revisado_por: claude (propuesta; requiere confirmación humana)
+  revisado_por: Jorge Luis Briseño Gómez
   fecha: 2026-10-03
 - serie: fmi_weo:LP
   geo: QAT
@@ -24,7 +24,7 @@
   resolucion: valor_real
   nota: 'Catar: 1.152e+06 → 1.554e+06 (+34.8 %, z=7). Coincide con la inmigración laboral del auge de construcción
     y gas (2006–2008).'
-  revisado_por: claude (propuesta; requiere confirmación humana)
+  revisado_por: Jorge Luis Briseño Gómez
   fecha: 2026-10-03
 - serie: fmi_weo:LP
   geo: SDN
@@ -32,7 +32,7 @@
   resolucion: ruptura_metodologica
   nota: 'Sudán: 4.013e+07 → 3.266e+07 (-18.6 %, z=-58). Independencia de Sudán del Sur (julio de 2011): cambio de
     territorio, no pérdida de población.'
-  revisado_por: claude (propuesta; requiere confirmación humana)
+  revisado_por: Jorge Luis Briseño Gómez
   fecha: 2026-10-03
 - serie: fmi_weo:LP
   geo: XKX
@@ -40,7 +40,7 @@
   resolucion: ruptura_metodologica
   nota: 'Kosovo: 1.762e+06 → 1.603e+06 (-9.0 %, z=-8). Probable ajuste de nivel por el censo de 2024; no interpretar
     como caída anual. Verificar con la fuente.'
-  revisado_por: claude (propuesta; requiere confirmación humana)
+  revisado_por: Jorge Luis Briseño Gómez
   fecha: 2026-10-03
 - serie: fmi_weo:NGDPRPPPPC
   geo: ARE
@@ -48,7 +48,7 @@
   resolucion: valor_real
   nota: 'Emiratos Árabes Unidos: 1.178e+05 → 9.116e+04 (-22.6 %, z=-7). Coincide con el desplome del precio del
     petróleo de 1986.'
-  revisado_por: claude (propuesta; requiere confirmación humana)
+  revisado_por: Jorge Luis Briseño Gómez
   fecha: 2026-10-03
 - serie: fmi_weo:NGDPRPPPPC
   geo: ARE
@@ -56,7 +56,7 @@
   resolucion: valor_real
   nota: 'Emiratos Árabes Unidos: 8.376e+04 → 1.044e+05 (+24.6 %, z=7). Coincide con el alza del precio del petróleo
     por la Guerra del Golfo (1990).'
-  revisado_por: claude (propuesta; requiere confirmación humana)
+  revisado_por: Jorge Luis Briseño Gómez
   fecha: 2026-10-03
 - serie: fmi_weo:NGDPRPPPPC
   geo: ARM
@@ -64,7 +64,7 @@
   resolucion: valor_real
   nota: 'Armenia: 1.179e+04 → 1.022e+04 (-13.3 %, z=-6). Coincide con la crisis financiera global (caída del PIB
     de Armenia en 2009).'
-  revisado_por: claude (propuesta; requiere confirmación humana)
+  revisado_por: Jorge Luis Briseño Gómez
   fecha: 2026-10-03
 - serie: fmi_weo:NGDPRPPPPC
   geo: BWA
@@ -72,7 +72,7 @@
   resolucion: valor_real
   nota: 'Botsuana: 1.604e+04 → 1.349e+04 (-15.9 %, z=-6). Coincide con el desplome de la demanda de diamantes en
     la crisis global de 2009.'
-  revisado_por: claude (propuesta; requiere confirmación humana)
+  revisado_por: Jorge Luis Briseño Gómez
   fecha: 2026-10-03
 - serie: fmi_weo:NGDPRPPPPC
   geo: DMA
@@ -80,7 +80,7 @@
   resolucion: valor_real
   nota: 'Dominica: 1.628e+04 → 1.336e+04 (-17.9 %, z=-8). Coincide con la pandemia de COVID-19 en una economía dependiente
     del turismo.'
-  revisado_por: claude (propuesta; requiere confirmación humana)
+  revisado_por: Jorge Luis Briseño Gómez
   fecha: 2026-10-03
 - serie: fmi_weo:NGDPRPPPPC
   geo: G.fmi_weo.G903
@@ -88,7 +88,7 @@
   resolucion: ruptura_metodologica
   nota: 'G.fmi_weo.G903: 1.42e+04 → 2.187e+04 (+54.0 %, z=12). Agregado del FMI: salto probablemente por cambio
     de composición del grupo, no por crecimiento. No usar el agregado sin verificar su composición.'
-  revisado_por: claude (propuesta; requiere confirmación humana)
+  revisado_por: Jorge Luis Briseño Gómez
   fecha: 2026-10-03
 - serie: fmi_weo:NGDPRPPPPC
   geo: IRQ
@@ -96,35 +96,35 @@
   resolucion: valor_real
   nota: 'Irak: 7,080 → 1.057e+04 (+49.3 %, z=8). Coincide con la recuperación de la producción petrolera tras la
     invasión de 2003.'
-  revisado_por: claude (propuesta; requiere confirmación humana)
+  revisado_por: Jorge Luis Briseño Gómez
   fecha: 2026-10-03
 - serie: fmi_weo:NGDPRPPPPC
   geo: LBN
   periodo: '1982'
   resolucion: valor_real
   nota: 'Líbano: 1.318e+04 → 8,215 (-37.7 %, z=-9). Coincide con la invasión israelí de 1982.'
-  revisado_por: claude (propuesta; requiere confirmación humana)
+  revisado_por: Jorge Luis Briseño Gómez
   fecha: 2026-10-03
 - serie: fmi_weo:NGDPRPPPPC
   geo: LBN
   periodo: '1988'
   resolucion: valor_real
   nota: 'Líbano: 1.784e+04 → 1.256e+04 (-29.6 %, z=-7). Coincide con la fase final de la guerra civil libanesa (1988–1990).'
-  revisado_por: claude (propuesta; requiere confirmación humana)
+  revisado_por: Jorge Luis Briseño Gómez
   fecha: 2026-10-03
 - serie: fmi_weo:NGDPRPPPPC
   geo: LBN
   periodo: '1989'
   resolucion: valor_real
   nota: 'Líbano: 1.256e+04 → 7,120 (-43.3 %, z=-10). Coincide con la fase final de la guerra civil libanesa (1988–1990).'
-  revisado_por: claude (propuesta; requiere confirmación humana)
+  revisado_por: Jorge Luis Briseño Gómez
   fecha: 2026-10-03
 - serie: fmi_weo:NGDPRPPPPC
   geo: MMR
   periodo: '2021'
   resolucion: valor_real
   nota: 'Birmania: 4,970 → 4,343 (-12.6 %, z=-7). Coincide con el golpe militar de febrero de 2021.'
-  revisado_por: claude (propuesta; requiere confirmación humana)
+  revisado_por: Jorge Luis Briseño Gómez
   fecha: 2026-10-03
 - serie: fmi_weo:NGDPRPPPPC
   geo: SDN
@@ -132,14 +132,14 @@
   resolucion: valor_real
   nota: 'Sudán: 5,790 → 4,478 (-22.7 %, z=-11). Coincide con la pérdida de ingresos petroleros tras la secesión
     de Sudán del Sur.'
-  revisado_por: claude (propuesta; requiere confirmación humana)
+  revisado_por: Jorge Luis Briseño Gómez
   fecha: 2026-10-03
 - serie: fmi_weo:NGDPRPPPPC
   geo: SLE
   periodo: '1996'
   resolucion: valor_real
   nota: 'Sierra Leona: 2,566 → 1,926 (-24.9 %, z=-7). Coincide con la guerra civil de Sierra Leona (1991–2002).'
-  revisado_por: claude (propuesta; requiere confirmación humana)
+  revisado_por: Jorge Luis Briseño Gómez
   fecha: 2026-10-03
 - serie: fmi_weo:NGDPRPPPPC
   geo: SSD
@@ -147,14 +147,14 @@
   resolucion: valor_real
   nota: 'Sudán del Sur: 2,771 → 1,317 (-52.5 %, z=-10). Coincide con la suspensión de la producción petrolera (enero
     de 2012).'
-  revisado_por: claude (propuesta; requiere confirmación humana)
+  revisado_por: Jorge Luis Briseño Gómez
   fecha: 2026-10-03
 - serie: fmi_weo:NGDPRPPPPC
   geo: TCD
   periodo: '2004'
   resolucion: valor_real
   nota: 'Chad: 2,034 → 2,617 (+28.7 %, z=6). Coincide con el inicio de la producción petrolera (2003–2004).'
-  revisado_por: claude (propuesta; requiere confirmación humana)
+  revisado_por: Jorge Luis Briseño Gómez
   fecha: 2026-10-03
 - serie: fmi_weo:NGDPRPPPPC
   geo: TON
@@ -162,5 +162,5 @@
   resolucion: dudoso
   nota: 'Tonga: 2,695 → 3,843 (+42.6 %, z=9). Aumento de 43 % en un año sin evento documentado; posible problema
     en los años antiguos de la serie. Verificar con la fuente.'
-  revisado_por: claude (propuesta; requiere confirmación humana)
+  revisado_por: Jorge Luis Briseño Gómez
   fecha: 2026-10-03
