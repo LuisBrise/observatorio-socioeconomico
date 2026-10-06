@@ -112,9 +112,9 @@ def find_outliers(df: pl.DataFrame, dataset: Dataset, catalog: Catalog) -> pl.Da
     frames = []
     for sid, ind_id in _series_indicator(dataset).items():
         rule = catalog.indicators[ind_id].atipicos
-        # Los pronósticos (F) no son datos observados: no se revisan como atípicos.
+        # Pronósticos (F) e imputaciones (I) no son mediciones: no se revisan como atípicos.
         pos = (df.filter((pl.col("series_id") == sid) & (pl.col("value") > 0)
-                         & (pl.col("obs_status") != "F"))
+                         & ~pl.col("obs_status").is_in(["F", "I"]))
                .sort(["geo_id", "period_start"]))
         ch = pos.with_columns(
             pl.col("value").shift(1).over("geo_id").alias("value_prev"),

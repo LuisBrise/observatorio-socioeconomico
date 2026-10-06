@@ -38,6 +38,7 @@ STATUS_MAP: dict[str, dict[str, str]] = {
     # PIP: B = inicio de un nuevo periodo de comparabilidad; E = sin microdatos (group/imputed/synthetic)
     "wb_pip": {"": "A", "E": "E", "B": "B"},
     "inegi_pm": {"": "A"},
+    "wid": {"": "A", "I": "I"},  # I = imputado/extrapolado (data_quality <= 1)
 }
 
 _ANNUAL = re.compile(r"^\d{4}$")

@@ -1,7 +1,7 @@
 """Parser de PIP (Banco Mundial).
 
 Códigos de serie: `{medida}.{bienestar}.{cobertura}`
-- medida: pobreza_3.00 | pobreza_4.20 | pobreza_8.30 | gini
+- medida: pobreza_3.00 | pobreza_4.20 | pobreza_8.30 | gini | decil10 (participación del 10 % superior)
 - bienestar: ingreso | consumo  (no son comparables entre sí)
 - cobertura: nacional | urbano  (urbano solo cuando no hay dato nacional ese año, p. ej. Argentina)
 Las filas rurales se omiten (hay dato nacional para esos años).
@@ -41,7 +41,8 @@ def parse_wb_pip(raw_dir: Path, dataset_id: str, vintage: str) -> tuple[pl.DataF
               .filter((pl.col("reporting_level") == "national") | pl.col("_nat").is_null()))
         measures = [(f"pobreza_{line}", "headcount")]
         if line == "8.30":
-            measures.append(("gini", "gini"))  # el Gini no depende de la línea: se toma una vez
+            # Medidas de distribución: no dependen de la línea, se toman una sola vez.
+            measures += [("gini", "gini"), ("decil10", "decile10")]
         for code, col in measures:
             frames.append(df.select(
                 pl.lit(dataset_id).alias("dataset_id"),

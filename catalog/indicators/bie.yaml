@@ -382,3 +382,136 @@
   preguntas:
   - D1
   fecha_alta: '2026-10-06'
+- id: bie.desigualdad.ingreso.top10_ingreso_nacional
+  nombre: Participación del 10 % superior en el ingreso nacional antes de impuestos (WID)
+  concepto: bie.desigualdad.ingreso
+  definicion: Participación del 10 % superior en el ingreso nacional antes de impuestos (WID). Estimación de cuentas
+    nacionales distributivas que combina cuentas nacionales, encuestas y datos fiscales.
+  unidad: '% del ingreso nacional antes de impuestos'
+  facetas:
+    tipo_medicion: estimacion_modelada
+    cadena: resultado
+    ritmo: intermedio
+    direccion_normativa: en_disputa
+    cobertura:
+    - mundo
+  series:
+  - wid:top10
+  rangos_validos:
+    min: 0
+    max: 100
+  atipicos:
+    z: 6.0
+    cambio_minimo: 0.15
+  notas_interpretacion: 'Concepto distinto del ingreso de las encuestas: no se compara como si fuera la misma medida,
+    sino para mostrar lo que las encuestas no captan. Los años imputados (I) no son mediciones.'
+  preguntas:
+  - D1
+  fecha_alta: '2026-10-06'
+- id: bie.desigualdad.ingreso.top1_ingreso_nacional
+  nombre: Participación del 1 % superior en el ingreso nacional antes de impuestos (WID)
+  concepto: bie.desigualdad.ingreso
+  definicion: Participación del 1 % superior en el ingreso nacional antes de impuestos (WID). Estimación de cuentas
+    nacionales distributivas que combina cuentas nacionales, encuestas y datos fiscales.
+  unidad: '% del ingreso nacional antes de impuestos'
+  facetas:
+    tipo_medicion: estimacion_modelada
+    cadena: resultado
+    ritmo: intermedio
+    direccion_normativa: en_disputa
+    cobertura:
+    - mundo
+  series:
+  - wid:top1
+  rangos_validos:
+    min: 0
+    max: 100
+  atipicos:
+    z: 6.0
+    cambio_minimo: 0.15
+  notas_interpretacion: 'Concepto distinto del ingreso de las encuestas: no se compara como si fuera la misma medida,
+    sino para mostrar lo que las encuestas no captan. Los años imputados (I) no son mediciones.'
+  preguntas:
+  - D1
+  fecha_alta: '2026-10-06'
+- id: bie.desigualdad.ingreso.bottom50_ingreso_nacional
+  nombre: Participación del 50 % inferior en el ingreso nacional antes de impuestos (WID)
+  concepto: bie.desigualdad.ingreso
+  definicion: Participación del 50 % inferior en el ingreso nacional antes de impuestos (WID). Estimación de cuentas
+    nacionales distributivas que combina cuentas nacionales, encuestas y datos fiscales.
+  unidad: '% del ingreso nacional antes de impuestos'
+  facetas:
+    tipo_medicion: estimacion_modelada
+    cadena: resultado
+    ritmo: intermedio
+    direccion_normativa: en_disputa
+    cobertura:
+    - mundo
+  series:
+  - wid:bottom50
+  rangos_validos:
+    min: 0
+    max: 100
+  atipicos:
+    z: 6.0
+    cambio_minimo: 0.15
+  notas_interpretacion: 'Concepto distinto del ingreso de las encuestas: no se compara como si fuera la misma medida,
+    sino para mostrar lo que las encuestas no captan. Los años imputados (I) no son mediciones.'
+  preguntas:
+  - D1
+  fecha_alta: '2026-10-06'
+- id: bie.desigualdad.ingreso.gini_ingreso_nacional
+  nombre: Índice de Gini del ingreso nacional antes de impuestos (WID)
+  concepto: bie.desigualdad.ingreso
+  definicion: Índice de Gini del ingreso nacional antes de impuestos (WID). Estimación de cuentas nacionales distributivas
+    que combina cuentas nacionales, encuestas y datos fiscales.
+  unidad: índice de Gini (0-100)
+  facetas:
+    tipo_medicion: estimacion_modelada
+    cadena: resultado
+    ritmo: intermedio
+    direccion_normativa: en_disputa
+    cobertura:
+    - mundo
+  series:
+  - wid:gini
+  rangos_validos:
+    min: 0
+    max: 100
+  atipicos:
+    z: 6.0
+    cambio_minimo: 0.15
+  notas_interpretacion: 'Concepto distinto del ingreso de las encuestas: no se compara como si fuera la misma medida,
+    sino para mostrar lo que las encuestas no captan. Los años imputados (I) no son mediciones.'
+  preguntas:
+  - D1
+  fecha_alta: '2026-10-06'
+- id: bie.desigualdad.ingreso.top10_encuestas
+  nombre: Participación del 10 % superior en el ingreso (o consumo) según encuestas
+  concepto: bie.desigualdad.ingreso
+  definicion: Proporción del ingreso (o consumo) per cápita total que corresponde al 10 % de la población con mayor
+    ingreso, según encuestas de hogares (PIP).
+  unidad: '% del ingreso (o consumo) total'
+  facetas:
+    tipo_medicion: encuesta
+    cadena: resultado
+    ritmo: intermedio
+    direccion_normativa: en_disputa
+    cobertura:
+    - mundo
+  series:
+  - wb_pip:decil10.ingreso.nacional
+  - wb_pip:decil10.ingreso.urbano
+  - wb_pip:decil10.consumo.nacional
+  - wb_pip:decil10.consumo.urbano
+  rangos_validos:
+    min: 0
+    max: 100
+  atipicos:
+    z: 6.0
+    cambio_minimo: 0.15
+  notas_interpretacion: 'Las encuestas captan mal los ingresos más altos: esta participación suele ser menor que
+    la estimada con datos fiscales (WID).'
+  preguntas:
+  - D1
+  fecha_alta: '2026-10-06'

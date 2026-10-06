@@ -3,8 +3,8 @@
 Sistema reproducible para analizar la evolución política, económica y social de
 **México**, **América Latina y el Caribe** y **el mundo**: pasado, presente y escenarios futuros.
 
-> **Estado:** pipeline completo con datos reales de cinco fuentes (Banco Mundial WDI y PIP, FMI WEO,
-> proyecciones probabilísticas de ONU WPP 2024 y medición oficial de pobreza de INEGI), validación, revisión de atípicos, comparación entre
+> **Estado:** pipeline completo con datos reales de seis fuentes (Banco Mundial WDI y PIP, FMI WEO,
+> proyecciones probabilísticas de ONU WPP 2024, medición oficial de pobreza de INEGI y WID), validación, revisión de atípicos, comparación entre
 > fuentes y dashboard D1 en Quarto (ingreso, contraste internacional, transición demográfica, pobreza
 > y desigualdad).
 > Aún no se ha publicado el sitio.

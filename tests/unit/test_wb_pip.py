@@ -8,7 +8,7 @@ from observatorio.staging.wb_pip import parse_wb_pip
 def row(cc, year, spell, level="national", welfare="income", dist="micro", hc=0.2, gini=0.45):
     return {"country_code": cc, "country_name": cc, "reporting_year": year, "reporting_level": level,
             "welfare_type": welfare, "comparable_spell": spell, "distribution_type": dist,
-            "headcount": hc, "gini": gini}
+            "headcount": hc, "gini": gini, "decile10": 0.35}
 
 
 def test_pip_series_breaks_and_coverage(tmp_path):

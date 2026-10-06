@@ -7,12 +7,14 @@ from observatorio.ingestion.connectors.archivos import FileDownload
 from observatorio.ingestion.connectors.fmi_weo import IMFWEO
 from observatorio.ingestion.connectors.wb_pip import WorldBankPIP
 from observatorio.ingestion.connectors.wb_wdi import WorldBankWDI
+from observatorio.ingestion.connectors.wid import WID
 
 CONNECTORS: dict[str, type] = {
     WorldBankWDI.name: WorldBankWDI,
     IMFWEO.name: IMFWEO,
     FileDownload.name: FileDownload,
     WorldBankPIP.name: WorldBankPIP,
+    WID.name: WID,
 }
 
 

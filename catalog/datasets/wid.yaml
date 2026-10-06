@@ -1,0 +1,100 @@
+id: wid
+nombre: World Inequality Database (extracto por país)
+fuente: wil
+conector: wid
+url: https://wid.world/data/
+acceso:
+  metodo: descarga_masiva
+  endpoint: https://wid.world/bulk_download/wid_all_data.zip
+  credenciales: ninguna
+  formato: zip con csv por país (extracción parcial por HTTP Range)
+licencia:
+  nombre: Acceso abierto con atribución (términos exactos por verificar)
+  url: https://wid.world/
+  redistribucion: permitida_con_atribucion
+cobertura:
+  geografica: 44 países seleccionados (ALC, contraste, EE.UU., Canadá)
+  temporal: 1820– (años antiguos imputados)
+  poblacion: Adultos de 20 años o más; ingreso repartido por igual entre cónyuges
+frecuencia: anual (actualización anual de la base)
+rezago_tipico_dias: 365
+calendario: Actualización anual (la versión vigente se identifica por la fecha de modificación del ZIP).
+metodologia: https://wid.world/methodology/
+revisiones: Cada actualización puede revisar series completas.
+limitaciones: 'Ingreso nacional antes de impuestos (incluye ingresos no reportados en encuestas y utilidades no
+  distribuidas imputadas a sus dueños): concepto distinto del ingreso per cápita del hogar de las encuestas. Los
+  años sin fuentes se rellenan (data_quality <= 1): en México, 1980–2002 y 2023–2024 repiten el valor más cercano;
+  se marcan como imputados (I) y no deben leerse como mediciones.'
+rupturas_conocidas: []
+archivos:
+- WID_countries.csv
+- WID_data_AR.csv
+- WID_data_AG.csv
+- WID_data_BS.csv
+- WID_data_BZ.csv
+- WID_data_BO.csv
+- WID_data_BR.csv
+- WID_data_BB.csv
+- WID_data_CA.csv
+- WID_data_CL.csv
+- WID_data_CN.csv
+- WID_data_CO.csv
+- WID_data_CR.csv
+- WID_data_CU.csv
+- WID_data_CZ.csv
+- WID_data_DM.csv
+- WID_data_DO.csv
+- WID_data_EC.csv
+- WID_data_FI.csv
+- WID_data_GR.csv
+- WID_data_GD.csv
+- WID_data_GT.csv
+- WID_data_GY.csv
+- WID_data_HN.csv
+- WID_data_HT.csv
+- WID_data_JM.csv
+- WID_data_KN.csv
+- WID_data_LC.csv
+- WID_data_MX.csv
+- WID_data_NI.csv
+- WID_data_PA.csv
+- WID_data_PE.csv
+- WID_data_PL.csv
+- WID_data_PT.csv
+- WID_data_PY.csv
+- WID_data_RU.csv
+- WID_data_SV.csv
+- WID_data_SR.csv
+- WID_data_SE.csv
+- WID_data_TT.csv
+- WID_data_UY.csv
+- WID_data_US.csv
+- WID_data_VC.csv
+- WID_data_VE.csv
+- WID_data_VN.csv
+series:
+- codigo: top10
+  indicador: bie.desigualdad.ingreso.top10_ingreso_nacional
+  unidad: '% del ingreso nacional antes de impuestos'
+  multiplicador: 100.0
+  origen: wid
+- codigo: top1
+  indicador: bie.desigualdad.ingreso.top1_ingreso_nacional
+  unidad: '% del ingreso nacional antes de impuestos'
+  multiplicador: 100.0
+  origen: wid
+- codigo: bottom50
+  indicador: bie.desigualdad.ingreso.bottom50_ingreso_nacional
+  unidad: '% del ingreso nacional antes de impuestos'
+  multiplicador: 100.0
+  origen: wid
+- codigo: gini
+  indicador: bie.desigualdad.ingreso.gini_ingreso_nacional
+  unidad: índice de Gini (0-100)
+  multiplicador: 100.0
+  origen: wid
+umbrales:
+  revision_advertencia_pct: 5.0
+  revision_advertencia_share: 0.25
+  caida_cobertura_pct: 2.0
+fecha_alta: '2026-10-06'

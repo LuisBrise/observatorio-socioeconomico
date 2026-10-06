@@ -27,6 +27,10 @@ gini = FileAttachment("../../data/d1/gini-alc/data.json").json()
 giniProv = FileAttachment("../../data/d1/gini-alc/provenance.json").json()
 defs = FileAttachment("../../data/d1/pobreza-definiciones/data.json").json()
 defsProv = FileAttachment("../../data/d1/pobreza-definiciones/provenance.json").json()
+t10 = FileAttachment("../../data/d1/top10-mex/data.json").json()
+t10Prov = FileAttachment("../../data/d1/top10-mex/provenance.json").json()
+t10alc = FileAttachment("../../data/d1/top10-alc/data.json").json()
+t10alcProv = FileAttachment("../../data/d1/top10-alc/provenance.json").json()
 ```
 
 ## Contexto
@@ -135,6 +139,42 @@ html`<div class="obs-chart">
   ${charts.pesas(gini, { tokens, width, unidad: "Gini (0-100)" })}
   ${charts.procedencia(giniProv, { csv: [["datos (CSV)", "../../data/d1/gini-alc/gini.csv"]] })}
   ${charts.advertencias(giniProv)}
+</div>`
+```
+
+### Lo que las encuestas no ven
+
+[DATO]{.obs-tag} Las encuestas de hogares captan mal los ingresos más altos. Las cuentas nacionales
+distributivas (WID) combinan encuestas con datos fiscales y cuentas nacionales para estimar la parte
+del ingreso que reciben los grupos de mayores ingresos.
+
+```{ojs}
+//| echo: false
+html`<div class="obs-chart">
+  <h3>Participación del 10 % más rico en el ingreso de México</h3>
+  <p class="obs-sub">% del ingreso · encuesta de hogares (PIP) frente a ingreso nacional antes de impuestos (WID)</p>
+  ${charts.dosFuentes(t10, { tokens, width, unidad: "% del ingreso",
+    fuentes: [{ key: "encuesta", label: "Encuesta (PIP)" }, { key: "wid", label: "WID" }] })}
+  ${charts.procedencia(t10Prov, { csv: [["datos (CSV)", "../../data/d1/top10-mex/serie.csv"]] })}
+  ${charts.advertencias(t10Prov)}
+</div>`
+```
+
+[ANÁLISIS]{.obs-tag} Las dos fuentes difieren en el nivel (unos 25 puntos en 2022). Dentro de
+tramos comparables también difieren en la tendencia: entre 2002 y 2014 la encuesta se mantiene cerca
+de 40 % mientras WID pasa de 54 % a 63 %; entre 2016 y 2022 ambas bajan. Si la concentración en la
+cúspide aumentó en la década de 2000 depende de la fuente; estos datos no permiten zanjarlo por sí
+solos. Los valores de WID anteriores a 2003 provienen de un método de largo plazo distinto.
+
+```{ojs}
+//| echo: false
+html`<div class="obs-chart">
+  <h3>El 10 % más rico en América Latina según encuestas y según WID</h3>
+  <p class="obs-sub">% del ingreso · último año desde 2015 con ambas mediciones · ordenado por WID</p>
+  ${charts.pesas(t10alc, { tokens, width, unidad: "% del ingreso",
+    etiquetas: { inicio: "Encuesta (PIP)", fin: "WID" } })}
+  ${charts.procedencia(t10alcProv, { csv: [["datos (CSV)", "../../data/d1/top10-alc/gini.csv"]] })}
+  ${charts.advertencias(t10alcProv)}
 </div>`
 ```
 

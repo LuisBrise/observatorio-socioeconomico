@@ -112,6 +112,26 @@ series:
   unidad: índice de Gini (0-100)
   multiplicador: 100.0
   origen: banco_mundial_pip
+- codigo: decil10.ingreso.nacional
+  indicador: bie.desigualdad.ingreso.top10_encuestas
+  unidad: '% del ingreso (o consumo) total'
+  multiplicador: 100.0
+  origen: banco_mundial_pip
+- codigo: decil10.ingreso.urbano
+  indicador: bie.desigualdad.ingreso.top10_encuestas
+  unidad: '% del ingreso (o consumo) total'
+  multiplicador: 100.0
+  origen: banco_mundial_pip
+- codigo: decil10.consumo.nacional
+  indicador: bie.desigualdad.ingreso.top10_encuestas
+  unidad: '% del ingreso (o consumo) total'
+  multiplicador: 100.0
+  origen: banco_mundial_pip
+- codigo: decil10.consumo.urbano
+  indicador: bie.desigualdad.ingreso.top10_encuestas
+  unidad: '% del ingreso (o consumo) total'
+  multiplicador: 100.0
+  origen: banco_mundial_pip
 umbrales:
   revision_advertencia_pct: 5.0
   revision_advertencia_share: 0.25

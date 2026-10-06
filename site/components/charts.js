@@ -343,7 +343,9 @@ export function createCharts({ Plot, document: doc = globalThis.document }) {
 
   // Pesas (dumbbell): valor inicial y final por país, ordenado por el final; foco resaltado.
   // Punto final hueco = hubo cambio de encuesta o método entre ambos puntos.
-  function pesas(data, { tokens: t = DEFAULT_TOKENS, width = 720, unidad = "" } = {}) {
+  function pesas(data, { tokens: t = DEFAULT_TOKENS, width = 720, unidad = "",
+                         etiquetas = { inicio: "Alrededor de 2000", fin: "Dato más reciente",
+                                       ruptura: "Dato más reciente, con cambio de encuesta en el periodo" } } = {}) {
     const rows = data.gini;
     const fig = Plot.plot({
       document: doc, width, height: 26 * rows.length + 60, marginLeft: 150, marginRight: 30,
@@ -363,7 +365,9 @@ export function createCharts({ Plot, document: doc = globalThis.document }) {
         Plot.tip(rows, Plot.pointerY({ x: "fin", y: (d) => d.nombre + (d.cobertura === "urbano" ? " (urbano)" : ""),
           fill: t.surface, stroke: t.axis,
           title: (d) => `${d.nombre}${d.cobertura === "urbano" ? " (solo urbano)" : ""}\n` +
-            `${d.anio_inicio}: ${fmt1.format(d.inicio)} → ${d.anio_fin}: ${fmt1.format(d.fin)}` +
+            (d.anio_inicio === d.anio_fin
+              ? `${d.anio_fin} · ${etiquetas.inicio}: ${fmt1.format(d.inicio)} · ${etiquetas.fin}: ${fmt1.format(d.fin)}`
+              : `${d.anio_inicio}: ${fmt1.format(d.inicio)} → ${d.anio_fin}: ${fmt1.format(d.fin)}`) +
             (d.ruptura ? "\nHubo cambio de encuesta o método entre ambos años" : "") })),
       ],
     });
@@ -374,9 +378,9 @@ export function createCharts({ Plot, document: doc = globalThis.document }) {
         `background:${filled ? t.ink : "transparent"}` }), label]);
     return el("div", {}, [
       el("div", { class: "obs-legend" }, [
-        el("span", {}, [el("i", { style: `display:inline-block;width:8px;height:8px;border-radius:50%;background:${t.ink2}` }), "Alrededor de 2000"]),
-        key(true, "Dato más reciente"),
-        key(false, "Dato más reciente, con cambio de encuesta en el periodo"),
+        el("span", {}, [el("i", { style: `display:inline-block;width:8px;height:8px;border-radius:50%;background:${t.ink2}` }), etiquetas.inicio]),
+        key(true, etiquetas.fin),
+        rows.some((d) => d.ruptura) ? key(false, etiquetas.ruptura) : null,
         el("span", {}, [el("i", { class: "obs-key-line", style: `border-color:${t.focus}` }), data.foco === "MEX" ? "México" : data.foco]),
       ]),
       fig,
@@ -428,8 +432,68 @@ export function createCharts({ Plot, document: doc = globalThis.document }) {
     ]);
   }
 
+
+  // Dos fuentes del mismo concepto (p. ej., encuesta vs cuentas distributivas). Tramos cortados en
+  // rupturas; valores imputados (obs_status I) con línea punteada, conectada al último dato medido.
+  function dosFuentes(data, { tokens: t = DEFAULT_TOKENS, width = 720, unidad = "", fuentes = [] } = {}) {
+    const rows = data.serie.map((d) => ({ ...d, year: year(d) }));
+    const colors = [t.compare, t.focus];
+    const color = Object.fromEntries(fuentes.map((f, i) => [f.key, colors[i] ?? t.ink2]));
+    const label = Object.fromEntries(fuentes.map((f) => [f.key, f.label]));
+    const medidos = rows.filter((d) => d.obs_status !== "I");
+    // Tramos imputados: cada corrida de I más el punto medido adyacente (para no dejar huecos).
+    const imputados = [];
+    for (const f of fuentes) {
+      const r = rows.filter((d) => d.fuente === f.key);
+      r.forEach((d, i) => {
+        if (d.obs_status !== "I") return;
+        const prev = r[i - 1], next = r[i + 1];
+        const seg = `${f.key}-imp-${i}`;
+        if (prev) imputados.push({ ...prev, seg });
+        imputados.push({ ...d, seg });
+        if (next) imputados.push({ ...next, seg });
+      });
+    }
+    const last = fuentes.map((f) => rows.filter((d) => d.fuente === f.key).at(-1)).filter(Boolean);
+    const rupt = (data.rupturas ?? []).map((p) => ({ year: +p }));
+    const fig = Plot.plot({
+      document: doc, width, height: Math.round(Math.min(400, Math.max(280, width * 0.5))),
+      marginLeft: 44, marginRight: 150, marginTop: 30, style: baseStyle(t),
+      x: { label: null, tickFormat: "d", ticks: Math.max(4, Math.floor(width / 110)) },
+      y: { label: unidad, labelAnchor: "top", domain: [0, 100], ticks: 5 },
+      marks: [
+        Plot.gridY({ stroke: t.grid, strokeOpacity: 1, ticks: 5 }),
+        Plot.ruleY([0], { stroke: t.axis }),
+        Plot.ruleX(rupt, { x: (d) => d.year - 1, stroke: t.axis, strokeDasharray: "3,3" }),
+        Plot.text(rupt, { x: (d) => d.year - 1, frameAnchor: "top", dy: -16, textAnchor: "middle",
+          fill: t.muted, fontSize: 10, text: () => "Cambio de encuesta" }),
+        Plot.lineY(imputados, { x: "year", y: "value", z: "seg", stroke: (d) => color[d.fuente],
+          strokeWidth: 1.5, strokeDasharray: "2,3" }),
+        Plot.lineY(medidos, { x: "year", y: "value", z: (d) => `${d.fuente}-${d.tramo}`,
+          stroke: (d) => color[d.fuente], strokeWidth: 2 }),
+        Plot.dot(rows.filter((d) => d.fuente === "encuesta"), { x: "year", y: "value", r: 3,
+          fill: (d) => color[d.fuente], stroke: t.surface, strokeWidth: 1.5 }),
+        Plot.text(last, { x: "year", y: "value", dx: 8, textAnchor: "start", fill: t.ink, lineWidth: 12,
+          text: (d) => `${label[d.fuente]}: ${fmt1.format(d.value)} %` }),
+        Plot.tip(rows, Plot.pointer({ x: "year", y: "value", fill: t.surface, stroke: t.axis,
+          title: (d) => `${label[d.fuente]} · ${d.period}\n${fmt1.format(d.value)} %` +
+            (d.obs_status === "I" ? "\nImputado por la fuente (no es una medición)" : "") +
+            (d.obs_status === "B" ? "\nInicio de un nuevo tramo comparable" : "") })),
+      ],
+    });
+    fig.setAttribute("role", "img");
+    fig.setAttribute("aria-label", fuentes.map((f) => label[f.key]).join(" frente a ") + ".");
+    return el("div", {}, [
+      el("div", { class: "obs-legend" }, [
+        ...fuentes.map((f) => el("span", {}, [el("i", { class: "obs-key-line", style: `border-color:${color[f.key]}` }), f.label])),
+        el("span", {}, [el("i", { class: "obs-key-line", style: `border-color:${t.ink2};border-top-style:dotted` }), "Imputado por la fuente"]),
+      ]),
+      fig,
+    ]);
+  }
+
   return { legend, serieDistribucion, multiplesReferencia, abanico, lineasTramos, pesas,
-    panelesDefiniciones, procedencia, advertencias };
+    panelesDefiniciones, dosFuentes, procedencia, advertencias };
 }
 
 function d3group(rows, key) {

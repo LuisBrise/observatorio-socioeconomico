@@ -252,6 +252,97 @@ def _bienestar(paths: Paths, catalog: Catalog, obs: pl.DataFrame, alc: list[str]
     write_chart(paths, catalog, spec2, {"gini": gini}, extra={"foco": FOCO})
     built.append(spec2.chart_id)
     built += _definiciones_pobreza(paths, catalog, obs)
+    built += _encuestas_vs_fiscales(paths, catalog, obs, alc)
+    return built
+
+
+def _tramos_texto(periodos: list[str]) -> str:
+    """['1984', '1985', '1986', '2023', '2024'] → '1984–1986 y 2023–2024'."""
+    años = sorted(int(p) for p in periodos)
+    tramos: list[list[int]] = []
+    for a in años:
+        if tramos and a == tramos[-1][1] + 1:
+            tramos[-1][1] = a
+        else:
+            tramos.append([a, a])
+    partes = [f"{i}" if i == f else f"{i}–{f}" for i, f in tramos]
+    return ", ".join(partes[:-1]) + (" y " if len(partes) > 1 else "") + partes[-1] if partes else ""
+
+
+TOP10_ENC = "bie.desigualdad.ingreso.top10_encuestas"
+TOP10_WID = "bie.desigualdad.ingreso.top10_ingreso_nacional"
+
+
+def _encuestas_vs_fiscales(paths: Paths, catalog: Catalog, obs: pl.DataFrame, alc: list[str]) -> list[str]:
+    """1.8–1.9 · Participación del 10 % superior: encuestas (PIP) vs cuentas distributivas (WID)."""
+    enc_sid, wid_sid = "wb_pip:decil10.ingreso.nacional", "wid:top10"
+    present = set(obs["series_id"].unique().to_list())
+    if not {enc_sid, wid_sid} <= present:
+        return []
+    built = []
+    enc = obs.filter((pl.col("series_id") == enc_sid) & (pl.col("geo_id") == FOCO))
+    wid = obs.filter((pl.col("series_id") == wid_sid) & (pl.col("geo_id") == FOCO)
+                     & (pl.col("period").cast(pl.Int32) >= 1984))
+    serie = pl.concat([
+        _with_segments(enc.select("period", "value", "obs_status")).with_columns(
+            pl.lit("encuesta").alias("fuente")),
+        wid.select("period", "value", "obs_status").sort("period").with_columns(
+            pl.lit(0, dtype=pl.Int32).alias("tramo"), pl.lit("wid").alias("fuente")),
+    ])
+    imputados = wid.filter(pl.col("obs_status") == "I")["period"].to_list()
+    spec = ChartSpec(
+        chart_id="d1/top10-mex",
+        question=("¿Qué proporción del ingreso recibe el 10 % más rico de México según las encuestas de "
+                  "hogares y según estimaciones que incorporan datos fiscales y cuentas nacionales?"),
+        indicators=[TOP10_ENC, TOP10_WID],
+        caveats=[
+            "No miden exactamente lo mismo: la encuesta usa el ingreso per cápita del hogar; WID usa el "
+            "ingreso nacional antes de impuestos de adultos (incluye ingresos no reportados en encuestas, "
+            "como utilidades retenidas por empresas imputadas a sus dueños). La brecha refleja tanto la "
+            "subcaptación de ingresos altos en encuestas como estas diferencias de concepto.",
+            "Años imputados por WID por falta de fuentes (línea punteada, no son mediciones): "
+            + (_tramos_texto(imputados) or "ninguno") + ".",
+            "La serie de encuesta se corta en el cambio a la ENIGH Nueva Serie (2014–2016).",
+            "Las estimaciones de WID dependen de supuestos de imputación que son objeto de debate académico.",
+        ],
+        transformations=[LineageStep("tramos_comparables@1", {"criterio": "comparable_spell (encuesta)"},
+                                     [TOP10_ENC]).to_dict()],
+    )
+    rupturas = serie.filter(pl.col("obs_status") == "B")["period"].to_list()
+    write_chart(paths, catalog, spec, {"serie": serie}, extra={"foco": FOCO, "rupturas": rupturas})
+    built.append(spec.chart_id)
+
+    # 1.9 · ALC: misma comparación, último año con ambas mediciones (WID medido, no imputado)
+    filas = []
+    for geo in alc:
+        e = obs.filter((pl.col("series_id") == enc_sid) & (pl.col("geo_id") == geo)
+                       & (pl.col("period").cast(pl.Int32) >= 2015))
+        w = obs.filter((pl.col("series_id") == wid_sid) & (pl.col("geo_id") == geo)
+                       & (pl.col("obs_status") != "I"))
+        j = e.select("period", pl.col("value").alias("enc")).join(
+            w.select("period", pl.col("value").alias("wid")), on="period").sort("period")
+        if j.height:
+            r = j.row(-1, named=True)
+            filas.append({"geo_id": geo, "nombre": catalog.geo_name(geo), "cobertura": "nacional",
+                          "anio_inicio": r["period"], "inicio": r["enc"], "anio_fin": r["period"],
+                          "fin": r["wid"], "ruptura": False})
+    if filas:
+        tabla = pl.DataFrame(filas).sort("fin")
+        spec2 = ChartSpec(
+            chart_id="d1/top10-alc",
+            question=("¿Cuánto cambia la participación del 10 % más rico en América Latina cuando se "
+                      "incorporan datos fiscales y cuentas nacionales a las encuestas?"),
+            indicators=[TOP10_ENC, TOP10_WID],
+            caveats=[
+                "Último año desde 2015 en que ambas fuentes tienen dato y WID no está imputado; el año "
+                "puede variar entre países.",
+                "Conceptos distintos (ver la gráfica de México): la diferencia no es un error de una fuente.",
+                "Solo países con encuesta de ingreso de cobertura nacional en PIP.",
+            ],
+            groups={"G.ALC_CEPAL33": alc},
+        )
+        write_chart(paths, catalog, spec2, {"gini": tabla}, extra={"foco": FOCO})
+        built.append(spec2.chart_id)
     return built
 
 

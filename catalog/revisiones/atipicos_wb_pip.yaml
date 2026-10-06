@@ -1,7 +1,5 @@
 # Revisión humana de atípicos (docs/diseno/06-pipeline-y-validacion.md §7).
-# resolucion: valor_real | dudoso | ruptura_metodologica | error_fuente | pendiente.
-# Nunca se borran datos. 'Coincide con' describe coincidencia temporal documentada, no causalidad.
-# Las entradas 'claude (propuesta…)' deben ser confirmadas por una persona: cambia revisado_por.
+# resolucion: valor_real | error_fuente | pendiente. Nunca se borran datos.
 - serie: wb_pip:gini.consumo.nacional
   geo: KAZ
   periodo: '2006'
@@ -195,3 +193,73 @@
     con la fuente.'
   revisado_por: Jorge Luis Briseño Gómez
   fecha: 2026-10-05
+- serie: wb_pip:decil10.consumo.nacional
+  geo: KAZ
+  periodo: '2006'
+  resolucion: dudoso
+  nota: 'Kazajistán: 29.72 → 24.91 (-16.2 %, z=-9). Misma revisión que el Gini de ese país y año (misma distribución):
+    Subida y bajada abruptas sin evento documentado ni ruptura marcada por la fuente; posible problema de comparabilidad
+    de la encuesta. Verificar con la fuente.'
+  revisado_por: claude (propuesta; requiere confirmación humana)
+  fecha: 2026-10-06
+- serie: wb_pip:decil10.consumo.nacional
+  geo: POL
+  periodo: '1996'
+  resolucion: valor_real
+  nota: 'Polonia: 21 → 26.47 (+26.0 %, z=15). Misma revisión que el Gini de ese país y año (misma distribución):
+    Coincide con la transición poscomunista (aumento de la desigualdad y caída del ingreso a inicios de los años
+    noventa); las encuestas de esos años tienen limitaciones.'
+  revisado_por: claude (propuesta; requiere confirmación humana)
+  fecha: 2026-10-06
+- serie: wb_pip:decil10.ingreso.nacional
+  geo: BRA
+  periodo: '1992'
+  resolucion: dudoso
+  nota: 'Brasil: 48.07 → 39.67 (-17.5 %, z=-11). Oscilación de ida y vuelta en dos años sin evento documentado ni
+    ruptura marcada por la fuente. Verificar con la fuente.'
+  revisado_por: claude (propuesta; requiere confirmación humana)
+  fecha: 2026-10-06
+- serie: wb_pip:decil10.ingreso.nacional
+  geo: BRA
+  periodo: '1993'
+  resolucion: dudoso
+  nota: 'Brasil: 39.67 → 48.44 (+22.1 %, z=12). Oscilación de ida y vuelta en dos años sin evento documentado ni
+    ruptura marcada por la fuente. Verificar con la fuente.'
+  revisado_por: claude (propuesta; requiere confirmación humana)
+  fecha: 2026-10-06
+- serie: wb_pip:decil10.ingreso.nacional
+  geo: CRI
+  periodo: '1986'
+  resolucion: dudoso
+  nota: 'Costa Rica: 33.73 → 23.05 (-31.7 %, z=-17). Misma revisión que el Gini de ese país y año (misma distribución):
+    Subida y bajada abruptas sin evento documentado ni ruptura marcada por la fuente; posible problema de comparabilidad
+    de la encuesta. Verificar con la fuente.'
+  revisado_por: claude (propuesta; requiere confirmación humana)
+  fecha: 2026-10-06
+- serie: wb_pip:decil10.ingreso.nacional
+  geo: CZE
+  periodo: '1993'
+  resolucion: valor_real
+  nota: 'Chequia: 19.59 → 23.7 (+21.0 %, z=13). Misma revisión que el Gini de ese país y año (misma distribución):
+    Coincide con la transición poscomunista (aumento de la desigualdad y caída del ingreso a inicios de los años
+    noventa); las encuestas de esos años tienen limitaciones.'
+  revisado_por: claude (propuesta; requiere confirmación humana)
+  fecha: 2026-10-06
+- serie: wb_pip:decil10.ingreso.nacional
+  geo: HUN
+  periodo: '2006'
+  resolucion: dudoso
+  nota: 'Hungría: 28.07 → 22.8 (-18.8 %, z=-7). Misma revisión que el Gini de ese país y año (misma distribución):
+    Subida y bajada abruptas sin evento documentado ni ruptura marcada por la fuente; posible problema de comparabilidad
+    de la encuesta. Verificar con la fuente.'
+  revisado_por: claude (propuesta; requiere confirmación humana)
+  fecha: 2026-10-06
+- serie: wb_pip:decil10.ingreso.nacional
+  geo: SVN
+  periodo: '1993'
+  resolucion: valor_real
+  nota: 'Eslovenia: 20.4 → 24.73 (+21.2 %, z=11). Misma revisión que el Gini de ese país y año (misma distribución):
+    Coincide con la transición poscomunista (aumento de la desigualdad y caída del ingreso a inicios de los años
+    noventa); las encuestas de esos años tienen limitaciones.'
+  revisado_por: claude (propuesta; requiere confirmación humana)
+  fecha: 2026-10-06

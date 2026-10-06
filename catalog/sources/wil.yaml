@@ -1,0 +1,16 @@
+id: wil
+nombre: World Inequality Lab (WID.world)
+tipo: centro_de_investigacion
+url: https://wid.world/
+evaluacion:
+  mandato: Laboratorio de investigación (Paris School of Economics y colaboradores) que mantiene la World Inequality
+    Database.
+  metodologia: 'Distributional National Accounts (DINA): combina cuentas nacionales, encuestas y registros fiscales;
+    notas por país en los metadatos.'
+  revisiones: Actualizaciones anuales que revisan series completas; cada valor trae un indicador de calidad (data_quality).
+  continuidad: Serie larga; para muchos países de ALC la cobertura fiscal comienza en los años 2000.
+  independencia: Académica e independiente de gobiernos; las estimaciones dependen de supuestos de imputación que
+    son objeto de debate académico.
+  primaria_o_compiladora: Primaria (estimaciones propias a partir de fuentes múltiples). Independiente de PIP en
+    el uso de datos fiscales y cuentas nacionales, aunque también usa encuestas.
+fecha_alta: '2026-10-06'

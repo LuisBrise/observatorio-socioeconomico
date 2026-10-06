@@ -34,9 +34,10 @@ def make_client(timeout: float = 60.0) -> httpx.Client:
     stop=stop_after_attempt(5),
     reraise=True,
 )
-def get(client: httpx.Client, url: str, params: dict | None = None) -> httpx.Response:
+def get(client: httpx.Client, url: str, params: dict | None = None,
+        headers: dict | None = None) -> httpx.Response:
     try:
-        resp = client.get(url, params=params)
+        resp = client.get(url, params=params, headers=headers)
     except httpx.TransportError as exc:
         raise TransientHTTPError(str(exc)) from exc
     if resp.status_code == 429 or resp.status_code >= 500:
