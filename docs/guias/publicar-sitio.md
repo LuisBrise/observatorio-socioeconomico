@@ -20,7 +20,9 @@ En GitHub, dentro del repositorio:
 
 1. **Settings → Pages → Build and deployment → Source: «GitHub Actions».**
 2. **Settings → Actions → General → Workflow permissions:** marca «Read and write permissions» y
-   la casilla «Allow GitHub Actions to create and approve pull requests». Guarda.
+   la casilla «Allow GitHub Actions to create and approve pull requests». Guarda. Sin esta casilla,
+   «Actualizar datos» descarga y archiva todo, pero falla al final con «GitHub Actions is not
+   permitted to create or approve pull requests» (los datos quedan en la rama `datos/actualizacion`).
 
 ## Primera publicación (arranque)
 
@@ -35,6 +37,12 @@ release `raw-archive`, así que la primera vez hay que descargarlos todos en Git
 3. Integra el pull request (**Merge**). Eso dispara «Publicar sitio».
 4. En **Actions → «Publicar sitio»** verás el avance; al terminar, el enlace aparece en el resumen
    del job `deploy` y en **Settings → Pages**.
+
+## Estado del arranque (2026-10-06)
+
+La primera corrida de «Actualizar datos» archivó las 10 fuentes en `raw-archive` y las fijó sin
+advertencias. Como no pudo abrir el pull request, el lockfile de la rama `datos/actualizacion` se
+integró directamente en la rama principal.
 
 ## Después
 

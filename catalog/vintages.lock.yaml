@@ -2,62 +2,62 @@
 # Lo actualiza `obs lock`; su historial en git es el historial de datos del observatorio.
 datasets:
   cepal_pobreza:
-    vintage: 2026-10-06T062035Z
-    content_sha256: 472d6598295719b995fd72ed919f580e4b40218d1cdbb9d06f3200e7351b2eea
-    retrieved_at: '2026-10-06T06:20:35Z'
+    vintage: 2026-10-06T233608Z
+    content_sha256: 7b30631b0c6697eb4c5d067fe1feaf276af96e426bc91f543ef3ccdd468efcfc
+    retrieved_at: '2026-10-06T23:36:08Z'
     source_declared_version: null
     validation_status: ok
   fmi_weo:
-    vintage: 2026-10-03T041958Z
+    vintage: 2026-10-06T233726Z
     content_sha256: d20c629f0cae4d8f827bdd1f041dac1da8c52b7e15cd33697415cb7befdc11c1
-    retrieved_at: '2026-10-03T04:19:58Z'
+    retrieved_at: '2026-10-06T23:37:26Z'
     source_declared_version: '2026-04-14T13:00:00Z'
     validation_status: ok
   inegi_homicidios:
-    vintage: 2026-10-06T065254Z
+    vintage: 2026-10-06T233610Z
     content_sha256: 7d0d206760fe2b7ca3a28758b9cf40c8264308318e0a875d8e0ed97b55787976
-    retrieved_at: '2026-10-06T06:52:54Z'
+    retrieved_at: '2026-10-06T23:36:10Z'
     source_declared_version: null
     validation_status: ok
   inegi_pm:
-    vintage: 2026-10-06T045635Z
+    vintage: 2026-10-06T233506Z
     content_sha256: 5091169f92019c33860cf1df5cfcf1a5dffb969569b5575e37ca4c0f7dd5f763
-    retrieved_at: '2026-10-06T04:56:35Z'
+    retrieved_at: '2026-10-06T23:35:06Z'
     source_declared_version: null
     validation_status: ok
   onu_wpp_prob:
-    vintage: 2026-10-03T043413Z
+    vintage: 2026-10-06T233728Z
     content_sha256: 3a55d9e2498f26040c8a50f35f7bc8dd1ad5f1f168906bbb0bc2f3a27a8a1196
-    retrieved_at: '2026-10-03T04:34:13Z'
+    retrieved_at: '2026-10-06T23:37:28Z'
     source_declared_version: null
     validation_status: ok
   rnpdno:
-    vintage: 2026-10-06T215239Z
-    content_sha256: 29532a1b02ce809db99f4be2002d341bb6cd964eaf885d384be4e6da3ed90a9b
-    retrieved_at: '2026-10-06T21:52:39Z'
+    vintage: 2026-10-06T233719Z
+    content_sha256: 1c9a6261414db5f6859408453c71199de7c770355cb5804ff5f21aed576e1e27
+    retrieved_at: '2026-10-06T23:37:19Z'
     source_declared_version: null
     validation_status: ok
   sesnsp_victimas:
-    vintage: 2026-10-06T165331Z
-    content_sha256: f16a41ef99f6b8e31ee53dfbfb263d71d0bff796313bcb6738f994a6c9dfba1d
-    retrieved_at: '2026-10-06T16:53:31Z'
+    vintage: 2026-10-06T233723Z
+    content_sha256: 5bb8d92f5a7bb8de5c1a376a4eda200bfb0bfcbbb58a85a42dd970cf3879b69d
+    retrieved_at: '2026-10-06T23:37:23Z'
     source_declared_version: null
     validation_status: ok
   wb_pip:
-    vintage: 2026-10-05T180317Z
+    vintage: 2026-10-06T233505Z
     content_sha256: 25370ffe53d396fc33bd25ed0515f860c6643a810fd91461f3a7a975855371d7
-    retrieved_at: '2026-10-05T18:03:17Z'
+    retrieved_at: '2026-10-06T23:35:05Z'
     source_declared_version: null
     validation_status: ok
   wb_wdi:
-    vintage: 2026-10-06T065301Z
-    content_sha256: b0abbad71ed9601246dc3a4f21e11e312b6d9b37637761b9949721e418224d1e
-    retrieved_at: '2026-10-06T06:53:01Z'
+    vintage: 2026-10-06T233502Z
+    content_sha256: efd80c0e78b579601afeb1d62aba6a510fbc85fa90922143962e42463777fde6
+    retrieved_at: '2026-10-06T23:35:02Z'
     source_declared_version: '2026-07-13'
     validation_status: ok
   wid:
-    vintage: 2026-10-06T051513Z
+    vintage: 2026-10-06T233603Z
     content_sha256: 8699d648b2a3c4d0fab07279ec54835b6b55c3562b1835c3166c0d295f402509
-    retrieved_at: '2026-10-06T05:15:13Z'
+    retrieved_at: '2026-10-06T23:36:03Z'
     source_declared_version: Wed, 09 Sep 2026 14:06:24 GMT
     validation_status: ok

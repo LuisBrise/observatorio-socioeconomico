@@ -76,6 +76,10 @@ def process(paths: Paths, catalog: Catalog, dataset_id: str, vintage: str | None
     if vintage is None:
         raise PipelineError(f"{dataset_id}: no hay vintages crudos; ejecuta `obs ingest` primero")
     raw_dir = store.dataset_dir(dataset.fuente, dataset_id) / vintage
+    if not raw_dir.is_dir():
+        raise PipelineError(
+            f"{dataset_id}: no existe el vintage crudo {vintage} en {raw_dir}. Si viene del lockfile, "
+            "restaura el archivo crudo (scripts/raw_archive.sh restore) o vuelve a descargar.")
 
     # Staging
     obs_stg, geos = PARSERS[dataset_id](raw_dir, dataset_id, vintage)
