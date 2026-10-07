@@ -26,6 +26,7 @@ PARSERS: dict[str, Parser] = {"wb_wdi": parse_wb_wdi, "fmi_weo": parse_fmi_weo,
                               "inegi_pm": parse_inegi_pm, "wid": parse_wid,
                               "cepal_pobreza": parse_cepal,
                               "inegi_homicidios": parse_inegi_tabulados,
+                              "inegi_poblacion": parse_inegi_tabulados,
                               "rnpdno": parse_rnpdno,
                               "sesnsp_victimas": parse_sesnsp}
 

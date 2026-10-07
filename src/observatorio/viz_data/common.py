@@ -107,10 +107,21 @@ def write_chart(paths: Paths, catalog: Catalog, spec: ChartSpec,
                    f"(estado: {', '.join(d.estado for d in dis)})." if dis
                    else "; las diferencias aún no están documentadas."))
         # Comparación con un registro independiente de OTRO concepto, documentada como discrepancia.
-        otros = [d for d in catalog.discrepancies.values()
-                 if set(base) & set(d.series)
-                 and {series_origin(catalog, s) for s in d.series} - origins]
-        if len(origins) < 2 and otros:
+        relacionadas = [d for d in catalog.discrepancies.values()
+                        if set(base) & set(d.series)
+                        and {series_origin(catalog, s) for s in d.series} - origins]
+        # Mismo concepto si alguna serie de otro origen en la discrepancia pertenece a este indicador.
+        es_mismo = {d.id: any(catalog.series_spec(x).indicador == ind_id
+                              for x in d.series if series_origin(catalog, x) not in origins)
+                    for d in relacionadas}
+        mismo = [d for d in relacionadas if es_mismo[d.id]]
+        otros = [d for d in relacionadas if not es_mismo[d.id]]
+        if len(origins) < 2 and mismo:
+            spec.caveats.append(
+                f"{ind.nombre}: esta gráfica usa una sola fuente; está contrastada con otra fuente del "
+                f"mismo concepto en {', '.join(d.id for d in mismo)} "
+                f"(estado: {', '.join(d.estado for d in mismo)}).")
+        elif len(origins) < 2 and otros:
             spec.caveats.append(
                 f"{ind.nombre}: sin otra fuente del mismo concepto; comparado con un registro independiente "
                 f"de concepto distinto en {', '.join(d.id for d in otros)} "

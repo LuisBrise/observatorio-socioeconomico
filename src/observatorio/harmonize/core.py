@@ -40,7 +40,8 @@ STATUS_MAP: dict[str, dict[str, str]] = {
     "inegi_pm": {"": "A"},
     "wid": {"": "A", "I": "I"},  # I = imputado/extrapolado (data_quality <= 1)
     "cepal_pobreza": {"": "A", "B": "B"},
-    "inegi_homicidios": {"": "A", "P": "P"},  # P = cifra preliminar (nota del cuadro)
+    "inegi_homicidios": {"": "A", "P": "P"},
+    "inegi_poblacion": {"": "A"},  # P = cifra preliminar (nota del cuadro)
     "rnpdno": {"": "A", "P": "P"},  # P = año de la consulta y el anterior (registro incompleto)
     "sesnsp_victimas": {"": "A", "P": "P"},  # P = año con meses aún sin dato
 }
@@ -94,7 +95,11 @@ def harmonize(
     specs = {s.codigo: s for s in dataset.series}
 
     unexpected = set(staging["source_series"].unique()) - set(specs)
-    if unexpected:
+    if unexpected and dataset.solo_series_declaradas:
+        issues.append(HarmonizeIssue("series_no_usadas", "INFO",
+                                     "Series de la fuente no declaradas (se conservan en crudo)",
+                                     len(unexpected)))
+    elif unexpected:
         issues.append(HarmonizeIssue("series_inesperadas", "ERROR",
                                      f"Series no declaradas en el catálogo: {sorted(unexpected)}",
                                      len(unexpected)))

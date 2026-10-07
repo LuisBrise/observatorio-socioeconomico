@@ -49,6 +49,7 @@ def build(paths: Paths, catalog: Catalog) -> list[str]:
     built += _mujeres(paths, catalog, obs)
     built += _entidades(paths, catalog, obs)
     built += _mensual(paths, catalog, obs)
+    built += _tasas_entidades(paths, catalog, obs)
     return built
 
 
@@ -288,8 +289,8 @@ def _desaparecidas(paths: Paths, catalog: Catalog, obs: pl.DataFrame) -> list[st
         caveats=[
             f"Instantánea del registro consultada el {corte}; incluye todos los años de desaparición y los "
             "registros sin año.",
-            "Conteos, no tasas: las entidades más pobladas tienden a tener más registros. Las tasas por "
-            "habitante requieren la población por entidad de CONAPO (pendiente).",
+            "Conteos, no tasas: las entidades más pobladas tienden a tener más registros (ver la tasa por "
+            "100 mil habitantes en la gráfica siguiente).",
             "La cifra depende también de la capacidad y disposición de cada fiscalía y comisión de búsqueda "
             "para registrar y actualizar casos; las diferencias entre entidades no miden solo la incidencia.",
             f"Suma de entidades = total nacional ({total_ent:,} personas), incluida 'entidad no "
@@ -545,3 +546,106 @@ def _mensual(paths: Paths, catalog: Catalog, obs: pl.DataFrame) -> list[str]:
     spec.caveats = [c for c in spec.caveats if c]
     write_chart(paths, catalog, spec, {"serie": m}, extra={"rupturas": rupturas, "ultimo": ultimo})
     return [spec.chart_id]
+
+
+POB_CENSAL = "dem.poblacion.tamano.censal"
+POB_VIV = "dem.poblacion.tamano.viviendas_particulares"
+ANCLAS_DESDE = "2010"
+
+
+def _poblacion_entidades(obs: pl.DataFrame, desde: int, hasta: int) -> tuple[pl.DataFrame, list[str]]:
+    """Población anual estimada por entidad (ONU WPP nacional × participación censal interpolada)."""
+    anclas = (obs.filter(pl.col("series_id").is_in(["inegi_poblacion:Poblacion_01.total.total",
+                                                    "inegi_poblacion:Poblacion_08.total.total_valor"])
+                         & (pl.col("period") >= ANCLAS_DESDE)
+                         & (pl.col("geo_id").str.starts_with("MX-") | (pl.col("geo_id") == FOCO)))
+              .select("geo_id", "period", "value"))
+    nacional = obs.filter(pl.col("series_id") == "wb_wdi:SP.POP.TOTL").select(
+        "geo_id", "period", "period_start", "value")
+    pob = get_transform("poblacion_por_participacion@1")(nacional, anclas, geo_nacional=FOCO,
+                                                         desde=desde, hasta=hasta)
+    return pob, sorted(anclas["period"].unique().to_list())
+
+
+def _tasas_entidades(paths: Paths, catalog: Catalog, obs: pl.DataFrame) -> list[str]:
+    """4.10 · Tasas por entidad: homicidios (INEGI) y personas desaparecidas (RNPDNO), por 100 mil."""
+    if obs.filter(pl.col("series_id").str.starts_with("inegi_poblacion:")).is_empty():
+        return []  # población por entidad aún no fijada: la sección muestra un aviso
+    hom = obs.filter((pl.col("series_id") == "inegi_homicidios:Mortalidad_08.total")
+                     & pl.col("geo_id").str.starts_with("MX-") & (pl.col("obs_status") == "A"))
+    anio = hom["period"].max()
+    pob, anclas = _poblacion_entidades(obs, 2010, int(anio) + 1)
+    lineage = LineageStep("poblacion_por_participacion@1",
+                          {"nacional": "wb_wdi:SP.POP.TOTL", "anclas": anclas, "interpolacion": "lineal"},
+                          [POB, POB_CENSAL, POB_VIV]).to_dict()
+    nombre = pl.col("geo_id").map_elements(catalog.geo_name, return_dtype=pl.String).alias("nombre")
+    t = (hom.filter(pl.col("period") == anio).select("geo_id", pl.col("value").alias("homicidios"))
+         .join(pob.filter(pl.col("period") == anio).select("geo_id", pl.col("value").alias("poblacion")),
+               on="geo_id")
+         .with_columns((pl.col("homicidios") / pl.col("poblacion") * 1e5).alias("tasa"), nombre)
+         .sort("tasa"))
+    nac = (obs.filter((pl.col("series_id") == "inegi_homicidios:Mortalidad_08.total")
+                      & (pl.col("geo_id") == FOCO) & (pl.col("period") == anio))["value"][0]
+           / obs.filter((pl.col("series_id") == "wb_wdi:SP.POP.TOTL") & (pl.col("geo_id") == FOCO)
+                        & (pl.col("period") == anio))["value"][0] * 1e5)
+    comun = [
+        f"Población por entidad estimada por el observatorio: población nacional anual de la ONU (WPP) "
+        "repartida según la participación de cada entidad en los levantamientos de INEGI "
+        f"({', '.join(anclas)}), "
+        "interpolada entre ellos. No es la proyección oficial de CONAPO (su servidor rechaza descargas "
+        "automatizadas desde fuera del país) y aún no se ha comparado con ella.",
+        "Tasas con pocos casos (entidades pequeñas) varían mucho de un año a otro.",
+    ]
+    spec = ChartSpec(
+        chart_id="d4/tasas-homicidio-entidades",
+        question=f"¿Cuál fue la tasa de homicidio de cada entidad en {anio}?",
+        indicators=[HOM, POB, POB_CENSAL, POB_VIV],
+        caveats=[
+            f"Defunciones por homicidio registradas por INEGI en {anio} (último año definitivo), por entidad "
+            "de registro, por cada 100 mil habitantes.",
+            f"Tasa nacional en {anio}: {nac:.1f} por 100 mil (misma población de la ONU).",
+            *comun,
+        ],
+        transformations=[lineage, LineageStep("per_capita@1", {"escala": 100_000}, [HOM, POB]).to_dict()],
+        series_usadas=["inegi_homicidios:Mortalidad_08.total", "wb_wdi:SP.POP.TOTL",
+                       "inegi_poblacion:Poblacion_01.total.total",
+                       "inegi_poblacion:Poblacion_08.total.total_valor"],
+        groups={"entidades_federativas": t["geo_id"].to_list()},
+        periodos=[anio],
+    )
+    write_chart(paths, catalog, spec, {"entidades": t}, extra={"anio": anio, "nacional": nac})
+
+    # Personas desaparecidas (acervo) por 100 mil habitantes actuales.
+    acervo_ids = ["rnpdno:desaparecidas.total", "rnpdno:desaparecidas.sin_anio"]
+    rn = obs.filter(pl.col("series_id").is_in(acervo_ids)
+                    & pl.col("geo_id").str.starts_with("MX-") & (pl.col("geo_id") != "MX-ND"))
+    corte = rn["vintage_id"].max()
+    anio_c = corte[:4]
+    pob_c, _ = _poblacion_entidades(obs, 2010, int(anio_c))
+    anio_c = pob_c["period"].max()  # último año con población nacional disponible
+    d = (rn.group_by("geo_id").agg(pl.col("value").sum().alias("personas"))
+         .join(pob_c.filter(pl.col("period") == anio_c).select("geo_id", pl.col("value").alias("poblacion")),
+               on="geo_id")
+         .with_columns((pl.col("personas") / pl.col("poblacion") * 1e5).alias("tasa"), nombre)
+         .sort("tasa"))
+    spec2 = ChartSpec(
+        chart_id="d4/tasas-desaparecidas-entidades",
+        question="¿Cuántas personas siguen desaparecidas por cada 100 mil habitantes en cada entidad?",
+        indicators=["seg.desapariciones.registro.desaparecidas", POB, POB_CENSAL, POB_VIV],
+        caveats=[
+            f"Acervo: personas que siguen desaparecidas o no localizadas en la consulta del registro "
+            f"({corte[:10]}), de todos los años de desaparición, entre la población estimada de {anio_c}. "
+            "No es una tasa anual de desaparición.",
+            "Depende también de la capacidad y disposición de cada fiscalía y comisión de búsqueda para "
+            "registrar y actualizar casos; no mide solo la incidencia.",
+            "Excluye a las personas con entidad no especificada.",
+            *comun,
+        ],
+        transformations=[lineage],
+        series_usadas=["rnpdno:desaparecidas.total", "rnpdno:desaparecidas.sin_anio", "wb_wdi:SP.POP.TOTL",
+                       "inegi_poblacion:Poblacion_01.total.total",
+                       "inegi_poblacion:Poblacion_08.total.total_valor"],
+        groups={"entidades_federativas": d["geo_id"].to_list()},
+    )
+    write_chart(paths, catalog, spec2, {"entidades": d}, extra={"corte": corte[:10]})
+    return [spec.chart_id, spec2.chart_id]

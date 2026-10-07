@@ -48,6 +48,8 @@ jobs:
         run: uv run obs run cepal_pobreza | tee -a run.log
       - name: Descargar y validar INEGI (defunciones por homicidio)
         run: uv run obs run inegi_homicidios | tee -a run.log
+      - name: Descargar y validar INEGI (población por entidad, años censales)
+        run: uv run obs run inegi_poblacion | tee -a run.log
       - name: Descargar y validar RNPDNO (instantánea semanal del registro de personas desaparecidas)
         run: uv run obs run rnpdno | tee -a run.log
       - name: Descargar y validar SESNSP (víctimas del fuero común, corte mensual)

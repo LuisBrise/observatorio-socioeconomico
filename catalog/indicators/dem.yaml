@@ -68,3 +68,37 @@
     empleo y la productividad, que esta razón no mide.
   preguntas: [D1]
   fecha_alta: 2026-10-03
+
+- id: dem.poblacion.tamano.censal
+  nombre: Población total censal (INEGI)
+  concepto: dem.poblacion.tamano
+  definicion: Población residente contada en los censos y conteos de población de INEGI.
+  unidad: personas
+  facetas:
+    tipo_medicion: encuesta
+    cadena: contexto
+    ritmo: estructural
+    direccion_normativa: neutral
+    cobertura: [mexico]
+  series: [inegi_poblacion:Poblacion_01.total.total]
+  rangos_validos: {min: 1, max: 300000000}
+  atipicos: {z: 6.0, cambio_minimo: 0.5}
+  notas_interpretacion: Solo años censales (1990, 1995, 2000, 2005, 2010, 2020).
+  preguntas: [D4]
+  fecha_alta: 2026-10-07
+
+- id: dem.poblacion.tamano.viviendas_particulares
+  nombre: Población en viviendas particulares habitadas (INEGI, 2025)
+  concepto: dem.poblacion.tamano
+  definicion: Población residente en viviendas particulares habitadas (excluye viviendas colectivas).
+  unidad: personas
+  facetas:
+    tipo_medicion: encuesta
+    cadena: contexto
+    ritmo: estructural
+    direccion_normativa: neutral
+    cobertura: [mexico]
+  series: [inegi_poblacion:Poblacion_08.total.total_valor]
+  rangos_validos: {min: 1, max: 300000000}
+  preguntas: [D4]
+  fecha_alta: 2026-10-07

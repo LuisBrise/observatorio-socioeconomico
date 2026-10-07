@@ -20,6 +20,7 @@ from pathlib import Path
 import polars as pl
 
 _PRELIM = re.compile(r"[Ll]os datos de (\d{4}) son preliminares")
+_ANIO_TITULO = re.compile(r",\s*(\d{4})\s*$")
 
 
 def _slug(text: str) -> str:
@@ -53,8 +54,13 @@ def parse_inegi_tabulados(raw_dir: Path, dataset_id: str,
         stub = datos["stub"][0]["label"]
         heading = datos["heading"]
         codes = [h["code"] for h in heading]
+        periodo_fijo = None
         if "Periodo" not in codes:
-            raise ValueError(f"{stem}: el cuadro no tiene variable Periodo ({codes})")
+            # Cuadros de un solo año: el año viene al final del título ("…, 2025").
+            m = _ANIO_TITULO.search(info.get("description") or "")
+            if not m:
+                raise ValueError(f"{stem}: sin variable Periodo ni año en el título ({codes})")
+            periodo_fijo = m.group(1)
         # Combinaciones de encabezado en el orden de la matriz (la última variable varía más rápido).
         combos: list[dict[str, str]] = [{}]
         for h in heading:
@@ -68,7 +74,7 @@ def parse_inegi_tabulados(raw_dir: Path, dataset_id: str,
                 value = _value(datos["data"][i * ncol + j])
                 if value is None:
                     continue
-                periodo = combo["Periodo"]
+                periodo = combo.get("Periodo", periodo_fijo)
                 resto = [_slug(v) for k, v in combo.items() if k != "Periodo"]
                 rows.append({
                     "dataset_id": dataset_id, "vintage_id": vintage,

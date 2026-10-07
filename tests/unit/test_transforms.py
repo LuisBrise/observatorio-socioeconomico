@@ -46,3 +46,23 @@ def test_distribucion_grupo_nulls_when_coverage_low():
     assert r2000["mediana"] == 2.5 and r2000["cobertura_suficiente"]
     assert r2001["mediana"] is None and not r2001["cobertura_suficiente"]
     assert r2001["cobertura_poblacion"] == 0.25
+
+
+def test_poblacion_por_participacion():
+    import datetime as dt
+
+    import polars as pl
+
+    from observatorio.transform import get_transform
+
+    nac = pl.DataFrame({"geo_id": ["MEX"] * 3, "period": ["2010", "2015", "2030"],
+                        "period_start": [dt.date(2010, 1, 1), dt.date(2015, 1, 1), dt.date(2030, 1, 1)],
+                        "value": [100.0, 200.0, 300.0]})
+    anclas = pl.DataFrame({"geo_id": ["MEX", "A", "MEX", "A"], "period": ["2010", "2010", "2020", "2020"],
+                           "value": [10.0, 2.0, 10.0, 4.0]})
+    fn = get_transform("poblacion_por_participacion@1")
+    out = fn(nac, anclas, geo_nacional="MEX", desde=2010, hasta=2030)
+    v = dict(zip(out["period"], out["value"], strict=True))
+    assert v["2010"] == 20.0            # 20 % de 100
+    assert abs(v["2015"] - 60.0) < 1e-9  # 30 % (interpolado) de 200
+    assert abs(v["2030"] - 120.0) < 1e-9  # 40 % (constante tras la última ancla) de 300

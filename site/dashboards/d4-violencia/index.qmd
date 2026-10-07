@@ -27,6 +27,10 @@ reg = FileAttachment("../../data/d4/homicidios-regiones/data.json").json()
 regProv = FileAttachment("../../data/d4/homicidios-regiones/provenance.json").json()
 des = FileAttachment("../../data/d4/desaparecidas-anio/data.json").json()
 desProv = FileAttachment("../../data/d4/desaparecidas-anio/provenance.json").json()
+tasDes = FileAttachment("../../data/d4/tasas-desaparecidas-entidades/data.json").json().catch(() => null)
+tasDesProv = FileAttachment("../../data/d4/tasas-desaparecidas-entidades/provenance.json").json().catch(() => null)
+tasHom = FileAttachment("../../data/d4/tasas-homicidio-entidades/data.json").json().catch(() => null)
+tasHomProv = FileAttachment("../../data/d4/tasas-homicidio-entidades/provenance.json").json().catch(() => null)
 desEnt = FileAttachment("../../data/d4/desaparecidas-entidades/data.json").json()
 desEntProv = FileAttachment("../../data/d4/desaparecidas-entidades/provenance.json").json()
 fue = FileAttachment("../../data/d4/homicidios-fuentes/data.json").json()
@@ -124,6 +128,20 @@ html`<div class="obs-chart">
              { key: "tentativa_feminicidio", label: "Tentativa de feminicidio (desde 2026)", color: "ink2", dash: true }] })}
   ${charts.procedencia(menProv, { csv: [["datos (CSV)", "../../data/d4/sesnsp-mensual/serie.csv"]] })}
   ${charts.advertencias(menProv)}
+</div>`
+```
+
+### Tasa de homicidio por entidad
+
+```{ojs}
+//| echo: false
+tasHom === null ? html`<p class="obs-sub">Tasas por entidad: pendientes de la publicación de la población por entidad.</p>` : html`<div class="obs-chart">
+  <h3>Tasa de homicidio por entidad, ${tasHom.anio}</h3>
+  <p class="obs-sub">Defunciones por homicidio (INEGI) por cada 100 mil habitantes · nacional: ${tasHom.nacional.toFixed(1)}</p>
+  ${charts.puntosOrdenados(tasHom.entidades, { tokens, width, x: "tasa", unidad: "por 100 mil hab.",
+    detalle: (d) => `\n${d.homicidios.toLocaleString("es-MX")} defunciones` })}
+  ${charts.procedencia(tasHomProv, { csv: [["datos (CSV)", "../../data/d4/tasas-homicidio-entidades/entidades.csv"]] })}
+  ${charts.advertencias(tasHomProv)}
 </div>`
 ```
 
@@ -233,6 +251,18 @@ html`<div class="obs-chart">
   ${charts.puntosOrdenados(desEnt.entidades, { tokens, width, x: "personas", unidad: "personas" })}
   ${charts.procedencia(desEntProv, { csv: [["datos (CSV)", "../../data/d4/desaparecidas-entidades/entidades.csv"]] })}
   ${charts.advertencias(desEntProv)}
+</div>`
+```
+
+```{ojs}
+//| echo: false
+tasDes === null ? html`<p class="obs-sub">Tasas por entidad: pendientes de la publicación de la población por entidad.</p>` : html`<div class="obs-chart">
+  <h3>Personas que siguen desaparecidas por cada 100 mil habitantes, por entidad</h3>
+  <p class="obs-sub">Acervo del registro (consulta del ${tasDes.corte}) entre la población estimada de cada entidad</p>
+  ${charts.puntosOrdenados(tasDes.entidades, { tokens, width, x: "tasa", unidad: "por 100 mil hab.",
+    detalle: (d) => `\n${d.personas.toLocaleString("es-MX")} personas` })}
+  ${charts.procedencia(tasDesProv, { csv: [["datos (CSV)", "../../data/d4/tasas-desaparecidas-entidades/entidades.csv"]] })}
+  ${charts.advertencias(tasDesProv)}
 </div>`
 ```
 

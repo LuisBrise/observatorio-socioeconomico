@@ -42,3 +42,4 @@ sesnsp_victimas: *claves_inegi
 rnpdno:
   <<: *claves_inegi
   "33": MX-ND   # "SE DESCONOCE" en el catálogo de estados del RNPDNO
+inegi_poblacion: *claves_inegi

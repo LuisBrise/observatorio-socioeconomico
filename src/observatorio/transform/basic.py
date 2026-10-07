@@ -116,3 +116,40 @@ def suma(*partes: pl.DataFrame) -> pl.DataFrame:
                        on=["geo_id", "period"], how="inner")
     cols = [f"_v{i}" for i in range(len(partes))]
     return out.with_columns(pl.sum_horizontal(cols).alias("value")).select(VALUE_COLS)
+
+
+@transform("poblacion_por_participacion", 1)
+def poblacion_por_participacion(nacional: pl.DataFrame, anclas: pl.DataFrame, geo_nacional: str,
+                                desde: int, hasta: int) -> pl.DataFrame:
+    """Población anual por unidad subnacional = población nacional anual × participación de la unidad.
+
+    `anclas` trae poblaciones de las unidades y del total (`geo_nacional`) en años de censo o conteo.
+    La participación se calcula en cada año ancla con su propio total (misma fuente), se interpola
+    linealmente entre anclas y se mantiene constante fuera de ellas. Es una estimación: no captura
+    cambios de tendencia entre censos.
+    """
+    tot = anclas.filter(pl.col("geo_id") == geo_nacional).select("period", pl.col("value").alias("_tot"))
+    shares = (anclas.filter(pl.col("geo_id") != geo_nacional).join(tot, on="period")
+              .with_columns((pl.col("value") / pl.col("_tot")).alias("share"),
+                            pl.col("period").cast(pl.Int32).alias("anio")))
+    nac = (nacional.filter((pl.col("geo_id") == geo_nacional)
+                           & pl.col("period").str.contains(r"^\d{4}$"))
+           .with_columns(pl.col("period").cast(pl.Int32).alias("anio"))
+           .filter(pl.col("anio").is_between(desde, hasta))
+           .select("anio", "period", "period_start", pl.col("value").alias("_nac")))
+    rows = []
+    for geo in shares["geo_id"].unique().sort().to_list():
+        s = shares.filter(pl.col("geo_id") == geo).sort("anio")
+        xs, ys = s["anio"].to_list(), s["share"].to_list()
+        for anio, period, start, valor in nac.iter_rows():
+            if anio <= xs[0]:
+                share = ys[0]
+            elif anio >= xs[-1]:
+                share = ys[-1]
+            else:
+                i = next(k for k in range(len(xs) - 1) if xs[k] <= anio <= xs[k + 1])
+                w = (anio - xs[i]) / (xs[i + 1] - xs[i])
+                share = ys[i] * (1 - w) + ys[i + 1] * w
+            rows.append({"geo_id": geo, "period": period, "period_start": start, "value": valor * share})
+    return pl.DataFrame(rows, schema={"geo_id": pl.String, "period": pl.String,
+                                      "period_start": pl.Date, "value": pl.Float64})

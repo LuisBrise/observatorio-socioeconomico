@@ -141,6 +141,9 @@ class Dataset(_Base):
     # Para conectores de descarga de archivos: URLs de los archivos originales.
     archivos: list[str] = Field(default_factory=list)
     umbrales: dict[str, float] = Field(default_factory=dict)
+    # Tabulados con muchas combinaciones (edad × sexo…): usar solo las series declaradas; las
+    # demás quedan en el archivo crudo y se reportan como INFO (no como error).
+    solo_series_declaradas: bool = False
     fecha_alta: date
 
 

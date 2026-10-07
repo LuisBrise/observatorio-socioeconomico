@@ -1,0 +1,46 @@
+id: inegi_poblacion
+nombre: Población por entidad federativa (censos y conteo de INEGI)
+fuente: inegi
+conector: inegi_tabulados
+url: https://www.inegi.org.mx/temas/estructura/
+acceso:
+  metodo: api
+  endpoint: https://www.inegi.org.mx/app/tabulados/pxwebapi/api
+  credenciales: ninguna
+  formato: json
+licencia:
+  nombre: Términos de libre uso de la información del INEGI
+  url: https://www.inegi.org.mx/inegi/terminos.html
+  redistribucion: permitida_con_atribucion
+cobertura:
+  geografica: Nacional y 32 entidades federativas
+  temporal: Años censales 1990–2020 (Poblacion_01) y 2025 (población en viviendas particulares, Poblacion_08)
+  poblacion: Población residente
+frecuencia: quinquenal
+rezago_tipico_dias: 365
+calendario: Con cada censo o conteo de población.
+metodologia: https://www.inegi.org.mx/programas/ccpv/2020/
+revisiones: Las cifras censales no se revisan; 2025 proviene de un levantamiento distinto (viviendas particulares).
+limitaciones: >
+  Solo años censales: no hay población anual por entidad. El observatorio usa estas cifras para repartir
+  la población nacional anual (ONU WPP) entre entidades (participaciones interpoladas), como alternativa a
+  las proyecciones de CONAPO, cuyo servidor rechaza descargas automatizadas desde fuera del país. 2025
+  cuenta solo población en viviendas particulares (excluye viviendas colectivas, menos de 1 %).
+archivos:
+  - Poblacion/Poblacion_01
+  - Poblacion/Poblacion_08
+solo_series_declaradas: true
+series:
+  - codigo: Poblacion_01.total.total
+    indicador: dem.poblacion.tamano.censal
+    unidad: personas
+    origen: inegi_censos
+  - codigo: Poblacion_08.total.total_valor
+    indicador: dem.poblacion.tamano.viviendas_particulares
+    unidad: personas
+    origen: inegi_censos
+umbrales:
+  revision_advertencia_pct: 1.0
+  revision_advertencia_share: 0.1
+  caida_cobertura_pct: 0.0
+fecha_alta: 2026-10-07
