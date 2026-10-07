@@ -2,9 +2,9 @@
 # Lo actualiza `obs lock`; su historial en git es el historial de datos del observatorio.
 datasets:
   cepal_pobreza:
-    vintage: 2026-10-06T233608Z
-    content_sha256: 7b30631b0c6697eb4c5d067fe1feaf276af96e426bc91f543ef3ccdd468efcfc
-    retrieved_at: '2026-10-06T23:36:08Z'
+    vintage: 2026-10-07T051904Z
+    content_sha256: 199721d97da19c16aaa0ab5f1713c00b1f794cac1f49da4700fecf361375cf51
+    retrieved_at: '2026-10-07T05:19:04Z'
     source_declared_version: null
     validation_status: ok
   fmi_weo:
@@ -25,6 +25,12 @@ datasets:
     retrieved_at: '2026-10-06T23:35:06Z'
     source_declared_version: null
     validation_status: ok
+  inegi_poblacion:
+    vintage: 2026-10-07T051909Z
+    content_sha256: f5057e263d5d41cdee4857e04e6bee17b9dae40be914aa3d67b2ebaf9afc0a33
+    retrieved_at: '2026-10-07T05:19:09Z'
+    source_declared_version: null
+    validation_status: ok
   onu_wpp_prob:
     vintage: 2026-10-06T233728Z
     content_sha256: 3a55d9e2498f26040c8a50f35f7bc8dd1ad5f1f168906bbb0bc2f3a27a8a1196
@@ -32,15 +38,15 @@ datasets:
     source_declared_version: null
     validation_status: ok
   rnpdno:
-    vintage: 2026-10-06T233719Z
-    content_sha256: 1c9a6261414db5f6859408453c71199de7c770355cb5804ff5f21aed576e1e27
-    retrieved_at: '2026-10-06T23:37:19Z'
+    vintage: 2026-10-07T052011Z
+    content_sha256: 98235801c1872e3a0c5f10e124ed8c6585f0850ab382c7b4056de71505b206c7
+    retrieved_at: '2026-10-07T05:20:11Z'
     source_declared_version: null
     validation_status: ok
   sesnsp_victimas:
-    vintage: 2026-10-06T233723Z
-    content_sha256: 5bb8d92f5a7bb8de5c1a376a4eda200bfb0bfcbbb58a85a42dd970cf3879b69d
-    retrieved_at: '2026-10-06T23:37:23Z'
+    vintage: 2026-10-07T052014Z
+    content_sha256: e542505ce04fe75ca08557cbd77fd2da96b0e22f42939f6a3ecf15ff93c105bd
+    retrieved_at: '2026-10-07T05:20:14Z'
     source_declared_version: null
     validation_status: ok
   wb_pip:
