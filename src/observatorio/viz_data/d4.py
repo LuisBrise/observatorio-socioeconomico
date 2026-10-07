@@ -527,8 +527,10 @@ def _mensual(paths: Paths, catalog: Catalog, obs: pl.DataFrame) -> list[str]:
                     "seg.violencia_letal.homicidio.tentativa_mensual",
                     "seg.violencia_letal.feminicidio.tentativa_mensual"],
         caveats=[
-            f"Desde {', '.join(rupturas)} rige una nueva metodología del SESNSP (línea punteada): las cifras "
-            "antes y después no son estrictamente comparables.",
+            (f"Desde {', '.join(rupturas)} rige una nueva metodología del SESNSP (línea punteada): las "
+             "cifras antes y después no son estrictamente comparables.") if rupturas else
+            "Metodología de registro 2015–2025 del SESNSP (aún no se incorporan los meses de 2026).",
+            "" if despues is None else
             "La nueva metodología separa la tentativa de homicidio doloso y la de feminicidio como subtipos "
             f"propios. En el mismo cambio, 'otros delitos contra la vida' pasó de {antes:,.0f} víctimas "
             f"al mes en promedio en 2025 a {despues:,.0f} en 2026 (−{antes - despues:,.0f}), mientras las "
@@ -540,5 +542,6 @@ def _mensual(paths: Paths, catalog: Catalog, obs: pl.DataFrame) -> list[str]:
             "clasificación de cada fiscalía.",
         ],
     )
+    spec.caveats = [c for c in spec.caveats if c]
     write_chart(paths, catalog, spec, {"serie": m}, extra={"rupturas": rupturas, "ultimo": ultimo})
     return [spec.chart_id]

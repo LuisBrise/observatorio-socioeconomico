@@ -282,7 +282,7 @@ def _encuestas_vs_fiscales(paths: Paths, catalog: Catalog, obs: pl.DataFrame, al
     built = []
     enc = obs.filter((pl.col("series_id") == enc_sid) & (pl.col("geo_id") == FOCO))
     wid = obs.filter((pl.col("series_id") == wid_sid) & (pl.col("geo_id") == FOCO)
-                     & (pl.col("period").cast(pl.Int32) >= 1984))
+                     & (pl.col("period") >= "1984"))
     serie = pl.concat([
         _with_segments(enc.select("period", "value", "obs_status")).with_columns(
             pl.lit("encuesta").alias("fuente")),
@@ -316,7 +316,7 @@ def _encuestas_vs_fiscales(paths: Paths, catalog: Catalog, obs: pl.DataFrame, al
     filas = []
     for geo in alc:
         e = obs.filter((pl.col("series_id") == enc_sid) & (pl.col("geo_id") == geo)
-                       & (pl.col("period").cast(pl.Int32) >= 2015))
+                       & (pl.col("period") >= "2015"))
         w = obs.filter((pl.col("series_id") == wid_sid) & (pl.col("geo_id") == geo)
                        & (pl.col("obs_status") != "I"))
         j = e.select("period", pl.col("value").alias("enc")).join(
