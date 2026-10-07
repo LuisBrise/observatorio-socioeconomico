@@ -56,15 +56,29 @@ def test_parse_sesnsp(tmp_path):
     assert v[("homicidio_doloso.total", "2024")] == (24.0, "")
     assert v[("homicidio_doloso.mujer", "2024")] == (12.0, "")
     assert v[("feminicidio.total", "2024")] == (24.0, "")
-    assert v[("homicidio_doloso.total", "2025")] == (24.0, "P")  # meses vacíos → preliminar
+    assert ("homicidio_doloso.total", "2025") not in v  # año incompleto: sin serie anual
+    assert v[("mensual.homicidio_doloso", "2025M08")] == (3.0, "")  # pero sí mensual
+    assert ("mensual.homicidio_doloso", "2025M09") not in v  # mes sin reportar
     assert not any(s.startswith("robo") for s, _ in v)
+
+
+def test_meses_en_cero_no_reportados(tmp_path):
+    # Archivo del año en curso: los meses futuros vienen en cero, no vacíos.
+    meses = ["5", "4"] + ["0"] * 10
+    filas = [ENC, fila(2026, 1, "Homicidio doloso", "Hombre", meses),
+             fila(2026, 1, "Tentativa de homicidio doloso", "Hombre", ["1", "1"] + ["0"] * 10)]
+    (tmp_path / "sesnsp_1.zip").write_bytes(zip_csv("\n".join(filas), "utf-8"))
+    obs, _ = parse_sesnsp(tmp_path, "d", "v1")
+    assert set(obs["source_period"]) == {"2026M01", "2026M02"}
+    assert "mensual.tentativa_homicidio_doloso" in set(obs["source_series"])
 
 
 def test_parse_sesnsp_utf8_con_bom(tmp_path):
     text = "\ufeff" + "\n".join([ENC, fila(2024, 1, "Feminicidio", "Mujer", ["1"] * 12)])
     (tmp_path / "sesnsp_0.zip").write_bytes(zip_csv(text, "utf-8"))
     obs, _ = parse_sesnsp(tmp_path, "d", "v1")
-    assert obs.filter(obs["source_geo"] == "00")["value"].to_list() == [12.0]
+    nac = obs.filter((obs["source_geo"] == "00") & (obs["source_series"] == "feminicidio.total"))
+    assert nac["value"].to_list() == [12.0]
 
 
 def test_conector_descarga_con_cookie_de_invitado():

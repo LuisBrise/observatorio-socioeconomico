@@ -1,5 +1,5 @@
 id: sesnsp_victimas
-nombre: Víctimas de delitos del fuero común (incidencia delictiva estatal, metodología 2015–2025)
+nombre: Víctimas de delitos del fuero común (incidencia delictiva estatal)
 fuente: sesnsp
 conector: sesnsp
 url: https://www.gob.mx/sesnsp/acciones-y-programas/datos-abiertos-de-incidencia-delictiva
@@ -14,7 +14,7 @@ licencia:
   redistribucion: permitida_con_atribucion
 cobertura:
   geografica: Nacional y 32 entidades (entidad de la fiscalía)
-  temporal: 2015–2025, mensual
+  temporal: 2015 en adelante, mensual (metodología 2015–2025 y metodología vigente desde 2026)
   poblacion: Víctimas registradas en carpetas de investigación del fuero común
 frecuencia: mensual (se agrega a anual)
 rezago_tipico_dias: 20
@@ -25,9 +25,28 @@ limitaciones: >
   Cuenta víctimas en carpetas de investigación por fecha de inicio de la carpeta, no defunciones: depende de
   la denuncia o del inicio de oficio, y de cómo cada fiscalía clasifica el delito (homicidio doloso,
   feminicidio, otros delitos contra la vida). Los criterios de clasificación varían entre entidades y en
-  el tiempo. Desde 2026 rige otra metodología (archivo distinto, no incluido en esta serie).
+  el tiempo. Desde 2026 rige otra metodología: separa las tentativas de homicidio doloso y de
+  feminicidio como subtipos propios y cambia rangos de edad; las series mensuales marcan la ruptura en
+  enero de 2026. Las series anuales solo incluyen años con los 12 meses reportados.
 archivos:
   - '^2015 ?- ?20\d\d \(Fuero Común - Víctimas\)\. Incidencia delictiva estatal$'
+  - '^Enero - \w+ 20\d\d \(Fuero común - Víctimas\)\. Incidencia delictiva estatal$'   # año en curso
+rupturas_conocidas:
+  - serie: sesnsp_victimas:mensual.homicidio_doloso
+    fecha: "2026-01"
+    geo: MEX
+    descripcion: Nueva metodología de registro y clasificación de delitos y víctimas (2026).
+    evidencia: https://www.gob.mx/sesnsp/articulos/nueva-metodologia-para-el-registro-y-clasificacion-de-los-delitos-y-las-victimas-para-fines-estadisticos
+  - serie: sesnsp_victimas:mensual.feminicidio
+    fecha: "2026-01"
+    geo: MEX
+    descripcion: Nueva metodología de registro y clasificación de delitos y víctimas (2026).
+    evidencia: https://www.gob.mx/sesnsp/articulos/nueva-metodologia-para-el-registro-y-clasificacion-de-los-delitos-y-las-victimas-para-fines-estadisticos
+  - serie: sesnsp_victimas:mensual.otros_contra_la_vida
+    fecha: "2026-01"
+    geo: MEX
+    descripcion: Nueva metodología de registro y clasificación de delitos y víctimas (2026).
+    evidencia: https://www.gob.mx/sesnsp/articulos/nueva-metodologia-para-el-registro-y-clasificacion-de-los-delitos-y-las-victimas-para-fines-estadisticos
 series:
   - codigo: homicidio_doloso.total
     indicador: seg.violencia_letal.homicidio.victimas_doloso
@@ -51,6 +70,26 @@ series:
     origen: sesnsp_fiscalias
   - codigo: otros_contra_la_vida.total
     indicador: seg.violencia_letal.otros_contra_vida.victimas
+    unidad: víctimas
+    origen: sesnsp_fiscalias
+  - codigo: mensual.homicidio_doloso
+    indicador: seg.violencia_letal.homicidio.victimas_doloso_mensual
+    unidad: víctimas
+    origen: sesnsp_fiscalias
+  - codigo: mensual.feminicidio
+    indicador: seg.violencia_letal.feminicidio.victimas_mensual
+    unidad: víctimas
+    origen: sesnsp_fiscalias
+  - codigo: mensual.otros_contra_la_vida
+    indicador: seg.violencia_letal.otros_contra_vida.victimas_mensual
+    unidad: víctimas
+    origen: sesnsp_fiscalias
+  - codigo: mensual.tentativa_homicidio_doloso
+    indicador: seg.violencia_letal.homicidio.tentativa_mensual
+    unidad: víctimas
+    origen: sesnsp_fiscalias
+  - codigo: mensual.tentativa_feminicidio
+    indicador: seg.violencia_letal.feminicidio.tentativa_mensual
     unidad: víctimas
     origen: sesnsp_fiscalias
 umbrales:

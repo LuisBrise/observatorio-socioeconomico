@@ -38,9 +38,9 @@ datasets:
     source_declared_version: null
     validation_status: ok
   sesnsp_victimas:
-    vintage: 2026-10-06T233723Z
-    content_sha256: 5bb8d92f5a7bb8de5c1a376a4eda200bfb0bfcbbb58a85a42dd970cf3879b69d
-    retrieved_at: '2026-10-06T23:37:23Z'
+    vintage: 2026-10-07T000045Z
+    content_sha256: 5b0930b5e93770ec3aaf59471007b09f927bc8545f1b47db0c1623716f045b9f
+    retrieved_at: '2026-10-07T00:00:45Z'
     source_declared_version: null
     validation_status: ok
   wb_pip:

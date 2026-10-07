@@ -95,3 +95,83 @@
     Víctimas en carpetas de investigación (fiscalías), no defunciones: depende de la denuncia y de la clasificación de cada fiscalía. Se vigila porque un aumento puede reflejar reclasificación de muertes que antes se registraban como homicidio doloso.
   preguntas: [D4]
   fecha_alta: 2026-10-06
+
+- id: seg.violencia_letal.homicidio.victimas_doloso_mensual
+  nombre: "Víctimas de homicidio doloso, mensual (SESNSP)"
+  concepto: seg.violencia_letal.homicidio
+  definicion: >
+    Víctimas de homicidio doloso en carpetas de investigación del fuero común, por mes.
+  unidad: víctimas por mes
+  facetas: {tipo_medicion: administrativo, cadena: resultado, ritmo: coyuntural,
+            direccion_normativa: menos_es_mejor, cobertura: [mexico]}
+  series: [sesnsp_victimas:mensual.homicidio_doloso]
+  rangos_validos: {min: 0, max: 100000}
+  atipicos: {z: 6.0, cambio_minimo: 0.3, piso: 50}
+  notas_interpretacion: >
+    Víctimas en carpetas de investigación iniciadas en el mes. Ruptura metodológica en enero de 2026.
+  preguntas: [D4]
+  fecha_alta: 2026-10-07
+
+- id: seg.violencia_letal.feminicidio.victimas_mensual
+  nombre: "Víctimas de feminicidio, mensual (SESNSP)"
+  concepto: seg.violencia_letal.feminicidio
+  definicion: >
+    Víctimas del delito de feminicidio en carpetas de investigación del fuero común, por mes.
+  unidad: víctimas por mes
+  facetas: {tipo_medicion: administrativo, cadena: resultado, ritmo: coyuntural,
+            direccion_normativa: menos_es_mejor, cobertura: [mexico]}
+  series: [sesnsp_victimas:mensual.feminicidio]
+  rangos_validos: {min: 0, max: 100000}
+  atipicos: {z: 6.0, cambio_minimo: 0.3, piso: 50}
+  notas_interpretacion: >
+    Víctimas en carpetas de investigación iniciadas en el mes. Ruptura metodológica en enero de 2026.
+  preguntas: [D4]
+  fecha_alta: 2026-10-07
+
+- id: seg.violencia_letal.otros_contra_vida.victimas_mensual
+  nombre: "Víctimas de otros delitos contra la vida, mensual (SESNSP)"
+  concepto: seg.violencia_letal.otros_contra_vida
+  definicion: >
+    Víctimas de 'otros delitos que atentan contra la vida y la integridad corporal', por mes.
+  unidad: víctimas por mes
+  facetas: {tipo_medicion: administrativo, cadena: resultado, ritmo: coyuntural,
+            direccion_normativa: neutral, cobertura: [mexico]}
+  series: [sesnsp_victimas:mensual.otros_contra_la_vida]
+  rangos_validos: {min: 0, max: 100000}
+  atipicos: {z: 6.0, cambio_minimo: 0.3, piso: 50}
+  notas_interpretacion: >
+    Víctimas en carpetas de investigación iniciadas en el mes. Ruptura metodológica en enero de 2026.
+  preguntas: [D4]
+  fecha_alta: 2026-10-07
+
+- id: seg.violencia_letal.homicidio.tentativa_mensual
+  nombre: "Víctimas de tentativa de homicidio doloso, mensual (SESNSP)"
+  concepto: seg.violencia_letal.homicidio
+  definicion: >
+    Víctimas de tentativa de homicidio doloso, subtipo separado desde la metodología 2026.
+  unidad: víctimas por mes
+  facetas: {tipo_medicion: administrativo, cadena: resultado, ritmo: coyuntural,
+            direccion_normativa: menos_es_mejor, cobertura: [mexico]}
+  series: [sesnsp_victimas:mensual.tentativa_homicidio_doloso]
+  rangos_validos: {min: 0, max: 100000}
+  atipicos: {z: 6.0, cambio_minimo: 0.3, piso: 50}
+  notas_interpretacion: >
+    Víctimas en carpetas de investigación iniciadas en el mes. Ruptura metodológica en enero de 2026.
+  preguntas: [D4]
+  fecha_alta: 2026-10-07
+
+- id: seg.violencia_letal.feminicidio.tentativa_mensual
+  nombre: "Víctimas de tentativa de feminicidio, mensual (SESNSP)"
+  concepto: seg.violencia_letal.feminicidio
+  definicion: >
+    Víctimas de tentativa de feminicidio, subtipo separado desde la metodología 2026.
+  unidad: víctimas por mes
+  facetas: {tipo_medicion: administrativo, cadena: resultado, ritmo: coyuntural,
+            direccion_normativa: menos_es_mejor, cobertura: [mexico]}
+  series: [sesnsp_victimas:mensual.tentativa_feminicidio]
+  rangos_validos: {min: 0, max: 100000}
+  atipicos: {z: 6.0, cambio_minimo: 0.3, piso: 50}
+  notas_interpretacion: >
+    Víctimas en carpetas de investigación iniciadas en el mes. Ruptura metodológica en enero de 2026.
+  preguntas: [D4]
+  fecha_alta: 2026-10-07

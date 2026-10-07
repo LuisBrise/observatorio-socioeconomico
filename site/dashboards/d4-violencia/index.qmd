@@ -35,6 +35,8 @@ cv = FileAttachment("../../data/d4/sesnsp-contra-la-vida/data.json").json()
 cvProv = FileAttachment("../../data/d4/sesnsp-contra-la-vida/provenance.json").json()
 muj = FileAttachment("../../data/d4/mujeres/data.json").json()
 mujProv = FileAttachment("../../data/d4/mujeres/provenance.json").json()
+men = FileAttachment("../../data/d4/sesnsp-mensual/data.json").json()
+menProv = FileAttachment("../../data/d4/sesnsp-mensual/provenance.json").json()
 ent = FileAttachment("../../data/d4/entidades-brecha/data.json").json()
 entProv = FileAttachment("../../data/d4/entidades-brecha/provenance.json").json()
 ```
@@ -104,6 +106,24 @@ html`<div class="obs-chart">
              { key: "feminicidio", label: "Feminicidio", corto: "Feminicidio", color: "ink2" }] })}
   ${charts.procedencia(cvProv, { csv: [["datos (CSV)", "../../data/d4/sesnsp-contra-la-vida/serie.csv"]] })}
   ${charts.advertencias(cvProv)}
+</div>`
+```
+
+### Mes a mes, y el cambio de metodología de 2026
+
+```{ojs}
+//| echo: false
+html`<div class="obs-chart">
+  <h3>Víctimas por mes en carpetas de investigación</h3>
+  <p class="obs-sub">Víctimas · SESNSP · fuero común · nacional · hasta ${men.ultimo}</p>
+  ${charts.serieMensual(men, { tokens, width, unidad: "víctimas",
+    series: [{ key: "doloso", label: "Homicidio doloso", color: "focus" },
+             { key: "otros", label: "Otros delitos contra la vida", color: "compare" },
+             { key: "tentativa_homicidio", label: "Tentativa de homicidio doloso (desde 2026)", color: "compare", dash: true },
+             { key: "feminicidio", label: "Feminicidio", color: "ink2" },
+             { key: "tentativa_feminicidio", label: "Tentativa de feminicidio (desde 2026)", color: "ink2", dash: true }] })}
+  ${charts.procedencia(menProv, { csv: [["datos (CSV)", "../../data/d4/sesnsp-mensual/serie.csv"]] })}
+  ${charts.advertencias(menProv)}
 </div>`
 ```
 

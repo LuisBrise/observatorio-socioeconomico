@@ -702,9 +702,48 @@ export function createCharts({ Plot, document: doc = globalThis.document }) {
     return fig;
   }
 
+  // Series mensuales con rupturas metodológicas marcadas (línea vertical punteada). Las series
+  // se cortan en la ruptura (no se une el último mes anterior con el primero posterior).
+  function serieMensual(data, { tokens: t = DEFAULT_TOKENS, width = 720, unidad = "", series = [] } = {}) {
+    const color = Object.fromEntries(series.map((s) => [s.key, t[s.color] ?? s.color]));
+    const label = Object.fromEntries(series.map((s) => [s.key, s.label]));
+    const dash = Object.fromEntries(series.map((s) => [s.key, s.dash ? "4,3" : null]));
+    const fecha = (p) => new Date(`${p}-01T00:00:00`);
+    const rupt = (data.rupturas ?? []).map((p) => ({ x: fecha(p) }));
+    const corte = (p) => (data.rupturas ?? []).filter((r) => p >= r).length;
+    const rows = data.serie.filter((d) => label[d.serie])
+      .map((d) => ({ ...d, x: fecha(d.period), tramo: `${d.serie}-${corte(d.period)}` }));
+    const fig = Plot.plot({
+      document: doc, width, height: Math.round(Math.min(400, Math.max(280, width * 0.5))),
+      marginLeft: 56, marginRight: 20, marginTop: 30, style: baseStyle(t),
+      x: { label: null, type: "utc", ticks: Math.max(4, Math.floor(width / 110)) },
+      y: { label: unidad, labelAnchor: "top", nice: true, domain: [0, Math.max(...rows.map((d) => d.value)) * 1.08],
+        tickFormat: (v) => fmtNum.format(v) },
+      marks: [
+        Plot.gridY({ stroke: t.grid, strokeOpacity: 1 }),
+        Plot.ruleY([0], { stroke: t.axis }),
+        Plot.ruleX(rupt, { x: "x", stroke: t.axis, strokeDasharray: "3,3" }),
+        Plot.text(rupt, { x: "x", frameAnchor: "top", dy: -16, textAnchor: "end", dx: -4, fill: t.muted,
+          fontSize: 10, text: () => "Nueva metodología →" }),
+        ...series.map((s) => Plot.lineY(rows.filter((d) => d.serie === s.key), { x: "x", y: "value", z: "tramo",
+          stroke: color[s.key], strokeWidth: s.dash ? 1.5 : 2, strokeDasharray: dash[s.key] })),
+        Plot.tip(rows, Plot.pointer({ x: "x", y: "value", fill: t.surface, stroke: t.axis,
+          title: (d) => `${label[d.serie]} · ${d.period}\n${fmtNum.format(d.value)} ${unidad}` })),
+      ],
+    });
+    fig.setAttribute("role", "img");
+    fig.setAttribute("aria-label", series.map((s) => s.label).join(", ") + `: serie mensual (${unidad}).`);
+    return el("div", {}, [
+      el("div", { class: "obs-legend" }, series.map((s) => el("span", {}, [
+        el("i", { class: "obs-key-line", style: `border-color:${color[s.key]}${s.dash ? ";border-top-style:dashed" : ""}` }),
+        s.label]))),
+      fig,
+    ]);
+  }
+
   return { legend, serieDistribucion, multiplesReferencia, abanico, lineasTramos, pesas,
     panelesDefiniciones, dosFuentes, seriePreliminar, barrasEstatus, lineasSeries, puntosOrdenados, dispersion,
-    procedencia, advertencias };
+    serieMensual, procedencia, advertencias };
 }
 
 function d3group(rows, key) {

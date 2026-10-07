@@ -48,6 +48,7 @@ def build(paths: Paths, catalog: Catalog) -> list[str]:
     built += _fuentes_homicidio(paths, catalog, obs)
     built += _mujeres(paths, catalog, obs)
     built += _entidades(paths, catalog, obs)
+    built += _mensual(paths, catalog, obs)
     return built
 
 
@@ -491,4 +492,53 @@ def _entidades(paths: Paths, catalog: Catalog, obs: pl.DataFrame) -> list[str]:
     spec.caveats = [c for c in spec.caveats if c]
     write_chart(paths, catalog, spec, {"entidades": t},
                 extra={"periodo": periodo, "spearman": r, "ic95": [lo, hi]})
+    return [spec.chart_id]
+
+
+MENSUALES = {
+    "sesnsp_victimas:mensual.homicidio_doloso": "doloso",
+    "sesnsp_victimas:mensual.otros_contra_la_vida": "otros",
+    "sesnsp_victimas:mensual.feminicidio": "feminicidio",
+    "sesnsp_victimas:mensual.tentativa_homicidio_doloso": "tentativa_homicidio",
+    "sesnsp_victimas:mensual.tentativa_feminicidio": "tentativa_feminicidio",
+}
+
+
+def _mensual(paths: Paths, catalog: Catalog, obs: pl.DataFrame) -> list[str]:
+    """4.9 · Víctimas por mes en carpetas de investigación, con la ruptura metodológica de 2026."""
+    m = (obs.filter(pl.col("series_id").is_in(list(MENSUALES)) & (pl.col("geo_id") == FOCO))
+         .with_columns(pl.col("series_id").replace_strict(MENSUALES).alias("serie"))
+         .select("period", "serie", "value", "obs_status").sort("serie", "period"))
+    rupturas = sorted(m.filter(pl.col("obs_status") == "B")["period"].unique().to_list())
+    ultimo = m["period"].max()
+    otros = m.filter(pl.col("serie") == "otros")
+    antes = otros.filter(pl.col("period").str.starts_with("2025"))["value"].mean()
+    despues = otros.filter(pl.col("period") >= "2026-01")["value"].mean()
+    meses_nuevos = m.filter(pl.col("period") >= "2026-01")["period"].n_unique()
+    tentativas = (m.filter(pl.col("serie").str.starts_with("tentativa"))["value"].sum()
+                  / max(meses_nuevos, 1))
+    spec = ChartSpec(
+        chart_id="d4/sesnsp-mensual",
+        question=("¿Cómo han cambiado mes a mes las víctimas de delitos contra la vida en las carpetas de "
+                  "investigación?"),
+        indicators=["seg.violencia_letal.homicidio.victimas_doloso_mensual",
+                    "seg.violencia_letal.otros_contra_vida.victimas_mensual",
+                    "seg.violencia_letal.feminicidio.victimas_mensual",
+                    "seg.violencia_letal.homicidio.tentativa_mensual",
+                    "seg.violencia_letal.feminicidio.tentativa_mensual"],
+        caveats=[
+            f"Desde {', '.join(rupturas)} rige una nueva metodología del SESNSP (línea punteada): las cifras "
+            "antes y después no son estrictamente comparables.",
+            "La nueva metodología separa la tentativa de homicidio doloso y la de feminicidio como subtipos "
+            f"propios. En el mismo cambio, 'otros delitos contra la vida' pasó de {antes:,.0f} víctimas "
+            f"al mes en promedio en 2025 a {despues:,.0f} en 2026 (−{antes - despues:,.0f}), mientras las "
+            f"tentativas registradas aparte suman {tentativas:,.0f} al mes: las tentativas pueden explicar "
+            "una parte de la caída, pero no toda. Con datos agregados no se puede saber cómo se "
+            "reasignó el resto.",
+            f"Último mes: {ultimo}. Las fiscalías corrigen meses recientes en cortes posteriores.",
+            "Víctimas en carpetas de investigación iniciadas en el mes: dependen de la denuncia y de la "
+            "clasificación de cada fiscalía.",
+        ],
+    )
+    write_chart(paths, catalog, spec, {"serie": m}, extra={"rupturas": rupturas, "ultimo": ultimo})
     return [spec.chart_id]

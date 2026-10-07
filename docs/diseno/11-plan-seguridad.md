@@ -46,7 +46,9 @@ desapariciones** (México, con comparación con ALC y otras regiones del mundo).
    subnacionales en el catálogo).
 2. ✅ Homicidios: SESNSP (víctimas 2015–2025, metodología 2015–2025) y discrepancia INEGI–SESNSP
    (DIS-003, abierta). Se vigila "otros delitos contra la vida" (3,692 → 17,110 víctimas, 2015–2025).
-   Pendiente: serie 2026 con la nueva metodología del SESNSP, como tramo distinto (ruptura).
+   ✅ Serie 2026 con la nueva metodología del SESNSP: series mensuales nacionales con ruptura en
+   2026-01; la metodología nueva separa las tentativas de homicidio doloso y de feminicidio. Las series
+   anuales solo usan años completos.
 3. ✅ Feminicidios y homicidios de mujeres (INEGI vs SESNSP, proporción registrada como feminicidio).
 3b. ✅ Entidades federativas (INEGI y SESNSP, conteos): diferencia entre registros por entidad y su
    asociación con "otros delitos contra la vida" (Spearman 0.32, IC 95 % −0.03 a 0.60: no concluyente).
