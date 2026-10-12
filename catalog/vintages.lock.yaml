@@ -2,9 +2,9 @@
 # Lo actualiza `obs lock`; su historial en git es el historial de datos del observatorio.
 datasets:
   cepal_pobreza:
-    vintage: 2026-10-06T233608Z
-    content_sha256: 7b30631b0c6697eb4c5d067fe1feaf276af96e426bc91f543ef3ccdd468efcfc
-    retrieved_at: '2026-10-06T23:36:08Z'
+    vintage: 2026-10-12T190710Z
+    content_sha256: be7955cd70d7b31c6afe0e5d1b7b1511de396b3e368b718efb267d0d0ce0522b
+    retrieved_at: '2026-10-12T19:07:10Z'
     source_declared_version: null
     validation_status: ok
   fmi_weo:
@@ -25,6 +25,12 @@ datasets:
     retrieved_at: '2026-10-06T23:35:06Z'
     source_declared_version: null
     validation_status: ok
+  inegi_poblacion:
+    vintage: 2026-10-07T051909Z
+    content_sha256: f5057e263d5d41cdee4857e04e6bee17b9dae40be914aa3d67b2ebaf9afc0a33
+    retrieved_at: '2026-10-07T05:19:09Z'
+    source_declared_version: null
+    validation_status: ok
   onu_wpp_prob:
     vintage: 2026-10-06T233728Z
     content_sha256: 3a55d9e2498f26040c8a50f35f7bc8dd1ad5f1f168906bbb0bc2f3a27a8a1196
@@ -32,15 +38,15 @@ datasets:
     source_declared_version: null
     validation_status: ok
   rnpdno:
-    vintage: 2026-10-06T233719Z
-    content_sha256: 1c9a6261414db5f6859408453c71199de7c770355cb5804ff5f21aed576e1e27
-    retrieved_at: '2026-10-06T23:37:19Z'
+    vintage: 2026-10-12T190812Z
+    content_sha256: 02e50335ea9c6098c1be6b840b5a7bae0ec05f51cd6c201a1352b0ffad1ccf10
+    retrieved_at: '2026-10-12T19:08:12Z'
     source_declared_version: null
     validation_status: ok
   sesnsp_victimas:
-    vintage: 2026-10-06T233723Z
-    content_sha256: 5bb8d92f5a7bb8de5c1a376a4eda200bfb0bfcbbb58a85a42dd970cf3879b69d
-    retrieved_at: '2026-10-06T23:37:23Z'
+    vintage: 2026-10-12T190817Z
+    content_sha256: 4ddf3eb60a0a92cdec4a5179a5a9ee41c8bd1ca09b505f1000742934035c2ccb
+    retrieved_at: '2026-10-12T19:08:17Z'
     source_declared_version: null
     validation_status: ok
   wb_pip:
@@ -50,10 +56,10 @@ datasets:
     source_declared_version: null
     validation_status: ok
   wb_wdi:
-    vintage: 2026-10-06T233502Z
-    content_sha256: efd80c0e78b579601afeb1d62aba6a510fbc85fa90922143962e42463777fde6
-    retrieved_at: '2026-10-06T23:35:02Z'
-    source_declared_version: '2026-07-13'
+    vintage: 2026-10-12T190704Z
+    content_sha256: b76e3064eccccc14ecbb387840681ccc4cc97755ef8886162b810cd8692b5006
+    retrieved_at: '2026-10-12T19:07:04Z'
+    source_declared_version: '2026-10-08'
     validation_status: ok
   wid:
     vintage: 2026-10-06T233603Z
