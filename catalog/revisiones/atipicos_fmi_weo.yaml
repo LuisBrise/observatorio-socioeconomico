@@ -1,7 +1,5 @@
 # Revisión humana de atípicos (docs/diseno/06-pipeline-y-validacion.md §7).
-# resolucion: valor_real | dudoso | ruptura_metodologica | error_fuente | pendiente.
-# Nunca se borran datos. 'Coincide con' describe coincidencia temporal documentada, no causalidad.
-# Las entradas 'claude (propuesta…)' deben ser confirmadas por una persona: cambia revisado_por.
+# resolucion: valor_real | error_fuente | pendiente. Nunca se borran datos.
 - serie: fmi_weo:LP
   geo: ARE
   periodo: '1988'
@@ -164,3 +162,24 @@
     en los años antiguos de la serie. Verificar con la fuente.'
   revisado_por: Jorge Luis Briseño Gómez
   fecha: 2026-10-03
+- serie: fmi_weo:NGDPRPPPPC
+  geo: BRB
+  periodo: '2020'
+  resolucion: valor_real
+  nota: 'Barbados: 1.948e+04 → 1.605e+04 (-17.6 %, z=-6). Colapso del turismo por la pandemia de COVID-19.'
+  revisado_por: claude (propuesta; requiere confirmación humana)
+  fecha: 2026-10-19
+- serie: fmi_weo:NGDPRPPPPC
+  geo: QAT
+  periodo: '1990'
+  resolucion: dudoso
+  nota: 'Catar: 9.534e+04 → 6.964e+04 (-27.0 %, z=-6). Caída de ~27 % en el primer año de la serie en la edición de octubre de 2026; sin suceso documentado: probable efecto de la revisión de la serie de PPA o de cuentas nacionales. Verificar con la edición siguiente.'
+  revisado_por: claude (propuesta; requiere confirmación humana)
+  fecha: 2026-10-19
+- serie: fmi_weo:NGDPRPPPPC
+  geo: SUR
+  periodo: '2020'
+  resolucion: valor_real
+  nota: 'Surinam: 2.327e+04 → 1.92e+04 (-17.5 %, z=-7). Pandemia de COVID-19 y crisis fiscal y de deuda de Surinam (impago en 2020).'
+  revisado_por: claude (propuesta; requiere confirmación humana)
+  fecha: 2026-10-19

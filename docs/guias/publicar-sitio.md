@@ -24,6 +24,11 @@ En GitHub, dentro del repositorio:
    «Actualizar datos» descarga y archiva todo, pero falla al final con «GitHub Actions is not
    permitted to create or approve pull requests» (los datos quedan en la rama `datos/actualizacion`).
 
+3. **Settings → Secrets and variables → Actions → New repository secret:** crea `INEGI_TOKEN` y
+   `BANXICO_TOKEN` con los valores de tus tokens (los mismos de tu `.env`). Sin ellos, las series que
+   requieren token (INEGI BIE, Banxico) no se actualizan en GitHub. GitHub oculta su valor en los registros
+   y el observatorio nunca los guarda en el archivo de datos.
+
 ## Primera publicación (arranque)
 
 Los vintages fijados en el lockfile se descargaron en una sesión de trabajo y aún no están en el
