@@ -41,7 +41,8 @@ STATUS_MAP: dict[str, dict[str, str]] = {
     "wid": {"": "A", "I": "I"},  # I = imputado/extrapolado (data_quality <= 1)
     "cepal_pobreza": {"": "A", "B": "B"},
     "inegi_homicidios": {"": "A", "P": "P"},
-    "inegi_poblacion": {"": "A"},  # P = cifra preliminar (nota del cuadro)
+    "inegi_poblacion": {"": "A"},
+    "inegi_bie_coyuntura": {"": "A"},  # P = cifra preliminar (nota del cuadro)
     "rnpdno": {"": "A", "P": "P"},  # P = año de la consulta y el anterior (registro incompleto)
     "sesnsp_victimas": {"": "A", "P": "P"},  # P = año con meses aún sin dato
 }
@@ -77,7 +78,9 @@ def _period_frame(periods: pl.Series) -> pl.DataFrame:
         else:
             rows.append((p, None, None, None, None))
     df = pl.DataFrame(
-        rows, schema=["source_period", "period", "period_start", "period_end", "freq"], orient="row"
+        rows, schema=dict.fromkeys(["source_period", "period", "period_start", "period_end", "freq"],
+                                   pl.String),
+        orient="row",
     ).with_columns(pl.col("period_start").str.to_date(), pl.col("period_end").str.to_date())
     # Fin de mes para periodos mensuales.
     return df.with_columns(

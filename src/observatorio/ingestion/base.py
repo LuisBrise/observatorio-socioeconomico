@@ -11,6 +11,8 @@ from __future__ import annotations
 
 import hashlib
 import json
+import os
+import shutil
 import subprocess
 from dataclasses import dataclass, field
 from datetime import UTC, datetime
@@ -21,6 +23,13 @@ from observatorio import __version__
 from observatorio.catalog.models import Dataset
 
 MANIFEST = "_manifest.json"
+
+# Variables de entorno con credenciales: su valor nunca debe aparecer en archivos que se publican.
+SECRET_ENV = ("INEGI_TOKEN", "BANXICO_TOKEN")
+
+
+def secret_values() -> list[str]:
+    return [v for k in SECRET_ENV if len(v := os.environ.get(k, "")) >= 8]
 
 
 @dataclass
@@ -149,8 +158,11 @@ class RawStore:
                           "git_sha": _git_sha(self.repo_root)},
             "previous_vintage": previous,
         }
-        (tmp / MANIFEST).write_text(
-            json.dumps(manifest, ensure_ascii=False, indent=2), encoding="utf-8"
-        )
+        texto = json.dumps(manifest, ensure_ascii=False, indent=2)
+        if any(secreto in texto for secreto in secret_values()):
+            shutil.rmtree(tmp)
+            raise ValueError(f"{dataset.id}: el manifiesto contiene un token de API; no se guarda "
+                             "(el conector debe registrar la URL sin credenciales)")
+        (tmp / MANIFEST).write_text(texto, encoding="utf-8")
         tmp.rename(target)  # publicación atómica del vintage
         return StoreResult(vid, target, changed=True)

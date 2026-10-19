@@ -1,0 +1,103 @@
+# Indicadores de coyuntura (D2 · Pulso de México).
+- id: eco.precios.inflacion.inpc
+  nombre: Índice Nacional de Precios al Consumidor (INPC)
+  concepto: eco.precios.inflacion
+  definicion: Índice de precios de una canasta de bienes y servicios de consumo de los hogares urbanos.
+  unidad: índice (2ª quincena de julio de 2018 = 100)
+  facetas: {tipo_medicion: encuesta, cadena: resultado, ritmo: coyuntural, direccion_normativa: neutral,
+            cobertura: [mexico]}
+  series: [inegi_bie_coyuntura:910392]
+  rangos_validos: {min: 0, max: 1000}
+  atipicos: {z: 8.0, cambio_minimo: 0.03}
+  preguntas: [D2]
+  fecha_alta: 2026-10-19
+
+- id: eco.precios.inflacion.anual
+  nombre: Inflación general anual (INPC)
+  concepto: eco.precios.inflacion
+  definicion: Variación porcentual del INPC respecto al mismo mes del año anterior.
+  unidad: '%'
+  facetas: {tipo_medicion: encuesta, cadena: resultado, ritmo: coyuntural, direccion_normativa: en_disputa,
+            cobertura: [mexico]}
+  derivacion:
+    receta: var_interanual@1
+    parametros: {indicador: eco.precios.inflacion.inpc, rezago: 12}
+  rangos_validos: {min: -50, max: 1000}
+  notas_interpretacion: >
+    La meta de Banxico es 3 % ± 1 punto. Que la inflación sea "alta" o "baja" se juzga respecto a esa meta,
+    no respecto a su historia; por eso el percentil histórico se muestra en color neutral.
+  preguntas: [D2]
+  fecha_alta: 2026-10-19
+
+- id: eco.actividad.coyuntura.igae
+  nombre: Indicador Global de la Actividad Económica (IGAE), serie original
+  concepto: eco.actividad.coyuntura
+  definicion: Índice mensual del volumen de la actividad económica, aproximación mensual al PIB.
+  unidad: índice de volumen físico (2018 = 100)
+  facetas: {tipo_medicion: cuentas_nacionales, cadena: resultado, ritmo: coyuntural,
+            direccion_normativa: mas_es_mejor, cobertura: [mexico]}
+  series: [inegi_bie_coyuntura:737121]
+  rangos_validos: {min: 0, max: 1000}
+  atipicos: {z: 8.0, cambio_minimo: 0.15}
+  preguntas: [D2]
+  fecha_alta: 2026-10-19
+
+- id: eco.actividad.coyuntura.igae_sa
+  nombre: IGAE desestacionalizado
+  concepto: eco.actividad.coyuntura
+  definicion: IGAE ajustado por estacionalidad y efectos de calendario (estimación de INEGI).
+  unidad: índice de volumen físico (2018 = 100)
+  facetas: {tipo_medicion: cuentas_nacionales, cadena: resultado, ritmo: coyuntural,
+            direccion_normativa: mas_es_mejor, cobertura: [mexico]}
+  series: [inegi_bie_coyuntura:737219]
+  rangos_validos: {min: 0, max: 1000}
+  atipicos: {z: 8.0, cambio_minimo: 0.10}
+  notas_interpretacion: "La serie desestacionalizada se reestima cada mes: los meses recientes cambian."
+  preguntas: [D2]
+  fecha_alta: 2026-10-19
+
+- id: eco.actividad.coyuntura.igae_var_anual
+  nombre: IGAE, variación anual (serie original)
+  concepto: eco.actividad.coyuntura
+  definicion: Variación porcentual del IGAE original respecto al mismo mes del año anterior.
+  unidad: '%'
+  facetas: {tipo_medicion: cuentas_nacionales, cadena: resultado, ritmo: coyuntural,
+            direccion_normativa: mas_es_mejor, cobertura: [mexico]}
+  derivacion:
+    receta: var_interanual@1
+    parametros: {indicador: eco.actividad.coyuntura.igae, rezago: 12}
+  rangos_validos: {min: -100, max: 100}
+  notas_interpretacion: >
+    La comparación anual de la serie original puede verse afectada por días hábiles distintos (p. ej.,
+    Semana Santa en marzo o abril).
+  preguntas: [D2]
+  fecha_alta: 2026-10-19
+
+- id: eco.laboral.desocupacion.tasa
+  nombre: Tasa de desocupación (ENOE), serie original
+  concepto: eco.laboral.desocupacion
+  definicion: Personas de 15 años y más sin trabajo que buscaron activamente uno, como % de la población económicamente activa.
+  unidad: '% de la PEA'
+  facetas: {tipo_medicion: encuesta, cadena: resultado, ritmo: coyuntural, direccion_normativa: menos_es_mejor,
+            cobertura: [mexico]}
+  series: [inegi_bie_coyuntura:444603]
+  rangos_validos: {min: 0, max: 100}
+  atipicos: {z: 8.0, cambio_minimo: 0.3, piso: 1.0}
+  notas_interpretacion: >
+    En México la desocupación es baja en parte porque mucha gente no puede permitirse estar sin trabajo y
+    se ocupa en la informalidad: no mide por sí sola la calidad del empleo.
+  preguntas: [D2]
+  fecha_alta: 2026-10-19
+
+- id: eco.laboral.desocupacion.tasa_sa
+  nombre: Tasa de desocupación desestacionalizada (ENOE)
+  concepto: eco.laboral.desocupacion
+  definicion: Tasa de desocupación ajustada por estacionalidad (estimación de INEGI).
+  unidad: '% de la PEA'
+  facetas: {tipo_medicion: encuesta, cadena: resultado, ritmo: coyuntural, direccion_normativa: menos_es_mejor,
+            cobertura: [mexico]}
+  series: [inegi_bie_coyuntura:444884]
+  rangos_validos: {min: 0, max: 100}
+  atipicos: {z: 8.0, cambio_minimo: 0.3, piso: 1.0}
+  preguntas: [D2]
+  fecha_alta: 2026-10-19

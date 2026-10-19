@@ -741,9 +741,74 @@ export function createCharts({ Plot, document: doc = globalThis.document }) {
     ]);
   }
 
+  // D2 · Tarjetas de contexto histórico: último dato, fechas, línea de 10 años sobre el rango
+  // histórico, percentil en su historia (color neutral: "alto" no es "malo") y cambio en 12 meses.
+  function tarjetas(data, { tokens: t = DEFAULT_TOKENS, width = 720 } = {}) {
+    const fmtV = (v) => (Math.abs(v) >= 100 ? fmtNum : fmt1).format(v);
+    const signo = (v) => (v > 0 ? "+" : v < 0 ? "−" : "") + fmt1.format(Math.abs(v));
+    const fecha = (iso) => (iso ? iso.split("-").reverse().join("/") : null);
+    const cols = Math.max(1, Math.floor((width + 16) / 296));
+    const w = Math.max(240, Math.floor((width - (cols - 1) * 16) / cols) - 30);
+    const tarjeta = (c) => {
+      const rows = data.lineas.filter((d) => d.tarjeta === c.id)
+        .map((d) => ({ ...d, x: new Date(`${d.period}-01T00:00:00`) }));
+      const ultimo = rows.at(-1);
+      const unidad = c.unidad === "%" ? " %" : "";
+      const linea = Plot.plot({
+        document: doc, width: w, height: 70, marginLeft: 4, marginRight: 4, marginTop: 6, marginBottom: 16,
+        style: { ...baseStyle(t), fontSize: "10px" },
+        x: { type: "utc", ticks: 3, tickSize: 0, label: null },
+        y: { axis: null, domain: [Math.min(c.rango.min, ...rows.map((d) => d.value)),
+          Math.max(c.rango.max, ...rows.map((d) => d.value))] },
+        marks: [
+          // Banda: rango completo de la ventana histórica (no solo de los 10 años dibujados).
+          Plot.rectY([c.rango], { x1: () => rows[0].x, x2: () => ultimo.x, y1: "min", y2: "max",
+            fill: t.band }),
+          ...(c.ruptura ? [Plot.ruleX([new Date(`${c.ruptura}-01T00:00:00`)], { stroke: t.axis, strokeDasharray: "3,3" })] : []),
+          Plot.lineY(rows, { x: "x", y: "value", stroke: t.focus, strokeWidth: 1.5 }),
+          Plot.dot([ultimo], { x: "x", y: "value", r: 3.5, fill: t.focus, stroke: t.surface, strokeWidth: 1.5 }),
+          Plot.tip(rows, Plot.pointerX({ x: "x", y: "value", fill: t.surface, stroke: t.axis,
+            title: (d) => `${d.period}: ${fmtV(d.value)}${unidad}` })),
+        ],
+      });
+      linea.setAttribute("role", "img");
+      linea.setAttribute("aria-label", `${c.titulo}: últimos ${rows.length} meses; banda = rango desde ${c.rango.desde.slice(0, 4)}.`);
+      const pct = c.percentil == null ? null : Plot.plot({
+        document: doc, width: w, height: 30, marginLeft: 4, marginRight: 4, marginTop: 4, marginBottom: 14,
+        style: { ...baseStyle(t), fontSize: "10px" },
+        x: { domain: [0, 100], ticks: [0, 50, 100], tickSize: 0, label: null },
+        y: { axis: null },
+        marks: [
+          Plot.ruleY([0], { stroke: t.grid, strokeWidth: 4 }),
+          Plot.dot([c.percentil], { x: (d) => d, y: () => 0, r: 5, fill: t.ink2, stroke: t.surface, strokeWidth: 1.5 }),
+        ],
+      });
+      pct?.setAttribute("role", "img");
+      pct?.setAttribute("aria-label", `Percentil ${c.percentil} en su historia desde ${c.rango.desde.slice(0, 4)}.`);
+      const cambio = c.cambio_12m == null ? "Cambio en 12 meses: no comparable (cambio de metodología)"
+        : `Cambio en 12 meses: ${signo(c.cambio_12m)} ${c.cambio_en === "pp" ? "pp" : "%"}` +
+          (c.cambio_tipico == null ? "" : ` (típico: ±${fmt1.format(c.cambio_tipico)} ${c.cambio_en === "pp" ? "pp" : "%"})`);
+      return el("div", { class: "obs-tarjeta" }, [
+        el("p", { class: "obs-tarjeta-titulo", text: c.titulo }),
+        el("p", { class: "obs-tarjeta-valor" }, [`${fmtV(c.valor)}${unidad}`,
+          el("small", { text: `${c.unidad === "%" ? "" : c.unidad + " · "}${c.periodo_texto}` })]),
+        el("p", { class: "obs-tarjeta-meta",
+          text: (c.actualizado_fuente ? `Actualizado por la fuente: ${fecha(c.actualizado_fuente)} · ` : "") +
+            `consultado: ${fecha(c.consultado)}` }),
+        linea,
+        pct ? el("p", { class: "obs-tarjeta-linea",
+          text: `Percentil en su historia (${c.rango.desde.slice(0, 4)}–hoy): ${c.percentil}` }) : null,
+        pct,
+        el("p", { class: "obs-tarjeta-linea", text: cambio }),
+        c.nota ? el("p", { class: "obs-tarjeta-nota", text: c.nota }) : null,
+      ]);
+    };
+    return el("div", { class: "obs-tarjetas" }, data.tarjetas.map(tarjeta));
+  }
+
   return { legend, serieDistribucion, multiplesReferencia, abanico, lineasTramos, pesas,
     panelesDefiniciones, dosFuentes, seriePreliminar, barrasEstatus, lineasSeries, puntosOrdenados, dispersion,
-    serieMensual, procedencia, advertencias };
+    serieMensual, tarjetas, procedencia, advertencias };
 }
 
 function d3group(rows, key) {

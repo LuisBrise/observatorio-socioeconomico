@@ -6,7 +6,7 @@ Sistema reproducible para analizar la evolución política, económica y social 
 > **Estado:** pipeline completo con datos reales de seis fuentes (Banco Mundial WDI y PIP, FMI WEO,
 > proyecciones probabilísticas de ONU WPP 2024, medición oficial de pobreza y defunciones por homicidio de INEGI, CEPAL, WID, SESNSP y el registro de personas desaparecidas), validación, revisión de atípicos, comparación entre
 > fuentes y dashboard D1 en Quarto (ingreso, contraste internacional, transición demográfica, pobreza
-> y desigualdad) y primera parte de D4 (homicidios en México, ALC y regiones del mundo; INEGI vs SESNSP; mujeres asesinadas y feminicidio;
+> y desigualdad) primera versión de D2 (Pulso de México: precios, actividad, empleo y seguridad) y primera parte de D4 (homicidios en México, ALC y regiones del mundo; INEGI vs SESNSP; mujeres asesinadas y feminicidio;
 > personas desaparecidas).
 > Sitio: se publica con GitHub Actions en https://luisbrise.github.io/observatorio-socioeconomico/
 > (ver [guía](docs/guias/publicar-sitio.md)).

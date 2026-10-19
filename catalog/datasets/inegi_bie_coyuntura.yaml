@@ -1,0 +1,58 @@
+id: inegi_bie_coyuntura
+nombre: Indicadores de coyuntura del Banco de Indicadores de INEGI (precios, actividad, empleo)
+fuente: inegi
+conector: inegi_bie
+url: https://www.inegi.org.mx/servicios/api_indicadores.html
+acceso:
+  metodo: api
+  endpoint: https://www.inegi.org.mx/app/api/indicadores/desarrolladores/jsonxml/INDICATOR
+  credenciales: env:INEGI_TOKEN
+  formato: json
+licencia:
+  nombre: Términos de libre uso de la información del INEGI
+  url: https://www.inegi.org.mx/inegi/terminos.html
+  redistribucion: permitida_con_atribucion
+cobertura:
+  geografica: Nacional
+  temporal: Mensual; INPC desde 1969, IGAE desde 1993, desocupación (ENOE) desde 2005
+  poblacion: Según cada programa (INPC, IGAE, ENOE)
+frecuencia: mensual
+rezago_tipico_dias: 50
+calendario: >
+  INPC: alrededor del día 9 del mes siguiente; IGAE: unos 50 días después del mes; ENOE: unas 4 semanas
+  después del mes. Calendario oficial en https://www.inegi.org.mx/app/calendario/
+metodologia: https://www.inegi.org.mx/temas/inpc/
+revisiones: >
+  El IGAE y las series desestacionalizadas se revisan con cada publicación (las series desestacionalizadas
+  cambian hacia atrás al agregar un mes). El INPC no se revisa. La ENOE tuvo una interrupción en abril-junio
+  de 2020 (ETOE telefónica).
+limitaciones: >
+  La API no marca qué cifras son preliminares. Las series desestacionalizadas son estimaciones de INEGI
+  que cambian al agregar datos. La ENOE de abril-junio de 2020 proviene de una encuesta telefónica (ETOE).
+archivos: ["910392", "737121", "737219", "444603", "444884"]
+series:
+  - codigo: "910392"
+    indicador: eco.precios.inflacion.inpc
+    unidad: índice (2ª quincena de julio de 2018 = 100)
+    origen: inegi_inpc
+  - codigo: "737121"
+    indicador: eco.actividad.coyuntura.igae
+    unidad: índice de volumen físico (2018 = 100)
+    origen: inegi_scnm
+  - codigo: "737219"
+    indicador: eco.actividad.coyuntura.igae_sa
+    unidad: índice de volumen físico (2018 = 100), desestacionalizado
+    origen: inegi_scnm
+  - codigo: "444603"
+    indicador: eco.laboral.desocupacion.tasa
+    unidad: '% de la población económicamente activa'
+    origen: inegi_enoe
+  - codigo: "444884"
+    indicador: eco.laboral.desocupacion.tasa_sa
+    unidad: '% de la población económicamente activa, desestacionalizada'
+    origen: inegi_enoe
+umbrales:
+  revision_advertencia_pct: 1.0
+  revision_advertencia_share: 0.5     # las series desestacionalizadas se revisan completas cada mes
+  caida_cobertura_pct: 0.0
+fecha_alta: 2026-10-19

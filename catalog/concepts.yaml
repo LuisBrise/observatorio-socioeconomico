@@ -22,9 +22,16 @@
       nombre: Actividad y crecimiento
       conceptos:
         - {id: eco.actividad.ingreso_pc, nombre: Ingreso (producción) por persona}
+        - {id: eco.actividad.coyuntura, nombre: Actividad económica de corto plazo}
     - {id: eco.productividad, nombre: Productividad y estructura}
-    - {id: eco.precios, nombre: Precios y política monetaria}
-    - {id: eco.laboral, nombre: Mercado laboral}
+    - id: eco.precios
+      nombre: Precios y política monetaria
+      conceptos:
+        - {id: eco.precios.inflacion, nombre: Inflación al consumidor}
+    - id: eco.laboral
+      nombre: Mercado laboral
+      conceptos:
+        - {id: eco.laboral.desocupacion, nombre: Desocupación}
     - {id: eco.fiscal, nombre: Finanzas públicas}
     - {id: eco.externo, nombre: Sector externo}
     - {id: eco.inversion, nombre: Inversión y crédito}

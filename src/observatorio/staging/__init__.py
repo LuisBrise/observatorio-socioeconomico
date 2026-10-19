@@ -9,6 +9,7 @@ import polars as pl
 
 from observatorio.staging.cepal import parse_cepal
 from observatorio.staging.fmi_weo import parse_fmi_weo
+from observatorio.staging.inegi_bie import parse_inegi_bie
 from observatorio.staging.inegi_pm import parse_inegi_pm
 from observatorio.staging.inegi_tabulados import parse_inegi_tabulados
 from observatorio.staging.onu_wpp import parse_onu_wpp
@@ -27,6 +28,7 @@ PARSERS: dict[str, Parser] = {"wb_wdi": parse_wb_wdi, "fmi_weo": parse_fmi_weo,
                               "cepal_pobreza": parse_cepal,
                               "inegi_homicidios": parse_inegi_tabulados,
                               "inegi_poblacion": parse_inegi_tabulados,
+                              "inegi_bie_coyuntura": parse_inegi_bie,
                               "rnpdno": parse_rnpdno,
                               "sesnsp_victimas": parse_sesnsp}
 

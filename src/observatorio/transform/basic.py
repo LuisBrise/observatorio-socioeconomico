@@ -153,3 +153,17 @@ def poblacion_por_participacion(nacional: pl.DataFrame, anclas: pl.DataFrame, ge
             rows.append({"geo_id": geo, "period": period, "period_start": start, "value": valor * share})
     return pl.DataFrame(rows, schema={"geo_id": pl.String, "period": pl.String,
                                       "period_start": pl.Date, "value": pl.Float64})
+
+
+@transform("var_interanual", 1)
+def var_interanual(values: pl.DataFrame, rezago: int = 12) -> pl.DataFrame:
+    """Variación porcentual respecto al mismo periodo `rezago` meses antes (series mensuales).
+
+    Se empareja por fecha (no por posición): si falta el mes de comparación, no hay variación.
+    """
+    prev = values.select("geo_id", pl.col("period_start").dt.offset_by(f"{rezago}mo").alias("period_start"),
+                         pl.col("value").alias("_prev"))
+    return (values.join(prev, on=["geo_id", "period_start"], how="inner")
+            .filter(pl.col("_prev") != 0)
+            .with_columns(((pl.col("value") / pl.col("_prev") - 1) * 100).alias("value"))
+            .select(VALUE_COLS).sort("geo_id", "period_start"))

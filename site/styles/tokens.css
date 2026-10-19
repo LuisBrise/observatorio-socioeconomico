@@ -56,3 +56,16 @@
 .obs-grid-multiples { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
   gap: 1rem 1.25rem; }
 .obs-panel-title { font-size: .85rem; font-weight: 600; margin: 0 0 .1rem; }
+
+/* D2 · tarjetas de contexto histórico */
+.obs-tarjetas { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1rem; }
+.obs-tarjeta { border: 1px solid var(--obs-grid); border-radius: 6px; padding: .8rem .9rem .7rem;
+  background: var(--obs-surface); }
+.obs-tarjeta-titulo { font-size: .9rem; font-weight: 600; margin: 0 0 .3rem; color: var(--obs-ink); }
+.obs-tarjeta-valor { font-size: 1.9rem; font-weight: 600; line-height: 1.1; margin: 0; color: var(--obs-ink);
+  font-variant-numeric: tabular-nums; }
+.obs-tarjeta-valor small { font-size: .85rem; font-weight: 400; color: var(--obs-ink-2); margin-left: .3rem; }
+.obs-tarjeta-meta { font-size: .78rem; color: var(--obs-muted); margin: .15rem 0 .4rem; }
+.obs-tarjeta-linea { font-size: .85rem; color: var(--obs-ink-2); margin: .3rem 0 0;
+  font-variant-numeric: tabular-nums; }
+.obs-tarjeta-nota { font-size: .78rem; color: var(--obs-muted); margin: .45rem 0 0; }

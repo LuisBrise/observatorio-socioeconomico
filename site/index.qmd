@@ -17,4 +17,6 @@ El observatorio no publica opiniones propias.
   América Latina y países de contraste.
 - [Violencia letal y desapariciones](dashboards/d4-violencia/index.qmd): homicidios en México,
   América Latina y el mundo, asesinatos de mujeres y feminicidio, y registro de personas desaparecidas.
-- *Pulso de México* y *Democracia e instituciones en ALC*: en construcción.
+- [Pulso de México](dashboards/d2-pulso/index.qmd): indicadores recientes de precios, actividad,
+  empleo y seguridad, cada uno frente a su propia historia (en construcción).
+- *Democracia e instituciones en ALC*: en construcción.

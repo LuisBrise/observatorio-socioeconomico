@@ -1,0 +1,84 @@
+---
+title: "Pulso de México"
+subtitle: "¿Cómo está México ahora, en cada dimensión, respecto a su propia historia reciente?"
+---
+
+::: {.callout-note appearance="minimal"}
+**Estado: en construcción.** Primera versión con precios, actividad, empleo y seguridad. Siguen: tasas
+de interés y tipo de cambio (Banxico), finanzas públicas, sector externo y un mapa de calor de
+percentiles para ver qué está fuera de lo habitual.
+:::
+
+[DATO]{.obs-tag} Este tablero **no resume a México en un índice ni usa semáforos**. Cada indicador
+se muestra con su propio contexto: dónde está hoy respecto a su historia desde 2005 y cuánto cambió en
+un año comparado con lo que suele cambiar. Un percentil alto no es bueno ni malo por sí mismo: depende
+del indicador, y por eso se dibuja en gris.
+
+```{ojs}
+//| echo: false
+import { createCharts, themeTokens } from "../../components/charts.js"
+charts = createCharts({ Plot, document })
+tokens = themeTokens(Generators)
+// OJS exige rutas literales en FileAttachment: una celda por archivo.
+pre = FileAttachment("../../data/d2/precios/data.json").json().catch(() => null)
+preProv = FileAttachment("../../data/d2/precios/provenance.json").json().catch(() => null)
+act = FileAttachment("../../data/d2/actividad/data.json").json().catch(() => null)
+actProv = FileAttachment("../../data/d2/actividad/provenance.json").json().catch(() => null)
+emp = FileAttachment("../../data/d2/empleo/data.json").json().catch(() => null)
+empProv = FileAttachment("../../data/d2/empleo/provenance.json").json().catch(() => null)
+seg = FileAttachment("../../data/d2/seguridad/data.json").json().catch(() => null)
+segProv = FileAttachment("../../data/d2/seguridad/provenance.json").json().catch(() => null)
+```
+
+## Precios
+
+```{ojs}
+//| echo: false
+pre === null ? html`<p class="obs-sub">Datos pendientes de publicación.</p>` : html`<div class="obs-chart">
+  ${charts.tarjetas(pre, { tokens, width })}
+  ${charts.procedencia(preProv, { csv: [["series (CSV)", "../../data/d2/precios/lineas.csv"]] })}
+  ${charts.advertencias(preProv)}
+</div>`
+```
+
+## Actividad económica
+
+```{ojs}
+//| echo: false
+act === null ? html`<p class="obs-sub">Datos pendientes de publicación.</p>` : html`<div class="obs-chart">
+  ${charts.tarjetas(act, { tokens, width })}
+  ${charts.procedencia(actProv, { csv: [["series (CSV)", "../../data/d2/actividad/lineas.csv"]] })}
+  ${charts.advertencias(actProv)}
+</div>`
+```
+
+## Empleo
+
+```{ojs}
+//| echo: false
+emp === null ? html`<p class="obs-sub">Datos pendientes de publicación.</p>` : html`<div class="obs-chart">
+  ${charts.tarjetas(emp, { tokens, width })}
+  ${charts.procedencia(empProv, { csv: [["series (CSV)", "../../data/d2/empleo/lineas.csv"]] })}
+  ${charts.advertencias(empProv)}
+</div>`
+```
+
+## Seguridad
+
+```{ojs}
+//| echo: false
+seg === null ? html`<p class="obs-sub">Datos pendientes de publicación.</p>` : html`<div class="obs-chart">
+  ${charts.tarjetas(seg, { tokens, width })}
+  ${charts.procedencia(segProv, { csv: [["series (CSV)", "../../data/d2/seguridad/lineas.csv"]] })}
+  ${charts.advertencias(segProv)}
+</div>`
+```
+
+## Cómo leer las tarjetas
+
+- **Último dato y fechas:** el mes al que se refiere el dato, cuándo lo actualizó la fuente y cuándo lo
+  consultó el observatorio. Distintos indicadores tienen distinto rezago: el «presente» de esta página
+  mezcla meses.
+- **Línea:** los últimos 10 años; la banda gris es el rango completo desde 2005.
+- **Percentil:** posición del último dato entre todos los meses desde 2005 (0 = el más bajo).
+- **Cambio en 12 meses:** comparado con la mediana del cambio en 12 meses en el mismo periodo.
