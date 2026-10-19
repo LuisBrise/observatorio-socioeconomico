@@ -38,15 +38,15 @@ datasets:
     source_declared_version: null
     validation_status: ok
   rnpdno:
-    vintage: 2026-10-19T160219Z
-    content_sha256: e13089a81a8445e1e408981448a2e0fef66612a225842b85410e74acf9deb26f
-    retrieved_at: '2026-10-19T16:02:19Z'
+    vintage: 2026-10-19T163228Z
+    content_sha256: 7d37f31a95ea59a5796b5b8525d59f20ce1133723e9b60ada533ecf860614b0d
+    retrieved_at: '2026-10-19T16:32:28Z'
     source_declared_version: null
-    validation_status: advertencia
+    validation_status: ok
   sesnsp_victimas:
-    vintage: 2026-10-19T160224Z
-    content_sha256: 89b74cc3209963860c2d630828fa5fd26a886706c81b02f643c174d3ea9005e4
-    retrieved_at: '2026-10-19T16:02:24Z'
+    vintage: 2026-10-19T163232Z
+    content_sha256: 184f4e1f34579c709be714f1403ebab8f7712216831f3d852334b3dee647bdb3
+    retrieved_at: '2026-10-19T16:32:32Z'
     source_declared_version: null
     validation_status: ok
   wb_pip:
