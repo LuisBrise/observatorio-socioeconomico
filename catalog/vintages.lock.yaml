@@ -2,9 +2,9 @@
 # Lo actualiza `obs lock`; su historial en git es el historial de datos del observatorio.
 datasets:
   cepal_pobreza:
-    vintage: 2026-10-19T160102Z
-    content_sha256: 132511725e3dbebb37939d36a0e9b31525432e1a4af4dea829840dcec64b4151
-    retrieved_at: '2026-10-19T16:01:02Z'
+    vintage: 2026-11-16T194027Z
+    content_sha256: 3594cdeeb4ed215b12e5f1b3226a39146d8d8eafd3818b46d34558f9bb45bc10
+    retrieved_at: '2026-11-16T19:40:27Z'
     source_declared_version: null
     validation_status: ok
   fmi_weo:
@@ -44,9 +44,9 @@ datasets:
     source_declared_version: null
     validation_status: advertencia
   sesnsp_victimas:
-    vintage: 2026-10-19T160224Z
-    content_sha256: 89b74cc3209963860c2d630828fa5fd26a886706c81b02f643c174d3ea9005e4
-    retrieved_at: '2026-10-19T16:02:24Z'
+    vintage: 2026-11-16T194139Z
+    content_sha256: f105c71e82f006d51b0d2ee655bfa2a7cfe90fed6e2dd544bfb53c9858f5cf88
+    retrieved_at: '2026-11-16T19:41:39Z'
     source_declared_version: null
     validation_status: ok
   wb_pip:
@@ -56,10 +56,10 @@ datasets:
     source_declared_version: null
     validation_status: ok
   wb_wdi:
-    vintage: 2026-10-12T190704Z
-    content_sha256: b76e3064eccccc14ecbb387840681ccc4cc97755ef8886162b810cd8692b5006
-    retrieved_at: '2026-10-12T19:07:04Z'
-    source_declared_version: '2026-10-08'
+    vintage: 2026-11-16T194004Z
+    content_sha256: f6ec60eaf00a14aa578d92415a54570176a90a3e768459212bae59601ae2b537
+    retrieved_at: '2026-11-16T19:40:04Z'
+    source_declared_version: '2026-11-11'
     validation_status: ok
   wid:
     vintage: 2026-10-06T233603Z
